@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,16 +20,30 @@ export class ProductsService {
   }
 
   findOne(id: number) {
+    const product = this.productsRepository.findOne({
+      where: { id: id },
+      relations: ['catagory'],
+    });
+    if (!product) {
+      throw new NotFoundException();
+    }
     return this.productsRepository.findOne({ where: { id: id } });
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
     const product = await this.productsRepository.findOneBy({ id: id });
+    if (!product) {
+      throw new NotFoundException();
+    }
     const updatedProduct = { ...product, ...updateProductDto };
     return this.productsRepository.save(updatedProduct);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    const product = await this.productsRepository.findOneBy({ id: id });
+    if (!product) {
+      throw new NotFoundException();
+    }
+    return this.productsRepository.softRemove(product);
   }
 }
