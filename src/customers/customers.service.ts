@@ -31,8 +31,19 @@ export class CustomersService {
     }
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+    const customer = await this.customersRepositiry.findOneBy({ id: id });
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    } else {
+      const updatedCustomer = {
+        ...customer,
+
+        ...updateCustomerDto,
+      };
+
+      return this.customersRepositiry.save(updatedCustomer);
+    }
   }
 
   remove(id: number) {
