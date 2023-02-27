@@ -1,19 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { Customer } from './entities/customer.entity';
 
 @Injectable()
 export class CustomersService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  constructor(
+    @InjectRepository(Customer)
+    private readonly customersRepositiry: Repository<Customer>,
+  ) {}
+
+  async create(createCustomerDto: CreateCustomerDto) {
+    const user = await this.customersRepositiry.save(createCustomerDto);
+    return user;
   }
 
-  findAll() {
-    return `This action returns all customers`;
+  async findAll() {
+    const users = await this.customersRepositiry.find();
+    return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(id: number) {
+    const customer = await this.customersRepositiry.findOneBy({ id: id });
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    } else {
+      return customer;
+    }
   }
 
   update(id: number, updateCustomerDto: UpdateCustomerDto) {
