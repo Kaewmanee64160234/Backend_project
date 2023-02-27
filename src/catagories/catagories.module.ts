@@ -4,6 +4,6 @@ import { CatagoriesController } from './catagories.controller';
 
 @Module({
   controllers: [CatagoriesController],
-  providers: [CatagoriesService]
+  providers: [CatagoriesService],
 })
 export class CatagoriesModule {}
