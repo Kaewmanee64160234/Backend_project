@@ -3,17 +3,27 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule } from './products/products.module';
 import { CatagoriesModule } from './catagories/catagories.module';
-<<<<<<< HEAD
-import { StoresModule } from './stores/stores.module';
-
-@Module({
-  imports: [ProductsModule, CatagoriesModule, StoresModule],
-=======
 import { CustomersModule } from './customers/customers.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Customer } from './customers/entities/customer.entity';
+import { Product } from './products/entities/product.entity';
+import { Catagory } from './catagories/entities/catagory.entity';
 
 @Module({
-  imports: [ProductsModule, CatagoriesModule, CustomersModule],
->>>>>>> 5ee02ad42c5d4024fdad7680e84fcb1f54d348dc
+  imports: [
+    ProductsModule,
+    CatagoriesModule,
+    CustomersModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'database.sqlite',
+      entities: [Customer, Product, Catagory],
+      synchronize: true,
+      logging: false,
+      subscribers: [],
+      migrations: [],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
