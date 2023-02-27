@@ -11,19 +11,19 @@ import {
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'product_id' })
   id: number;
 
-  @Column()
+  @Column({ name: 'product_name' })
   name: string;
 
-  @Column()
+  @Column({ name: 'product_type' })
   type: string;
 
-  @Column()
+  @Column({ name: 'product_size' })
   size: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', name: 'product_price' })
   price: number;
 
   @ManyToOne(() => Catagory, (catagory) => catagory.products)

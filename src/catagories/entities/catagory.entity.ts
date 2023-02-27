@@ -11,10 +11,10 @@ import {
 
 @Entity()
 export class Catagory {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'catagory_id' })
   id: number;
 
-  @Column()
+  @Column({ name: 'catagory_name' })
   name: string;
 
   @OneToMany(() => Product, (product) => product.catagory)
