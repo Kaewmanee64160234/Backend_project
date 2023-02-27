@@ -7,9 +7,9 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private usersRepository: Repository<User>,){
-    
-  }
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
   create(createUserDto: CreateUserDto) {
     return this.usersRepository.save(createUserDto);
   }
@@ -19,24 +19,23 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne({where: {id}});
+    return this.usersRepository.findOne({ where: { id } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.usersRepository.findOneBy({id});
-    if(!user){
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
       throw new NotFoundException();
     }
-    const updatedUser = {...user, ...updateUserDto};
+    const updatedUser = { ...user, ...updateUserDto };
     return this.usersRepository.save(updatedUser);
   }
 
   async remove(id: number) {
-    const user = await this.usersRepository.findOneBy({id});
-    if(!user){
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
       throw new NotFoundException();
     }
     return this.usersRepository.softRemove(user);
   }
 }
-

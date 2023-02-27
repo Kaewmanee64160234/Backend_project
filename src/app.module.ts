@@ -9,12 +9,9 @@ import { Customer } from './customers/entities/customer.entity';
 import { Product } from './products/entities/product.entity';
 import { Catagory } from './catagories/entities/catagory.entity';
 import { DataSource } from 'typeorm';
-<<<<<<< HEAD
-import { UsersModule } from './users/users.module';
-=======
 import { Material } from './materials/entities/material.entity';
 import { MaterialsModule } from './materials/materials.module';
->>>>>>> c9447d58e11ca83c0e8222d5b140d619de93169b
+import { Store } from './stores/entities/store.entity';
 @Module({
   imports: [
     ProductsModule,
@@ -23,13 +20,13 @@ import { MaterialsModule } from './materials/materials.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Customer, Product, Catagory, Material],
+      entities: [Customer, Product, Catagory, Material, Store],
       synchronize: true,
       logging: false,
       subscribers: [],
       migrations: [],
     }),
-    UsersModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

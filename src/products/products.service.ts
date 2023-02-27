@@ -16,13 +16,6 @@ export class ProductsService {
   }
 
   findAll() {
-<<<<<<< HEAD
-    return this.productsRspository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-=======
     return this.productsRepository.find({ relations: ['catagory'] });
   }
 
@@ -35,7 +28,7 @@ export class ProductsService {
       throw new NotFoundException();
     }
     return this.productsRepository.findOne({ where: { id: id } });
->>>>>>> c9447d58e11ca83c0e8222d5b140d619de93169b
+
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
