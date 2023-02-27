@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Customer } from './customers/entities/customer.entity';
 import { Product } from './products/entities/product.entity';
 import { Catagory } from './catagories/entities/catagory.entity';
+import { DataSource } from 'typeorm';
 @Module({
   imports: [
     ProductsModule,
@@ -26,4 +27,6 @@ import { Catagory } from './catagories/entities/catagory.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
