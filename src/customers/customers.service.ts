@@ -46,7 +46,15 @@ export class CustomersService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async remove(id: number) {
+    const customer = await this.customersRepositiry.findOne({
+      where: { id: id },
+    });
+    if (!customer) {
+      throw new NotFoundException();
+    } else {
+      await this.customersRepositiry.softRemove(customer);
+    }
+    return customer;
   }
 }
