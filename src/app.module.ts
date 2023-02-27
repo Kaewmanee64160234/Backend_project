@@ -13,6 +13,7 @@ import { Material } from './materials/entities/material.entity';
 import { MaterialsModule } from './materials/materials.module';
 import { Store } from './stores/entities/store.entity';
 import { StoresModule } from './stores/stores.module';
+import { EmployeesModule } from './employees/employees.module';
 @Module({
   imports: [
     ProductsModule,
@@ -29,6 +30,7 @@ import { StoresModule } from './stores/stores.module';
       migrations: [],
     }),
     MaterialsModule,
+    EmployeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
