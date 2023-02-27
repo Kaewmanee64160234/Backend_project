@@ -8,7 +8,8 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class StoresService {
   constructor(
-    @InjectRepository(Store) private storesRepository: Repository<Store>,
+    @InjectRepository(Store)
+    private storesRepository: Repository<Store>,
   ) {}
   create(createStoreDto: CreateStoreDto) {
     return this.storesRepository.save(createStoreDto);
@@ -18,8 +19,13 @@ export class StoresService {
     return this.storesRepository.find();
   }
 
-  findOne(id: number) {
-    return this.storesRepository.findOne({ where: { id } });
+  async findOne(id: number) {
+    const store = await this.storesRepository.findOneBy({ id: id });
+    if (!store) {
+      throw new NotFoundException('Store not found');
+    } else {
+      return store;
+    }
   }
 
   async update(id: number, updateStoreDto: UpdateStoreDto) {
@@ -29,7 +35,7 @@ export class StoresService {
     }
     const updatedStore = { ...store, ...updateStoreDto };
 
-    return this.storesRepository.save(updateStoreDto);
+    return this.storesRepository.save(updatedStore);
   }
 
   async remove(id: number) {
@@ -37,6 +43,6 @@ export class StoresService {
     if (!store) {
       throw new NotFoundException();
     }
-    return this.storesRepository.softDelete(store);
+    return this.storesRepository.softRemove(store);
   }
 }
