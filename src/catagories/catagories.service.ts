@@ -12,7 +12,7 @@ export class CatagoriesService {
     private catagoriesRepository: Repository<Catagory>,
   ) {}
   create(createCatagoryDto: CreateCatagoryDto) {
-    return 'This action adds a new catagory';
+    return this.catagoriesRepository.save(createCatagoryDto);
   }
 
   findAll() {
@@ -23,11 +23,14 @@ export class CatagoriesService {
     return this.catagoriesRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateCatagoryDto: UpdateCatagoryDto) {
-    return `This action updates a #${id} catagory`;
+  async update(id: number, updateCatagoryDto: UpdateCatagoryDto) {
+    const catagory = await this.catagoriesRepository.findOneBy({ id: id });
+    const updatedCatagory = { ...catagory, ...updateCatagoryDto };
+    return this.catagoriesRepository.save(updatedCatagory);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} catagory`;
+  async remove(id: number) {
+    const catagory = await this.catagoriesRepository.findOneBy({ id: id });
+    return this.catagoriesRepository.softRemove(catagory);
   }
 }
