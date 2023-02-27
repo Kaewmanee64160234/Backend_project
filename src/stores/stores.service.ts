@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 export class StoresService {
   constructor(
     @InjectRepository(Store)
-    private storesRepository: Repository<Store>,
+    private readonly storesRepository: Repository<Store>,
   ) {}
   create(createStoreDto: CreateStoreDto) {
     return this.storesRepository.save(createStoreDto);
