@@ -16,11 +16,11 @@ export class ProductsService {
   }
 
   findAll() {
-    return this.productsRspository.find();
+    return this.productsRspository.find({ relations: ['catagory'] });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.productsRspository.findOne({ where: { id: id } });
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
