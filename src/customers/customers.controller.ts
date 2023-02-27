@@ -13,7 +13,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Controller('customers')
 export class CustomersController {
-  constructor(private customersService: CustomersService) {}
+  constructor(private readonly customersService: CustomersService) {}
 
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto) {
