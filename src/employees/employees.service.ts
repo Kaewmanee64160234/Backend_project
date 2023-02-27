@@ -11,8 +11,8 @@ export class EmployeesService {
     @InjectRepository(Employee)
     private readonly employeesRepositiry: Repository<Employee>,
   ) {}
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return this.employeesRepositiry.save(createEmployeeDto);
+  async create(createEmployeeDto: CreateEmployeeDto) {
+    return await this.employeesRepositiry.save(createEmployeeDto);
   }
 
   findAll() {

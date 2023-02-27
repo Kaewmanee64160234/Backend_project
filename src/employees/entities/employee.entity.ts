@@ -1,10 +1,10 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -21,7 +21,7 @@ export class Employee {
   @Column({ name: 'employee_tel' })
   tel: string;
 
-  @Column({ name: 'employee_email', unique: true, length: '64' })
+  @Column({ name: 'employee_email' })
   email: string;
 
   @Column({ name: 'employee_position' })
