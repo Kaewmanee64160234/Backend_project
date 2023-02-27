@@ -9,6 +9,7 @@ import { Customer } from './customers/entities/customer.entity';
 import { Product } from './products/entities/product.entity';
 import { Catagory } from './catagories/entities/catagory.entity';
 import { DataSource } from 'typeorm';
+import { Material } from './materials/entities/material.entity';
 import { MaterialsModule } from './materials/materials.module';
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { MaterialsModule } from './materials/materials.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Customer, Product, Catagory],
+      entities: [Customer, Product, Catagory, Material],
       synchronize: true,
       logging: false,
       subscribers: [],
