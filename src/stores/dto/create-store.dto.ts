@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length, Min, IsPhoneNumber } from 'class-validator';
+import { IsNotEmpty, Length, IsString, IsPhoneNumber } from 'class-validator';
 
 export class CreateStoreDto {
   @IsNotEmpty()
@@ -11,6 +11,6 @@ export class CreateStoreDto {
 
   @IsNotEmpty()
   @IsPhoneNumber('TH')
-  @Min(13)
+  @IsString()
   tel: string;
 }
