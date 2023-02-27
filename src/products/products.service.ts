@@ -9,22 +9,24 @@ import { Repository } from 'typeorm';
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private productsRspository: Repository<Product>,
+    private productsRepository: Repository<Product>,
   ) {}
   create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+    return this.productsRepository.save(createProductDto);
   }
 
   findAll() {
-    return this.productsRspository.find({ relations: ['catagory'] });
+    return this.productsRepository.find({ relations: ['catagory'] });
   }
 
   findOne(id: number) {
-    return this.productsRspository.findOne({ where: { id: id } });
+    return this.productsRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.productsRepository.findOneBy({ id: id });
+    const updatedProduct = { ...product, ...updateProductDto };
+    return this.productsRepository.save(updatedProduct);
   }
 
   remove(id: number) {
