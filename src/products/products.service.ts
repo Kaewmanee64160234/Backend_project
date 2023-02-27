@@ -28,7 +28,6 @@ export class ProductsService {
       throw new NotFoundException();
     }
     return this.productsRepository.findOne({ where: { id: id } });
-
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
