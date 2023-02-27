@@ -5,10 +5,13 @@ export class CreateProductDto {
   @Length(3, 32)
   name: string;
 
+  @IsNotEmpty()
   type: string;
 
+  @IsNotEmpty()
   size: string;
 
+  @IsNotEmpty()
   @IsNumber()
   @Min(0)
   price: number;

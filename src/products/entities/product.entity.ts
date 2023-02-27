@@ -2,18 +2,20 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'product_id' })
   id: number;
 
-  @Column()
+  @Column({ name: 'product_name' })
   name: string;
 
-  @Column()
+  @Column({ name: 'product_type' })
   type: string;
 
-  @Column()
-  size: number;
 
-  @Column()
+  @Column({ name: 'product_size' })
+  size: string;
+
+  @Column({ type: 'float', name: 'product_price' })
+
   price: number;
 }
