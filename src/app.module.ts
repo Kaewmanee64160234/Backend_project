@@ -9,6 +9,7 @@ import { Customer } from './customers/entities/customer.entity';
 import { Product } from './products/entities/product.entity';
 import { Catagory } from './catagories/entities/catagory.entity';
 import { DataSource } from 'typeorm';
+import { MaterialsModule } from './materials/materials.module';
 @Module({
   imports: [
     ProductsModule,
@@ -23,6 +24,7 @@ import { DataSource } from 'typeorm';
       subscribers: [],
       migrations: [],
     }),
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
