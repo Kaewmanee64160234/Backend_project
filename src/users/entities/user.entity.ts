@@ -1,24 +1,28 @@
-import { Product } from 'src/products/entities/product.entity';
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Catagory {
-  @PrimaryGeneratedColumn({ name: 'catagory_id' })
+export class User {
+  @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
 
-  @Column({ name: 'catagory_name' })
-  name: string;
+  @Column({ name: 'user_name' })
+  username: string;
 
-  @OneToMany(() => Product, (product) => product.catagory)
-  products: Product[];
+  @Column({ name: 'user_login' })
+  login: string;
+
+  @Column({ name: 'user_password' })
+  password: string;
+
+  @Column({ name: 'user_role' })
+  role: string;
 
   @CreateDateColumn()
   createdAt: Date;
