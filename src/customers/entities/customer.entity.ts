@@ -2,10 +2,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
+@Entity()
 export class Customer {
   @PrimaryGeneratedColumn({ name: 'customer_id' })
   id: number;

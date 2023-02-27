@@ -4,6 +4,7 @@ import {
   IsNumber,
   IsPhoneNumber,
   IsPositive,
+  Min,
 } from 'class-validator';
 
 export class CreateCustomerDto {
@@ -15,6 +16,6 @@ export class CreateCustomerDto {
   tel: string;
   @IsNotEmpty()
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   point: number;
 }
