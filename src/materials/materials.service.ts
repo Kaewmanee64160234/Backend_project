@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Material } from './entities/material.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MaterialsService {
+  constructor(
+    @InjectRepository(Material)
+    private materialsRepository: Repository<Material>,
+  ) {}
   create(createMaterialDto: CreateMaterialDto) {
-    return 'This action adds a new material';
+    return this.materialsRepository.save(createMaterialDto);
   }
 
   findAll() {
-    return `This action returns all materials`;
+    return this.materialsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} material`;
+  async findOne(id: number) {
+    const material = await this.materialsRepository.findOneBy({ id: id });
+    if (!material) {
+      throw new NotFoundException('Material not found');
+    } else {
+      return material;
+    }
   }
 
-  update(id: number, updateMaterialDto: UpdateMaterialDto) {
-    return `This action updates a #${id} material`;
+  async update(id: number, updateMaterialDto: UpdateMaterialDto) {
+    const material = await this.materialsRepository.findOneBy({ id: id });
+    if (!material) {
+      throw new NotFoundException('Customer not found');
+    } else {
+      const updatedMaterial = {
+        ...material,
+        ...updateMaterialDto,
+      };
+      return this.materialsRepository.save(updatedMaterial);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} material`;
+  async remove(id: number) {
+    const material = await this.materialsRepository.findOne({
+      where: { id: id },
+    });
+    if (!material) {
+      throw new NotFoundException();
+    } else {
+      await this.materialsRepository.softRemove(material);
+    }
+    return material;
   }
 }
