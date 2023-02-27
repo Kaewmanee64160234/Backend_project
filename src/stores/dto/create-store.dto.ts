@@ -10,7 +10,7 @@ export class CreateStoreDto {
   address: string;
 
   @IsNotEmpty()
-  @Min(13)
   @IsPhoneNumber('TH')
+  @Min(13)
   tel: string;
 }
