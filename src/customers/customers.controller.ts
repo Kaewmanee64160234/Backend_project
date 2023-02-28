@@ -35,12 +35,14 @@ export class CustomersController {
       }),
     }),
   )
-  create(
+  async create(
     @Body() createCustomerDto: CreateCustomerDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    createCustomerDto.image = file.filename;
-    return this.customersService.create(createCustomerDto);
+    if (file) {
+      createCustomerDto.image = file.filename;
+    }
+    return await this.customersService.create(createCustomerDto);
   }
 
   @Get('image/:image_file')
@@ -85,11 +87,26 @@ export class CustomersController {
   }
 
   @Patch(':id')
-  update(
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './customer_images',
+        filename: (req, file, cb) => {
+          const name = uuidv4();
+          return cb(null, name + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  async update(
     @Param('id') id: string,
     @Body() updateCustomerDto: UpdateCustomerDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.customersService.update(+id, updateCustomerDto);
+    if (file) {
+      updateCustomerDto.image = file.filename;
+    }
+    return await this.customersService.update(+id, updateCustomerDto);
   }
 
   @Delete(':id')
