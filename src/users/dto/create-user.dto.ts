@@ -10,7 +10,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @Length(3, 64)
-  rule: string;
+  role: string;
 
   @IsNotEmpty()
   @Matches(
