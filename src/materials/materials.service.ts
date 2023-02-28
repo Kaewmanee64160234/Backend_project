@@ -31,7 +31,7 @@ export class MaterialsService {
   async update(id: number, updateMaterialDto: UpdateMaterialDto) {
     const material = await this.materialsRepository.findOneBy({ id: id });
     if (!material) {
-      throw new NotFoundException('Customer not found');
+      throw new NotFoundException('Material not found');
     } else {
       const updatedMaterial = {
         ...material,
