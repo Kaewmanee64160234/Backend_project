@@ -12,7 +12,9 @@ export class CreateProductDto {
   size: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
+  // @IsNumber()
+  // @Min(0)
   price: number;
+
+  image = 'no_image.jpg';
 }

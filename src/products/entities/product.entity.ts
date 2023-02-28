@@ -14,10 +14,10 @@ export class Product {
   @PrimaryGeneratedColumn({ name: 'product_id' })
   id: number;
 
-  @Column({ name: 'product_name' })
+  @Column({ length: '32', name: 'product_name' })
   name: string;
 
-  @Column({ name: 'product_type' })
+  @Column({ length: '32', name: 'product_type' })
   type: string;
 
   @Column({ name: 'product_size' })
@@ -25,6 +25,12 @@ export class Product {
 
   @Column({ type: 'float', name: 'product_price' })
   price: number;
+
+  @Column({
+    length: '128',
+    default: 'no_image.jpg',
+  })
+  image: string;
 
   @ManyToOne(() => Catagory, (catagory) => catagory.products)
   catagory: Catagory;
