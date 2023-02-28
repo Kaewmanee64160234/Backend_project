@@ -10,23 +10,24 @@ import {
   UploadedFile,
   Res,
 } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { EmployeesService } from './employees.service';
+import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { Response } from 'express';
-@Controller('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+
+@Controller('employees')
+export class EmployeesController {
+  constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './product_images',
+        destination: './employee_images',
         filename: (req, file, cb) => {
           const name = uuidv4();
           return cb(null, name + extname(file.originalname));
@@ -35,27 +36,26 @@ export class ProductsController {
     }),
   )
   create(
-    @Body() createProductDto: CreateProductDto,
+    @Body() createEmployeeDto: CreateEmployeeDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    createProductDto.image = file.filename;
-    return this.productsService.create(createProductDto);
+    createEmployeeDto.image = file.filename;
+    return this.employeesService.create(createEmployeeDto);
   }
 
   @Get()
   findAll() {
-    return this.productsService.findAll();
+    return this.employeesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.employeesService.findOne(+id);
   }
-
   @Get(':id/image')
   async getImage(@Param('id') id: string, @Res() res: Response) {
-    const product = await this.productsService.findOne(+id);
-    res.sendFile(product.image, { root: './product_images' });
+    const employee = await this.employeesService.findOne(+id);
+    res.sendFile(employee.image, { root: './employee_images' });
   }
 
   @Get('image/:imageFile')
@@ -63,14 +63,14 @@ export class ProductsController {
     @Param('imageFile') imageFile: string,
     @Res() res: Response,
   ) {
-    res.sendFile(imageFile, { root: './product_images' });
+    res.sendFile(imageFile, { root: './employee_images' });
   }
 
   @Patch(':id/image')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './product_images',
+        destination: './employee_images',
         filename: (req, file, cb) => {
           const name = uuidv4();
           return cb(null, name + extname(file.originalname));
@@ -82,16 +82,19 @@ export class ProductsController {
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.productsService.update(+id, { image: file.filename });
+    return this.employeesService.update(+id, { image: file.filename });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateEmployeeDto: UpdateEmployeeDto,
+  ) {
+    return this.employeesService.update(+id, updateEmployeeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.employeesService.remove(+id);
   }
 }
