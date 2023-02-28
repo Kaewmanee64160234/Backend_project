@@ -1,11 +1,9 @@
 import {
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsPhoneNumber,
   IsString,
   Length,
-  Min,
 } from 'class-validator';
 
 export class CreateEmployeeDto {
@@ -32,7 +30,7 @@ export class CreateEmployeeDto {
   position: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
   hourly: number;
+
+  image = 'no_image.jpg';
 }
