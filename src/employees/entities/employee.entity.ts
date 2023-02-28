@@ -21,7 +21,7 @@ export class Employee {
   @Column({ name: 'employee_tel' })
   tel: string;
 
-  @Column({ name: 'employee_email' })
+  @Column({ name: 'employee_email', unique: true, length: '64' })
   email: string;
 
   @Column({ name: 'employee_position' })
