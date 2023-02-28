@@ -14,18 +14,24 @@ import { MaterialsModule } from './materials/materials.module';
 import { Store } from './stores/entities/store.entity';
 import { StoresModule } from './stores/stores.module';
 import { EmployeesModule } from './employees/employees.module';
+
 import { Employee } from './employees/entities/employee.entity';
+import { User } from './users/entities/user.entity';
+import { UsersModule } from './users/users.module';
+
 @Module({
   imports: [
     ProductsModule,
     CatagoriesModule,
     CustomersModule,
     StoresModule,
+    UsersModule,
     EmployeesModule,
+
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Customer, Product, Catagory, Material, Store, Employee],
+      entities: [Customer, Product, Catagory, Material, Store, Employee, User],
       synchronize: true,
       logging: false,
       subscribers: [],
