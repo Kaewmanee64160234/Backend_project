@@ -16,6 +16,8 @@ export class Customer {
   tel: string;
   @Column({ name: 'customer_point' })
   point: number;
+  @Column({ length: '255', default: 'no_image.jpg' })
+  image: string;
   @CreateDateColumn({ name: 'customer_start_date' })
   createdDate: Date;
   @UpdateDateColumn({ name: 'customer_update_date' })
