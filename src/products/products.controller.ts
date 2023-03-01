@@ -86,8 +86,26 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './product_images',
+        filename: (req, file, cb) => {
+          const name = uuidv4();
+          return cb(null, name + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (file) {
+      updateProductDto.image = file.filename;
+    }
+    return await this.productsService.update(+id, updateProductDto);
   }
 
   @Delete(':id')

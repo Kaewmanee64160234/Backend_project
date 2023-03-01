@@ -1,4 +1,3 @@
-
 import {
   Column,
   Entity,
@@ -43,4 +42,3 @@ export class Employee {
   @DeleteDateColumn({ name: 'employee_delete_date' })
   deletedDate: Date;
 }
-
