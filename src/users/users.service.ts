@@ -14,7 +14,7 @@ export class UsersService {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = hash;
-    return this.usersRepository.save(createUserDto);
+    return await this.usersRepository.save(createUserDto);
   }
 
   findAll() {
@@ -43,8 +43,18 @@ export class UsersService {
     }
   }
   async findOneByEmail(name: string) {
-    const user = await this.usersRepository.findOne({ where: { login: name } });
-    return user;
+    try {
+      const user = await this.usersRepository.findOne({
+        where: { login: name },
+      });
+      if (user) {
+        return user;
+      } else {
+        throw new NotFoundException();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async remove(id: number) {
