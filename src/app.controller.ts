@@ -9,14 +9,14 @@ export class AppController {
     private readonly appService: AppService,
     private authService: AuthService,
   ) {}
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
-    return this.authService.login(req.login);
+    return this.authService.login(req.body);
   }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  // @Get()
+  // getHello(): string {
+  //   return this.appService.getHello();
+  // }
 }
