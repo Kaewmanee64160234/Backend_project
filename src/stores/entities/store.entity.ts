@@ -12,13 +12,13 @@ export class Store {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 64 })
+  @Column({ length: 50 })
   name: string;
 
   @Column({ length: 128 })
   address: string;
 
-  @Column({ length: 64 })
+  @Column({ length: 13 })
   tel: string;
 
   @CreateDateColumn()
