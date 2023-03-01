@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -18,11 +19,12 @@ import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -42,7 +44,7 @@ export class EmployeesController {
     createEmployeeDto.image = file.filename;
     return this.employeesService.create(createEmployeeDto);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.employeesService.findAll();
@@ -65,7 +67,7 @@ export class EmployeesController {
   ) {
     res.sendFile(imageFile, { root: './employee_images' });
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -84,7 +86,7 @@ export class EmployeesController {
   ) {
     return this.employeesService.update(+id, { image: file.filename });
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -92,7 +94,7 @@ export class EmployeesController {
   ) {
     return this.employeesService.update(+id, updateEmployeeDto);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employeesService.remove(+id);

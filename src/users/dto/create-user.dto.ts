@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length, Matches } from 'class-validator';
+import { IsNotEmpty, Length, Matches, IsEmail } from 'class-validator';
 export class CreateUserDto {
   @IsNotEmpty()
   @Length(3, 64)
@@ -6,6 +6,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @Length(3, 64)
+  @IsEmail()
   login: string;
 
   @IsNotEmpty()
@@ -13,6 +14,7 @@ export class CreateUserDto {
   role: string;
 
   @IsNotEmpty()
+  @Length(6, 64)
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
   )

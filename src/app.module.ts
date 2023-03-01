@@ -18,6 +18,7 @@ import { EmployeesModule } from './employees/employees.module';
 import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { UsersModule } from './users/users.module';
     }),
     MaterialsModule,
     EmployeesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

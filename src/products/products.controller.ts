@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -18,10 +19,11 @@ import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -65,7 +67,7 @@ export class ProductsController {
   ) {
     res.sendFile(imageFile, { root: './product_images' });
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -78,18 +80,37 @@ export class ProductsController {
       }),
     }),
   )
+  @UseGuards(JwtAuthGuard)
   updateImage(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.productsService.update(+id, { image: file.filename });
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './product_images',
+        filename: (req, file, cb) => {
+          const name = uuidv4();
+          return cb(null, name + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (file) {
+      updateProductDto.image = file.filename;
+    }
+    return await this.productsService.update(+id, updateProductDto);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
