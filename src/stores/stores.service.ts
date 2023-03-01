@@ -22,7 +22,7 @@ export class StoresService {
   async findOne(id: number) {
     const store = await this.storesRepository.findOneBy({ id: id });
     if (!store) {
-      throw new NotFoundException('Store not found');
+      throw new NotFoundException('Store Not Found');
     } else {
       return store;
     }
