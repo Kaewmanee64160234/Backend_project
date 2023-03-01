@@ -30,6 +30,9 @@ export class UsersService {
     const updatedUser = { ...user, ...updateUserDto };
     return this.usersRepository.save(updatedUser);
   }
+  findOneByUsername(name: string) {
+    return this.usersRepository.findOne({ where: { username: name } });
+  }
 
   async remove(id: number) {
     const user = await this.usersRepository.findOneBy({ id });
