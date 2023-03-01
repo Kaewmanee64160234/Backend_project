@@ -12,7 +12,7 @@ export class Store {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 50 })
+  @Column({ length: 68 })
   name: string;
 
   @Column({ length: 128 })
