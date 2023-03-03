@@ -16,7 +16,7 @@ export class Material {
   name: string;
 
   @Column({ name: 'mat_min_quantity' })
-  minquantity: number;
+  min_quantity: number;
 
   @Column({ name: 'mat_quantity' })
   quantity: number;
