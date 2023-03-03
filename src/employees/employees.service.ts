@@ -12,6 +12,7 @@ export class EmployeesService {
     private readonly employeesRepositiry: Repository<Employee>,
   ) {}
   async create(createEmployeeDto: CreateEmployeeDto) {
+    console.log(createEmployeeDto);
     return await this.employeesRepositiry.save(createEmployeeDto);
   }
 

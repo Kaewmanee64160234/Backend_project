@@ -37,12 +37,14 @@ export class EmployeesController {
       }),
     }),
   )
-  create(
+  async create(
     @Body() createEmployeeDto: CreateEmployeeDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    createEmployeeDto.image = file.filename;
-    return this.employeesService.create(createEmployeeDto);
+    if (file) {
+      createEmployeeDto.image = file.filename;
+    }
+    return await this.employeesService.create(createEmployeeDto);
   }
   @UseGuards(JwtAuthGuard)
   @Get()
