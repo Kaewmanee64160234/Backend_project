@@ -5,11 +5,10 @@ export class CreateMaterialDto {
   @IsString()
   @Length(2, 100)
   name: string;
-
   @IsNotEmpty()
   @IsNumber()
   @Min(5)
-  minquantity: number;
+  min_quantity: number;
 
   @IsNotEmpty()
   @IsNumber()

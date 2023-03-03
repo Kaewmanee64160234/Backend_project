@@ -29,6 +29,16 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     EmployeesModule,
 
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: 's64160232',
+    //   password: 'KAFjERun',
+    //   database: 'dcoffee',
+    //   entities: [Customer, Product, Catagory, Material, Store, Employee, User],
+    //   synchronize: true,
+    // }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
