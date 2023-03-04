@@ -37,36 +37,30 @@ export class EmployeesController {
       }),
     }),
   )
-  create(
+  async create(
     @Body() createEmployeeDto: CreateEmployeeDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    createEmployeeDto.image = file.filename;
-    return this.employeesService.create(createEmployeeDto);
-  }
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.employeesService.findAll();
+    if (file) {
+      createEmployeeDto.image = file.filename;
+    }
+    return await this.employeesService.create(createEmployeeDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.employeesService.findOne(+id);
+  @Get('image/:image_file')
+  async getImageByFileName(
+    @Param('image_file') ImageFileName: string,
+    @Res() res: Response,
+  ) {
+    res.sendFile(ImageFileName, { root: './employee_images' });
   }
+
   @Get(':id/image')
   async getImage(@Param('id') id: string, @Res() res: Response) {
     const employee = await this.employeesService.findOne(+id);
     res.sendFile(employee.image, { root: './employee_images' });
   }
 
-  @Get('image/:imageFile')
-  async getImageByFileName(
-    @Param('imageFile') imageFile: string,
-    @Res() res: Response,
-  ) {
-    res.sendFile(imageFile, { root: './employee_images' });
-  }
   @UseGuards(JwtAuthGuard)
   @Patch(':id/image')
   @UseInterceptors(
@@ -87,12 +81,38 @@ export class EmployeesController {
     return this.employeesService.update(+id, { image: file.filename });
   }
   @UseGuards(JwtAuthGuard)
+  @Get()
+  findAll() {
+    return this.employeesService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.employeesService.findOne(+id);
+  }
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './employee_images',
+        filename: (req, file, cb) => {
+          const name = uuidv4();
+          return cb(null, name + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  @UseGuards(JwtAuthGuard)
+  async update(
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.employeesService.update(+id, updateEmployeeDto);
+    if (file) {
+      updateEmployeeDto.image = file.filename;
+    }
+    return await this.employeesService.update(+id, updateEmployeeDto);
   }
   @UseGuards(JwtAuthGuard)
   @Delete(':id')

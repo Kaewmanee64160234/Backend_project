@@ -11,33 +11,50 @@ export class EmployeesService {
     @InjectRepository(Employee)
     private readonly employeesRepositiry: Repository<Employee>,
   ) {}
+
   async create(createEmployeeDto: CreateEmployeeDto) {
-    return await this.employeesRepositiry.save(createEmployeeDto);
+    const user = await this.employeesRepositiry.save(createEmployeeDto);
+    return user;
   }
 
-  findAll() {
-    return this.employeesRepositiry.find();
+  async findAll() {
+    const users = await this.employeesRepositiry.find();
+    return users;
   }
 
-  findOne(id: number) {
-    return this.employeesRepositiry.findOne({ where: { id } });
+  async findOne(id: number) {
+    const employee = await this.employeesRepositiry.findOneBy({ id: id });
+    if (!employee) {
+      throw new NotFoundException('Employee not found');
+    } else {
+      return employee;
+    }
   }
 
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    const employee = await this.employeesRepositiry.findOneBy({ id });
+    const employee = await this.employeesRepositiry.findOneBy({ id: id });
     if (!employee) {
-      throw new NotFoundException();
+      throw new NotFoundException('Employee not found');
+    } else {
+      const updatedEmployee = {
+        ...employee,
+
+        ...updateEmployeeDto,
+      };
+
+      return this.employeesRepositiry.save(updatedEmployee);
     }
-    const updateEmployee = { ...employee, ...updateEmployeeDto };
-    return this.employeesRepositiry.save(updateEmployee);
   }
 
   async remove(id: number) {
-    const employee = await this.employeesRepositiry.findOneBy({ id });
+    const employee = await this.employeesRepositiry.findOne({
+      where: { id: id },
+    });
     if (!employee) {
       throw new NotFoundException();
+    } else {
+      await this.employeesRepositiry.softRemove(employee);
     }
-
-    return this.employeesRepositiry.softRemove(employee);
+    return employee;
   }
 }
