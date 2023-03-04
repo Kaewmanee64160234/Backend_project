@@ -12,7 +12,7 @@ export class Customer {
   id: number;
   @Column({ name: 'customer_name' })
   name: string;
-  @Column({ name: 'customer_tel' })
+  @Column({ name: 'customer_tel', unique: true })
   tel: string;
   @Column({ name: 'customer_point' })
   point: number;
