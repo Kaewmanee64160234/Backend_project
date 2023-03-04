@@ -12,13 +12,13 @@ export class User {
   @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
 
-  @Column({ name: 'user_name' })
+  @Column({ name: 'user_name'})
   username: string;
 
-  @Column({ name: 'user_login' })
+  @Column({ name: 'user_login', unique: true})
   login: string;
 
-  @Column({ name: 'user_password' })
+  @Column({ name: 'user_password'})
   password: string;
 
   @Column({ name: 'user_role' })
