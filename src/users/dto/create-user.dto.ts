@@ -10,7 +10,6 @@ export class CreateUserDto {
   login: string;
 
   @IsNotEmpty()
-  @Length(3, 64)
   role: string;
 
   @IsNotEmpty()
