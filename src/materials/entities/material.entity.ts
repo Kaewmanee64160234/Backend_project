@@ -22,7 +22,7 @@ export class Material {
   quantity: number;
 
   @Column({ name: 'mat_unit' })
-  unit: number;
+  unit: string;
 
   @Column({ type: 'float', name: 'mat_price_per_unit' })
   price_per_unit: number;
