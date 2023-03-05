@@ -15,7 +15,7 @@ export class User {
   @Column({ name: 'user_name' })
   username: string;
 
-  @Column({ name: 'user_login' })
+  @Column({ name: 'user_login', unique: true })
   login: string;
 
   @Column({ name: 'user_password' })

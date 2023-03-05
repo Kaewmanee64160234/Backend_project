@@ -16,7 +16,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('materials')
 export class MaterialsController {
   constructor(private readonly materialsService: MaterialsService) {}
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createMaterialDto: CreateMaterialDto) {
     return this.materialsService.create(createMaterialDto);

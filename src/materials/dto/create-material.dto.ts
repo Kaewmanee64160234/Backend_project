@@ -16,9 +16,7 @@ export class CreateMaterialDto {
   quantity: number;
 
   @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
-  unit: number;
+  unit: string;
 
   @IsNotEmpty()
   @Min(0)
