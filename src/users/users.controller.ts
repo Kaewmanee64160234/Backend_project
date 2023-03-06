@@ -31,6 +31,10 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
+  @Get(':email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.usersService.findOneByEmail(email);
+  }
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

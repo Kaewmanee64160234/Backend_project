@@ -48,6 +48,8 @@ export class UsersService {
         where: { login: name },
       });
       if (user) {
+        // const salt = await bcrypt.genSalt();
+        // user.password = await bcrypt.hash(user.password, salt);
         return user;
       } else {
         throw new NotFoundException();
