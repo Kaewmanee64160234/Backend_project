@@ -5,8 +5,6 @@ export class CreateProductDto {
   @Length(3, 32)
   name: string;
   @IsNotEmpty()
-  catagory_id: number;
-  @IsNotEmpty()
   type: string;
 
   @IsNotEmpty()
