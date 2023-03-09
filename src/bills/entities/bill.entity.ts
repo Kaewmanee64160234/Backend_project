@@ -1,8 +1,10 @@
+import { Employee } from 'src/employees/entities/employee.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -29,6 +31,9 @@ export class Bill {
 
   @Column({ name: 'bill_change' })
   change: boolean;
+
+  @ManyToOne(() => Employee, (employee) => employee.bills)
+  employee: Employee;
 
   @CreateDateColumn()
   createdAt: Date;

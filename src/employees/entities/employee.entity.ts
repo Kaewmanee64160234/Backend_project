@@ -1,3 +1,4 @@
+import { Bill } from 'src/bills/entities/bill.entity';
 import {
   Column,
   Entity,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -32,6 +34,9 @@ export class Employee {
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
+
+  @OneToMany(() => Bill, (bill) => bill.employee)
+  bill: Bill[];
 
   @CreateDateColumn({ name: 'employee_start_date' })
   createdDate: Date;

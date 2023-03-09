@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBillDto } from './dto/create-bill.dto';
-import { UpdateBillDto } from './dto/update-bill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bill } from './entities/bill.entity';
 import { Repository } from 'typeorm';
@@ -28,11 +27,15 @@ export class BillsService {
     }
   }
 
-  update(id: number, updateBillDto: UpdateBillDto) {
-    return `This action updates a #${id} bill`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} bill`;
+  async remove(id: number) {
+    const bill = await this.billsRepository.findOne({
+      where: { id: id },
+    });
+    if (!bill) {
+      throw new NotFoundException();
+    } else {
+      await this.billsRepository.softRemove(bill);
+    }
+    return bill;
   }
 }
