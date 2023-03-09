@@ -14,13 +14,19 @@ import { MaterialsModule } from './materials/materials.module';
 import { Store } from './stores/entities/store.entity';
 import { StoresModule } from './stores/stores.module';
 import { EmployeesModule } from './employees/employees.module';
-
 import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CheckMaterialModule } from './check_material/check_material.module';
 import { CheckMaterial } from './check_material/entities/check_material.entity';
+import { BillsModule } from './bills/bills.module';
+import { Bill } from './bills/entities/bill.entity';
+import { OrdersModule } from './orders/orders.module';
+import { Order } from './orders/entities/order.entity';
+import { OrderItem } from './orders/entities/order-item';
+import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
+import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 
 @Module({
   imports: [
@@ -30,7 +36,8 @@ import { CheckMaterial } from './check_material/entities/check_material.entity';
     StoresModule,
     UsersModule,
     EmployeesModule,
-    
+    OrdersModule,
+    CheckInOutsModule,
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -39,7 +46,20 @@ import { CheckMaterial } from './check_material/entities/check_material.entity';
       username: 'allforone',
       password: 'AllForOne@1234',
       database: 'dcoffee',
-      entities: [Customer, Product, Catagory, Material, Store, Employee, User, CheckMaterial],
+      entities: [
+        Customer,
+        Product,
+        Catagory,
+        Material,
+        Store,
+        Employee,
+        User,
+        Bill,
+        Order,
+        OrderItem,
+        CheckInOut,
+        CheckMaterial
+      ],
       synchronize: true,
     }),
     // TypeOrmModule.forRoot({
@@ -55,6 +75,9 @@ import { CheckMaterial } from './check_material/entities/check_material.entity';
     EmployeesModule,
     AuthModule,
     CheckMaterialModule,
+    BillsModule,
+    OrdersModule,
+    CheckInOutsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

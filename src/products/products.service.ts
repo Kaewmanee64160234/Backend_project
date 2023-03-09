@@ -4,19 +4,36 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { Catagory } from 'src/catagories/entities/catagory.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(Catagory)
+    private catagoriesRepository: Repository<Catagory>,
   ) {}
-  create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto) {
+    const catagory = await this.catagoriesRepository.findOne({
+      where: { id: createProductDto.catagoryId },
+    });
+    const newProduct = new Product();
+    newProduct.name = createProductDto.name;
+    newProduct.type = createProductDto.type;
+    newProduct.size = createProductDto.size;
+    newProduct.price = createProductDto.price;
+    newProduct.image = createProductDto.image;
+    newProduct.catagory = catagory;
     return this.productsRepository.save(createProductDto);
   }
 
-  findAll() {
-    return this.productsRepository.find({ relations: ['catagory'] });
+  findAll(option) {
+    return this.productsRepository.find(option);
+  }
+
+  findByCategory(id: number) {
+    return this.productsRepository.find({ where: { catagoryId: id } });
   }
 
   findOne(id: number) {
