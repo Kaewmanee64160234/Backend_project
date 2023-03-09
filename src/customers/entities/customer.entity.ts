@@ -1,8 +1,10 @@
+import { Order } from 'src/orders/entities/order.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -18,6 +20,8 @@ export class Customer {
   point: number;
   @Column({ length: '255', default: 'no_image.jpg' })
   image: string;
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
   @CreateDateColumn({ name: 'customer_start_date' })
   createdDate: Date;
   @UpdateDateColumn({ name: 'customer_update_date' })
