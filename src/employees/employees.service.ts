@@ -17,6 +17,21 @@ export class EmployeesService {
     return user;
   }
 
+  async emplyeeLogin(name: string, email: string) {
+    const employee = await this.employeesRepositiry.findOne({
+      where: { name: name },
+    });
+    if (employee) {
+      if (employee.email === email) {
+        return employee;
+      } else {
+        throw new NotFoundException('Employee not found');
+      }
+    } else {
+      throw new NotFoundException('Employee not found');
+    }
+  }
+
   async findAll() {
     const users = await this.employeesRepositiry.find();
     return users;
