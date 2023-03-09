@@ -1,3 +1,4 @@
+import { Employee } from 'src/employees/entities/employee.entity';
 import {
   Column,
   Entity,
@@ -5,6 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
