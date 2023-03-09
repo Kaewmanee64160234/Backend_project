@@ -1,8 +1,10 @@
+import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -35,4 +37,7 @@ export class Material {
 
   @DeleteDateColumn({ name: 'mat_delete_date' })
   deletedAt: Date;
+
+  @OneToMany(() => CheckMaterialDetail, (checkmaterialdetail) => checkmaterialdetail.materials)
+  checkmaterialdetails: CheckMaterialDetail[];
 }
