@@ -38,6 +38,9 @@ export class Material {
   @DeleteDateColumn({ name: 'mat_delete_date' })
   deletedAt: Date;
 
-  @OneToMany(() => CheckMaterialDetail, (checkmaterialdetail) => checkmaterialdetail.materials)
+  @OneToMany(
+    () => CheckMaterialDetail,
+    (checkmaterialdetail) => checkmaterialdetail.materials,
+  )
   checkmaterialdetails: CheckMaterialDetail[];
 }

@@ -3,7 +3,7 @@ export class CreateCheckMaterialDetailDto {
   @IsNotEmpty()
   @IsString()
   @Length(2, 100)
-  name:string;
+  name: string;
 
   @IsNotEmpty()
   @IsNumber()
@@ -13,11 +13,10 @@ export class CreateCheckMaterialDetailDto {
   @IsNotEmpty()
   @IsNumber()
   @Min(5)
-  qty_remain:number;
+  qty_remain: number;
 
   @IsNotEmpty()
   @IsNumber()
   @Min(5)
   qty_expire: number;
-
 }

@@ -24,7 +24,10 @@ export class CheckMaterial {
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
   employees: Employee[];
 
-  @OneToMany(() => CheckMaterialDetail, (checkmaterialdetail) => checkmaterialdetail.checkmaterials)
+  @OneToMany(
+    () => CheckMaterialDetail,
+    (checkmaterialdetail) => checkmaterialdetail.checkmaterials,
+  )
   checkmaterialdetails: CheckMaterialDetail[];
 
   @CreateDateColumn({ name: 'check_mat_start_date' })

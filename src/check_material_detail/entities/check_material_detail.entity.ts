@@ -12,16 +12,16 @@ import {
 @Entity()
 export class CheckMaterialDetail {
   @PrimaryGeneratedColumn({ name: 'cmd_id' })
-  id:number;
+  id: number;
 
   @Column({ name: 'cmd_name' })
-  name:string;
+  name: string;
 
   @Column({ name: 'cmd_qty_last' })
   qty_last: number;
 
   @Column({ name: 'cmd_qty_remain' })
-  qty_remain:number;
+  qty_remain: number;
 
   @Column({ name: 'cmd_qty_expire' })
   qty_expire: number;
@@ -38,7 +38,9 @@ export class CheckMaterialDetail {
   @ManyToOne(() => Material, (material) => material.checkmaterialdetails)
   materials: Material[];
 
-  @ManyToOne(() => CheckMaterial, (checkmaterial) => checkmaterial.checkmaterialdetails)
+  @ManyToOne(
+    () => CheckMaterial,
+    (checkmaterial) => checkmaterial.checkmaterialdetails,
+  )
   checkmaterials: CheckMaterial[];
-
 }

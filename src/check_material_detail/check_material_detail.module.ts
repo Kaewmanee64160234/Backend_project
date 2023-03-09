@@ -7,6 +7,6 @@ import { CheckMaterialDetail } from './entities/check_material_detail.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([CheckMaterialDetail])],
   controllers: [CheckMaterialDetailController],
-  providers: [CheckMaterialDetailService]
+  providers: [CheckMaterialDetailService],
 })
 export class CheckMaterialDetailModule {}

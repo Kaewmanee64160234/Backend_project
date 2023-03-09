@@ -1,10 +1,8 @@
-import {
-  IsNotEmpty,
-} from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 export class CreateCheckMaterialDto {
   @IsNotEmpty()
-  date:Date;
+  date: Date;
 
   @IsNotEmpty()
-  time:Date;
+  time: Date;
 }

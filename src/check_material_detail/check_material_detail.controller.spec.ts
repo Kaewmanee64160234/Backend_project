@@ -11,7 +11,9 @@ describe('CheckMaterialDetailController', () => {
       providers: [CheckMaterialDetailService],
     }).compile();
 
-    controller = module.get<CheckMaterialDetailController>(CheckMaterialDetailController);
+    controller = module.get<CheckMaterialDetailController>(
+      CheckMaterialDetailController,
+    );
   });
 
   it('should be defined', () => {
