@@ -3,10 +3,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
+import { Order } from 'src/orders/entities/order.entity';
 @Entity()
 export class Store {
   @PrimaryGeneratedColumn()
@@ -29,4 +30,8 @@ export class Store {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => Order, (order) => order.orders)
+  order: Order[];
+  orders: any;
 }

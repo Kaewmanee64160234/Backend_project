@@ -54,4 +54,5 @@ export class Order {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   orderItems: OrderItem[];
+  orders: any;
 }
