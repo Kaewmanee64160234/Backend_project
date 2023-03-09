@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateSummarySalaryDto } from './dto/create-summary_salary.dto';
 import { UpdateSummarySalaryDto } from './dto/update-summary_salary.dto';
+import { SummarySalary } from './entities/summary_salary.entity';
 
 @Injectable()
 export class SummarySalaryService {
+  constructor(
+    @InjectRepository(SummarySalary)
+    private readonly summaryRepository: Repository<SummarySalary>,
+  ) {}
+
   create(createSummarySalaryDto: CreateSummarySalaryDto) {
-    return 'This action adds a new summarySalary';
+    return this.summaryRepository.save(createSummarySalaryDto);
   }
 
   findAll() {
-    return `This action returns all summarySalary`;
+    return this.summaryRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} summarySalary`;
+    return this.summaryRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateSummarySalaryDto: UpdateSummarySalaryDto) {
-    return `This action updates a #${id} summarySalary`;
+  async update(id: number, updateSummarySalaryDto: UpdateSummarySalaryDto) {
+    const summary = await this.summaryRepository.findOne({ where: { id: id } });
+    if (summary) {
+      throw new NotFoundException();
+    }
+    const summaryUpdate = {
+      ...summary,
+      updateSummarySalaryDto,
+    };
+
+    return this.summaryRepository.save(summaryUpdate);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} summarySalary`;
+  async remove(id: number) {
+    const summary = await this.summaryRepository.findOne({ where: { id: id } });
+    return this.summaryRepository.softRemove(summary);
   }
 }
