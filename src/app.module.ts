@@ -18,6 +18,8 @@ import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CheckMaterialModule } from './check_material/check_material.module';
+import { CheckMaterial } from './check_material/entities/check_material.entity';
 import { BillsModule } from './bills/bills.module';
 import { Bill } from './bills/entities/bill.entity';
 import { OrdersModule } from './orders/orders.module';
@@ -26,6 +28,7 @@ import { OrderItem } from './orders/entities/order-item';
 import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
 import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 import { BillDetailModule } from './bill_detail/bill_detail.module';
+import { SummarySalaryModule } from './summary_salary/summary_salary.module';
 
 @Module({
   imports: [
@@ -57,6 +60,7 @@ import { BillDetailModule } from './bill_detail/bill_detail.module';
         Order,
         OrderItem,
         CheckInOut,
+        CheckMaterial,
       ],
       synchronize: true,
     }),
@@ -72,10 +76,12 @@ import { BillDetailModule } from './bill_detail/bill_detail.module';
     MaterialsModule,
     EmployeesModule,
     AuthModule,
+    CheckMaterialModule,
     BillsModule,
     OrdersModule,
     CheckInOutsModule,
     BillDetailModule,
+    SummarySalaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

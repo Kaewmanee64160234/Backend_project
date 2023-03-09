@@ -4,6 +4,6 @@ import { BillDetailController } from './bill_detail.controller';
 
 @Module({
   controllers: [BillDetailController],
-  providers: [BillDetailService]
+  providers: [BillDetailService],
 })
 export class BillDetailModule {}

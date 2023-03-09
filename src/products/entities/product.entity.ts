@@ -13,6 +13,7 @@ import {
 
 @Entity()
 export class Product {
+  [x: string]: any;
   @PrimaryGeneratedColumn({ name: 'product_id' })
   id: number;
 
@@ -33,11 +34,13 @@ export class Product {
     default: 'no_image.jpg',
   })
   image: string;
+
   @Column()
   catagoryId: number;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
+
   @ManyToOne(() => Catagory, (catagory) => catagory.products)
   catagory: Catagory;
 
