@@ -20,6 +20,7 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { BillsModule } from './bills/bills.module';
+import { Bill } from './bills/entities/bill.entity';
 
 @Module({
   imports: [
@@ -37,7 +38,16 @@ import { BillsModule } from './bills/bills.module';
       username: 'allforone',
       password: 'AllForOne@1234',
       database: 'dcoffee',
-      entities: [Customer, Product, Catagory, Material, Store, Employee, User],
+      entities: [
+        Customer,
+        Product,
+        Catagory,
+        Material,
+        Store,
+        Employee,
+        User,
+        Bill,
+      ],
       synchronize: true,
     }),
     // TypeOrmModule.forRoot({
