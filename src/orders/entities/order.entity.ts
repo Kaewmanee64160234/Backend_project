@@ -16,6 +16,9 @@ export class Order {
   id: number;
 
   @Column()
+  name: string;
+
+  @Column()
   amount: number;
 
   @Column({ type: 'float' })
