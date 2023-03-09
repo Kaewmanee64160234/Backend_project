@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SummarySalaryService } from './summary_salary.service';
 import { CreateSummarySalaryDto } from './dto/create-summary_salary.dto';
 import { UpdateSummarySalaryDto } from './dto/update-summary_salary.dto';
@@ -23,7 +31,10 @@ export class SummarySalaryController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSummarySalaryDto: UpdateSummarySalaryDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateSummarySalaryDto: UpdateSummarySalaryDto,
+  ) {
     return this.summarySalaryService.update(+id, updateSummarySalaryDto);
   }
 

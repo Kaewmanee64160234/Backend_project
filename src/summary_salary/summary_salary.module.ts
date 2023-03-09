@@ -4,6 +4,6 @@ import { SummarySalaryController } from './summary_salary.controller';
 
 @Module({
   controllers: [SummarySalaryController],
-  providers: [SummarySalaryService]
+  providers: [SummarySalaryService],
 })
 export class SummarySalaryModule {}
