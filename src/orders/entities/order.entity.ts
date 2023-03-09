@@ -18,12 +18,6 @@ export class Order {
   id: number;
 
   @Column()
-  queue: number;
-
-  @Column()
-  time: number;
-
-  @Column()
   discount: number;
 
   @Column()
@@ -33,7 +27,7 @@ export class Order {
   change: number;
 
   @Column()
-  payment: number;
+  payment: string;
 
   @Column({ type: 'float' })
   total: number;
