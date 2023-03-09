@@ -16,10 +16,22 @@ export class Order {
   id: number;
 
   @Column()
-  name: string;
+  queue: number;
 
   @Column()
-  amount: number;
+  time: number;
+
+  @Column()
+  discount: number;
+
+  @Column()
+  recieved: number;
+
+  @Column()
+  change: number;
+
+  @Column()
+  payment: number;
 
   @Column({ type: 'float' })
   total: number;
