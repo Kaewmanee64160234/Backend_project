@@ -59,7 +59,10 @@ export class OrdersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} order`;
+    return this.ordersRepository.findOne({
+      where: { id: id },
+      relations: ['customer', 'orderItems'],
+    });
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {
