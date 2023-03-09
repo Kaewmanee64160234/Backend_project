@@ -20,6 +20,7 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CheckMaterialModule } from './check_material/check_material.module';
+import { CheckMaterial } from './check_material/entities/check_material.entity';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CheckMaterialModule } from './check_material/check_material.module';
     StoresModule,
     UsersModule,
     EmployeesModule,
+    
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -37,7 +39,7 @@ import { CheckMaterialModule } from './check_material/check_material.module';
       username: 'allforone',
       password: 'AllForOne@1234',
       database: 'dcoffee',
-      entities: [Customer, Product, Catagory, Material, Store, Employee, User],
+      entities: [Customer, Product, Catagory, Material, Store, Employee, User, CheckMaterial],
       synchronize: true,
     }),
     // TypeOrmModule.forRoot({
