@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { Bill } from 'src/bills/entities/bill.entity';
 import { Order } from 'src/orders/entities/order.entity';
+=======
+import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
+import { Order } from 'src/orders/entities/order.entity';
+import { Bill } from 'src/bills/entities/bill.entity';
+>>>>>>> ef0e228205232c725ece5f9444defd6631c86e21
 import {
   Column,
   Entity,
@@ -9,6 +15,7 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
+import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 
 @Entity()
 export class Employee {
@@ -35,6 +42,12 @@ export class Employee {
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
+
+  @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employeeId)
+  check_in_outs: CheckInOut[];
+
+  @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employees)
+  checkmaterials: CheckMaterial[];
 
   @OneToMany(() => Bill, (bill) => bill.employee)
   bills: Bill[];

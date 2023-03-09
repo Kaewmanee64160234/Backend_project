@@ -37,6 +37,7 @@ export class Product {
 
   @Column()
   catagoryId: number;
+
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
 

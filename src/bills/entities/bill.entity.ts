@@ -1,3 +1,4 @@
+import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
 import {
   Column,
@@ -5,6 +6,7 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -30,10 +32,13 @@ export class Bill {
   buy: number;
 
   @Column({ name: 'bill_change' })
-  change: boolean;
+  change: string;
 
   @ManyToOne(() => Employee, (employee) => employee.bills)
   employee: Employee;
+
+  @OneToMany(() => BillDetail, (bill_detail) => bill_detail.bill)
+  bill_detail: BillDetail[];
 
   @CreateDateColumn()
   createdAt: Date;
