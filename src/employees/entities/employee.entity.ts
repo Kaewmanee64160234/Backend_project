@@ -1,3 +1,4 @@
+import { Order } from 'src/orders/entities/order.entity';
 import {
   Column,
   Entity,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -41,4 +43,8 @@ export class Employee {
 
   @DeleteDateColumn({ name: 'employee_delete_date' })
   deletedDate: Date;
+  orders: any;
+
+  @OneToMany(() => Order, (order) => order.orders)
+  order: Order[];
 }
