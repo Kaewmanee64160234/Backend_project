@@ -23,6 +23,8 @@ import { Bill } from './bills/entities/bill.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item';
+import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
+import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { OrderItem } from './orders/entities/order-item';
     UsersModule,
     EmployeesModule,
     OrdersModule,
+    CheckInOutsModule,
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -52,6 +55,7 @@ import { OrderItem } from './orders/entities/order-item';
         Bill,
         Order,
         OrderItem,
+        CheckInOut,
       ],
       synchronize: true,
     }),
@@ -69,6 +73,7 @@ import { OrderItem } from './orders/entities/order-item';
     AuthModule,
     BillsModule,
     OrdersModule,
+    CheckInOutsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
