@@ -28,8 +28,9 @@ import { OrderItem } from './orders/entities/order-item';
 import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
 import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 import { SummarySalaryModule } from './summary_salary/summary_salary.module';
+import { CheckMaterialDetailModule } from './check_material_detail/check_material_detail.module';
+import { CheckMaterialDetail } from './check_material_detail/entities/check_material_detail.entity';
 import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
-
 @Module({
   imports: [
     ProductsModule,
@@ -61,6 +62,7 @@ import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
         OrderItem,
         CheckInOut,
         CheckMaterial,
+        CheckMaterialDetail,
         SummarySalary,
       ],
       synchronize: true,
@@ -82,6 +84,7 @@ import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
     OrdersModule,
     CheckInOutsModule,
     SummarySalaryModule,
+    CheckMaterialDetailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
