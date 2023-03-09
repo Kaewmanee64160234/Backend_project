@@ -14,13 +14,15 @@ import { MaterialsModule } from './materials/materials.module';
 import { Store } from './stores/entities/store.entity';
 import { StoresModule } from './stores/stores.module';
 import { EmployeesModule } from './employees/employees.module';
-
 import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { BillsModule } from './bills/bills.module';
 import { Bill } from './bills/entities/bill.entity';
+import { OrdersModule } from './orders/orders.module';
+import { Order } from './orders/entities/order.entity';
+import { OrderItem } from './orders/entities/order-item';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { Bill } from './bills/entities/bill.entity';
     StoresModule,
     UsersModule,
     EmployeesModule,
+    OrdersModule,
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -47,6 +50,8 @@ import { Bill } from './bills/entities/bill.entity';
         Employee,
         User,
         Bill,
+        Order,
+        OrderItem,
       ],
       synchronize: true,
     }),
@@ -63,6 +68,7 @@ import { Bill } from './bills/entities/bill.entity';
     EmployeesModule,
     AuthModule,
     BillsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
