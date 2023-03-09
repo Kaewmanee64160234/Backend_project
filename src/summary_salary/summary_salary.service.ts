@@ -16,8 +16,8 @@ export class SummarySalaryService {
     return this.summaryRepository.save(createSummarySalaryDto);
   }
 
-  findAll() {
-    return this.summaryRepository.find();
+  findAll(option) {
+    return this.summaryRepository.find(option);
   }
 
   findOne(id: number) {
