@@ -1,3 +1,4 @@
+import { OrderItem } from 'src/orders/entities/order-item';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -32,8 +34,13 @@ export class Product {
   })
   image: string;
 
+<<<<<<< HEAD
   @Column()
   catagoryId: number;
+=======
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
+>>>>>>> 65b2a077458b3f89e2a6dbf427222049a36c941d
 
   @ManyToOne(() => Catagory, (catagory) => catagory.products)
   catagory: Catagory;

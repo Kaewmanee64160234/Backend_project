@@ -19,6 +19,9 @@ import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { OrdersModule } from './orders/orders.module';
+import { Order } from './orders/entities/order.entity';
+import { OrderItem } from './orders/entities/order-item';
 
 @Module({
   imports: [
@@ -28,6 +31,7 @@ import { AuthModule } from './auth/auth.module';
     StoresModule,
     UsersModule,
     EmployeesModule,
+    OrdersModule,
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -36,7 +40,17 @@ import { AuthModule } from './auth/auth.module';
       username: 'allforone',
       password: 'AllForOne@1234',
       database: 'dcoffee',
-      entities: [Customer, Product, Catagory, Material, Store, Employee, User],
+      entities: [
+        Customer,
+        Product,
+        Catagory,
+        Material,
+        Store,
+        Employee,
+        User,
+        Order,
+        OrderItem,
+      ],
       synchronize: true,
     }),
     // TypeOrmModule.forRoot({
@@ -51,6 +65,7 @@ import { AuthModule } from './auth/auth.module';
     MaterialsModule,
     EmployeesModule,
     AuthModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

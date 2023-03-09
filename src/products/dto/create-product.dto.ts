@@ -4,6 +4,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   @Length(3, 32)
   name: string;
+
   @IsNotEmpty()
   type: string;
 
