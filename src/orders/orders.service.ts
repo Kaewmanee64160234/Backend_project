@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
@@ -21,12 +21,15 @@ export class OrdersService {
     private orderItemsRepository: Repository<OrderItem>,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
-    console.log(createOrderDto);
     const customer = await this.customersRepository.findOneBy({
       id: createOrderDto.customerId,
     });
     const order: Order = new Order();
     order.customer = customer;
+    order.discount = createOrderDto.discount;
+    order.recieved = createOrderDto.recieved;
+    order.change = createOrderDto.recieved - createOrderDto.total;
+    order.payment = createOrderDto.payment;
     order.total = 0;
     await this.ordersRepository.save(order); // ได้ id
 

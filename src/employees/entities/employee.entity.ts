@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import { Order } from 'src/orders/entities/order.entity';
-=======
 import { Bill } from 'src/bills/entities/bill.entity';
->>>>>>> 7c54da94a4b70aa2dff7473d18e5160e23890550
+import { Order } from 'src/orders/entities/order.entity';
 import {
   Column,
   Entity,
