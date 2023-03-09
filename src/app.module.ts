@@ -25,6 +25,7 @@ import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item';
 import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
 import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
+import { SummarySalaryModule } from './summary_salary/summary_salary.module';
 
 @Module({
   imports: [
@@ -74,6 +75,7 @@ import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
     BillsModule,
     OrdersModule,
     CheckInOutsModule,
+    SummarySalaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
