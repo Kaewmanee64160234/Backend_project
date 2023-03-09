@@ -1,4 +1,3 @@
-
 import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
 import { Order } from 'src/orders/entities/order.entity';
 import { Bill } from 'src/bills/entities/bill.entity';
@@ -37,7 +36,6 @@ export class Employee {
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
-
 
   @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employees)
   checkmaterials: CheckMaterial[];

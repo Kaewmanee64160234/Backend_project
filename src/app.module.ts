@@ -30,7 +30,7 @@ import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 import { SummarySalaryModule } from './summary_salary/summary_salary.module';
 import { CheckMaterialDetailModule } from './check_material_detail/check_material_detail.module';
 import { CheckMaterialDetail } from './check_material_detail/entities/check_material_detail.entity';
-
+import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
 @Module({
   imports: [
     ProductsModule,
@@ -62,7 +62,8 @@ import { CheckMaterialDetail } from './check_material_detail/entities/check_mate
         OrderItem,
         CheckInOut,
         CheckMaterial,
-        CheckMaterialDetail
+        CheckMaterialDetail,
+        SummarySalary,
       ],
       synchronize: true,
     }),

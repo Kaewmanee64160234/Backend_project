@@ -7,6 +7,6 @@ import { CheckMaterial } from './entities/check_material.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([CheckMaterial])],
   controllers: [CheckMaterialController],
-  providers: [CheckMaterialService]
+  providers: [CheckMaterialService],
 })
 export class CheckMaterialModule {}

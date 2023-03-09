@@ -20,9 +20,11 @@ export class CheckMaterialService {
   }
 
   async findOne(id: number) {
-    const Checkmaterial = await this.CheckMaterialsRepository.findOneBy({ id: id });
+    const Checkmaterial = await this.CheckMaterialsRepository.findOneBy({
+      id: id,
+    });
     if (!Checkmaterial) {
-      throw new NotFoundException;
+      throw new NotFoundException();
     } else {
       return Checkmaterial;
     }

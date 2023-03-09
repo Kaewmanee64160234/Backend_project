@@ -13,13 +13,13 @@ import {
 @Entity()
 export class CheckMaterial {
   @PrimaryGeneratedColumn({ name: 'check_mat_id' })
-  id:number;
+  id: number;
 
-  @Column({type: 'datetime', name: 'check_mat_date'})
-  date:Date;
+  @Column({ type: 'datetime', name: 'check_mat_date' })
+  date: Date;
 
-  @Column({type: 'time', name: 'check_mat_time'})
-  time:Date;
+  @Column({ type: 'time', name: 'check_mat_time' })
+  time: Date;
 
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
   employees: Employee[];
