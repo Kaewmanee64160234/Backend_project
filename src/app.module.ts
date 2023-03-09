@@ -14,11 +14,12 @@ import { MaterialsModule } from './materials/materials.module';
 import { Store } from './stores/entities/store.entity';
 import { StoresModule } from './stores/stores.module';
 import { EmployeesModule } from './employees/employees.module';
-
 import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { BillsModule } from './bills/bills.module';
+import { Bill } from './bills/entities/bill.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item';
@@ -51,6 +52,7 @@ import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
         Store,
         Employee,
         User,
+        Bill,
         Order,
         OrderItem,
         CheckInOut,
@@ -69,6 +71,7 @@ import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
     MaterialsModule,
     EmployeesModule,
     AuthModule,
+    BillsModule,
     OrdersModule,
     CheckInOutsModule,
   ],
