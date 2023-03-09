@@ -69,7 +69,8 @@ export class OrdersService {
     return `This action updates a #${id} order`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    const order = await this.ordersRepository.findOneBy({ id: id });
+    return this.ordersRepository.softRemove(order);
   }
 }
