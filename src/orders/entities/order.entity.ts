@@ -10,6 +10,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { OrderItem } from './order-item';
+import { Store } from 'src/stores/entities/store.entity';
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -38,6 +39,9 @@ export class Order {
 
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer; // Customer Id
+
+  @ManyToOne(() => Store, (store) => store.orders)
+  store: Store; // Customer Id
 
   @CreateDateColumn()
   createdDate: Date;
