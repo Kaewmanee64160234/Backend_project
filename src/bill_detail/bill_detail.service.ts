@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBillDetailDto } from './dto/create-bill_detail.dto';
 import { UpdateBillDetailDto } from './dto/update-bill_detail.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BillDetail } from './entities/bill_detail.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BillDetailService {
+  constructor(
+    @InjectRepository(BillDetail)
+    private billDetailRepository: Repository<BillDetail>,
+  ) {}
   create(createBillDetailDto: CreateBillDetailDto) {
-    return 'This action adds a new billDetail';
+    return this.billDetailRepository.save(createBillDetailDto);
   }
 
   findAll() {
-    return `This action returns all billDetail`;
+    return this.billDetailRepository.find({ relations: ['bill', 'material'] });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} billDetail`;
+    const bill_detail = this.billDetailRepository.findOne({
+      where: { id: id },
+      relations: ['bill', 'material'],
+    });
+    if (!bill_detail) {
+      throw new NotFoundException();
+    }
+    return this.billDetailRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateBillDetailDto: UpdateBillDetailDto) {
-    return `This action updates a #${id} billDetail`;
+  async update(id: number, updateBillDetailDto: UpdateBillDetailDto) {
+    const bill_detail = await this.billDetailRepository.findOneBy({ id: id });
+    if (!bill_detail) {
+      throw new NotFoundException();
+    }
+    const updatedBill_detail = { ...bill_detail, ...updateBillDetailDto };
+    return this.billDetailRepository.save(updatedBill_detail);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} billDetail`;
+  async remove(id: number) {
+    const bill_detail = await this.billDetailRepository.findOne({
+      where: { id: id },
+    });
+    if (!bill_detail) {
+      throw new NotFoundException();
+    } else {
+      await this.billDetailRepository.softRemove(bill_detail);
+    }
+    return bill_detail;
   }
 }

@@ -29,6 +29,7 @@ import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
 import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 import { BillDetailModule } from './bill_detail/bill_detail.module';
 import { SummarySalaryModule } from './summary_salary/summary_salary.module';
+import { BillDetail } from './bill_detail/entities/bill_detail.entity';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { SummarySalaryModule } from './summary_salary/summary_salary.module';
         OrderItem,
         CheckInOut,
         CheckMaterial,
+        BillDetail,
       ],
       synchronize: true,
     }),
