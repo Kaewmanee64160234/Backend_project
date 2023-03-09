@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { OrderItem } from './order-item';
 import { Store } from 'src/stores/entities/store.entity';
+import { Employee } from 'src/employees/entities/employee.entity';
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -41,7 +42,10 @@ export class Order {
   customer: Customer; // Customer Id
 
   @ManyToOne(() => Store, (store) => store.orders)
-  store: Store; // Customer Id
+  store: Store;
+
+  @ManyToOne(() => Employee, (employee) => employee.orders)
+  employee: Employee;
 
   @CreateDateColumn()
   createdDate: Date;
