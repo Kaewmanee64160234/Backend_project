@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCheckMaterialDto } from './dto/create-check_material.dto';
 import { UpdateCheckMaterialDto } from './dto/update-check_material.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,15 +19,24 @@ export class CheckMaterialService {
     return this.CheckMaterialsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} checkMaterial`;
+  async findOne(id: number) {
+    const Checkmaterial = await this.CheckMaterialsRepository.findOneBy({ id: id });
+    if (!Checkmaterial) {
+      throw new NotFoundException;
+    } else {
+      return Checkmaterial;
+    }
   }
 
-  update(id: number, updateCheckMaterialDto: UpdateCheckMaterialDto) {
-    return `This action updates a #${id} checkMaterial`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} checkMaterial`;
+  async remove(id: number) {
+    const Checkmaterial = await this.CheckMaterialsRepository.findOne({
+      where: { id: id },
+    });
+    if (!Checkmaterial) {
+      throw new NotFoundException();
+    } else {
+      await this.CheckMaterialsRepository.softRemove(Checkmaterial);
+    }
+    return Checkmaterial;
   }
 }

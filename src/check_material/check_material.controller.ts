@@ -22,11 +22,6 @@ export class CheckMaterialController {
     return this.checkMaterialService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCheckMaterialDto: UpdateCheckMaterialDto) {
-    return this.checkMaterialService.update(+id, updateCheckMaterialDto);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkMaterialService.remove(+id);

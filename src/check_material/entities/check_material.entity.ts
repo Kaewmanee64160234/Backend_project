@@ -1,8 +1,10 @@
+import { Employee } from 'src/employees/entities/employee.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,6 +18,9 @@ export class CheckMaterial {
 
   @Column({type: 'time', name: 'check_mat_time'})
   time:Date;
+
+  @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
+  employees: Employee[];
 
   @CreateDateColumn({ name: 'check_mat_start_date' })
   createdAt: Date;
