@@ -16,4 +16,7 @@ export class CreateProductDto {
   price: number;
 
   image = 'no_image.jpg';
+
+  @IsNotEmpty()
+  catagoryId: number;
 }

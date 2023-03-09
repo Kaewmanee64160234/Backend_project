@@ -32,6 +32,9 @@ export class Product {
   })
   image: string;
 
+  @Column()
+  catagoryId: number;
+
   @ManyToOne(() => Catagory, (catagory) => catagory.products)
   catagory: Catagory;
 
