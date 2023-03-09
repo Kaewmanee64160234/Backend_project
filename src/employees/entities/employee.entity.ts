@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import { Bill } from 'src/bills/entities/bill.entity';
 import { Order } from 'src/orders/entities/order.entity';
-=======
-import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
-import { Order } from 'src/orders/entities/order.entity';
-import { Bill } from 'src/bills/entities/bill.entity';
->>>>>>> ef0e228205232c725ece5f9444defd6631c86e21
 import {
   Column,
   Entity,
@@ -16,6 +10,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
+import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
 
 @Entity()
 export class Employee {
