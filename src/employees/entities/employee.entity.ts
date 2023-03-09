@@ -36,7 +36,7 @@ export class Employee {
   image: string;
 
   @OneToMany(() => Bill, (bill) => bill.employee)
-  bill: Bill[];
+  bills: Bill[];
 
   @CreateDateColumn({ name: 'employee_start_date' })
   createdDate: Date;
