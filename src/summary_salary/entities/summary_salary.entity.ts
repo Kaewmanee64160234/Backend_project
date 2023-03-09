@@ -1,5 +1,13 @@
 import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 @Entity()
 export class SummarySalary {
   @PrimaryGeneratedColumn({ name: 'ss_id' })
@@ -12,4 +20,13 @@ export class SummarySalary {
   salary: number;
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.summary_salary)
   checkInOut: CheckInOut[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
