@@ -4,18 +4,21 @@ import { UpdateCheckInOutDto } from './dto/update-check_in_out.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CheckInOut } from './entities/check_in_out.entity';
 import { Repository } from 'typeorm/repository/Repository';
-
+import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
+import * as moment from 'moment';
 @Injectable()
 export class CheckInOutsService {
   constructor(
     @InjectRepository(CheckInOut)
     private readonly check_in_outsRepositiry: Repository<CheckInOut>,
+    @InjectRepository(SummarySalary)
+    private readonly summaryRepository: Repository<SummarySalary>,
   ) {}
   async create(createCheckInOutDto: CreateCheckInOutDto) {
-    const employee = await this.check_in_outsRepositiry.save(
+    const check_in_out = await this.check_in_outsRepositiry.save(
       createCheckInOutDto,
     );
-    return employee;
+    return check_in_out;
   }
 
   async findAll() {
@@ -33,17 +36,41 @@ export class CheckInOutsService {
       return check_in_out;
     }
   }
-
-  async update(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
+  async updated(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
+    const check_in_out = await this.check_in_outsRepositiry.findOne({
+      where: { id: id },
+    });
+    const updatedCheckInOut = {
+      ...check_in_out,
+      ...updateCheckInOutDto,
+    };
+    if (check_in_out) {
+      return await this.check_in_outsRepositiry.save(updatedCheckInOut);
+    } else {
+      throw new NotFoundException('CheckinCheckout not found');
+    }
+  }
+  async updateDateCheckout(
+    id: number,
+    updateCheckInOutDto: UpdateCheckInOutDto,
+  ) {
     const check_in_out = await this.check_in_outsRepositiry.findOneBy({
       id: id,
     });
     if (!check_in_out) {
       throw new NotFoundException('Checkinout not found');
     } else {
+      updateCheckInOutDto.time_out = moment().format('YYYY-MM-DD HH:mm:ss');
+      const timecheckIn = parseInt(
+        updateCheckInOutDto.time_in.substring(11, 13),
+      );
+      const timecheckOut = parseInt(
+        updateCheckInOutDto.time_out.substring(11, 13),
+      );
+      const totalHour = timecheckOut - timecheckIn;
+      updateCheckInOutDto.total_hour = totalHour;
       const updateCheckInOut = {
         ...check_in_out,
-
         ...updateCheckInOutDto,
       };
 

@@ -5,10 +5,10 @@ export class CreateCheckInOutDto {
   date: Date;
 
   @IsNotEmpty()
-  time_in: number;
+  time_in: string;
 
   @IsNotEmpty()
-  time_out: number;
+  time_out: string;
 
   @IsNotEmpty()
   total_hour: number;
