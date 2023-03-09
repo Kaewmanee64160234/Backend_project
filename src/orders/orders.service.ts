@@ -27,7 +27,6 @@ export class OrdersService {
     });
     const order: Order = new Order();
     order.customer = customer;
-    order.amount = 0;
     order.total = 0;
     await this.ordersRepository.save(order); // ได้ id
 
@@ -42,7 +41,6 @@ export class OrdersService {
       orderItem.total = orderItem.price * orderItem.amount;
       orderItem.order = order; // อ้างกลับ
       await this.orderItemsRepository.save(orderItem);
-      order.amount = order.amount + orderItem.amount;
       order.total = order.total + orderItem.total;
     }
     await this.ordersRepository.save(order); // ได้ id

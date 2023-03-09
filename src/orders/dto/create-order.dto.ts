@@ -1,4 +1,5 @@
 class CreatedOrderItemDto {
+  name: string;
   productId: number;
   amount: number;
 }

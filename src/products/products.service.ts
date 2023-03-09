@@ -28,8 +28,12 @@ export class ProductsService {
     return this.productsRepository.save(createProductDto);
   }
 
-  findAll() {
-    return this.productsRepository.find({ relations: ['catagory'] });
+  findAll(option) {
+    return this.productsRepository.find(option);
+  }
+
+  findByCategory(id: number) {
+    return this.productsRepository.find({ where: { catagoryId: id } });
   }
 
   findOne(id: number) {

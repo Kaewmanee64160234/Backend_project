@@ -18,6 +18,8 @@ import { Employee } from './employees/entities/employee.entity';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CheckMaterialModule } from './check_material/check_material.module';
+import { CheckMaterial } from './check_material/entities/check_material.entity';
 import { BillsModule } from './bills/bills.module';
 import { Bill } from './bills/entities/bill.entity';
 import { OrdersModule } from './orders/orders.module';
@@ -57,6 +59,7 @@ import { SummarySalaryModule } from './summary_salary/summary_salary.module';
         Order,
         OrderItem,
         CheckInOut,
+        CheckMaterial
       ],
       synchronize: true,
     }),
@@ -72,6 +75,7 @@ import { SummarySalaryModule } from './summary_salary/summary_salary.module';
     MaterialsModule,
     EmployeesModule,
     AuthModule,
+    CheckMaterialModule,
     BillsModule,
     OrdersModule,
     CheckInOutsModule,
