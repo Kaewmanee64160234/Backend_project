@@ -10,6 +10,7 @@ import {
   UploadedFile,
   Res,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -45,8 +46,11 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Query() query: { cat?: string }) {
+    return this.productsService.findAll({
+      relations: ['catagory'],
+      where: query.cat ? { catagoryId: parseInt(query.cat) } : {},
+    });
   }
 
   @Get(':id')
@@ -67,6 +71,12 @@ export class ProductsController {
   ) {
     res.sendFile(imageFile, { root: './product_images' });
   }
+
+  @Get('catagory/:id')
+  findByCategory(@Param('id') id: string) {
+    return this.productsService.findByCategory(+id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Patch(':id/image')
   @UseInterceptors(

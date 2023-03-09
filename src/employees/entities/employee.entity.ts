@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Order } from 'src/orders/entities/order.entity';
+=======
+import { Bill } from 'src/bills/entities/bill.entity';
+>>>>>>> 7c54da94a4b70aa2dff7473d18e5160e23890550
 import {
   Column,
   Entity,
@@ -34,6 +38,9 @@ export class Employee {
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
+
+  @OneToMany(() => Bill, (bill) => bill.employee)
+  bills: Bill[];
 
   @CreateDateColumn({ name: 'employee_start_date' })
   createdDate: Date;

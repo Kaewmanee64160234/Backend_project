@@ -120,7 +120,7 @@ export class EmployeesController {
     return this.employeesService.remove(+id);
   }
   @UseGuards(JwtAuthGuard)
-  @Get('/employees/login')
+  @Post('/employees/login')
   loginEmployee(@Body() body: { name: string; email: string }) {
     return this.employeesService.emplyeeLogin(body.name, body.email);
   }
