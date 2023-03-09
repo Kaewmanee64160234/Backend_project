@@ -18,5 +18,5 @@ export class CreateBillDto {
   buy: number;
 
   @IsNotEmpty()
-  change: boolean;
+  change: string;
 }
