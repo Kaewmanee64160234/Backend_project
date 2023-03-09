@@ -1,4 +1,5 @@
 import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
+import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 import {
   Column,
   CreateDateColumn,
@@ -40,4 +41,13 @@ export class Material {
 
   @DeleteDateColumn({ name: 'mat_delete_date' })
   deletedAt: Date;
+
+  @OneToMany(
+    () => CheckMaterialDetail,
+    (checkmaterialdetail) => checkmaterialdetail.materials,
+  )
+  checkmaterialdetails: CheckMaterialDetail[];
+
+  @OneToMany(() => BillDetail, (bill_detail) => bill_detail.material)
+  bill_detail: BillDetail[];
 }

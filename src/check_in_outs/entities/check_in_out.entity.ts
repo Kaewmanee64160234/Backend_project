@@ -1,8 +1,10 @@
+import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,7 +16,8 @@ export class CheckInOut {
 
   @Column({ name: 'cio_date' })
   date: Date;
-
+  @ManyToOne(() => SummarySalary, (summary_salary) => summary_salary.checkInOut)
+  summary_salary: SummarySalary;
   @Column({ name: 'cio_time_in' })
   time_in: number;
 
