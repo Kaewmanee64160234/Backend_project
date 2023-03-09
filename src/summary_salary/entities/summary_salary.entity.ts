@@ -1,6 +1,6 @@
 import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
-import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+@Entity()
 export class SummarySalary {
   @PrimaryGeneratedColumn({ name: 'ss_id' })
   id: number;
