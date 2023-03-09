@@ -1,8 +1,10 @@
+import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,6 +28,9 @@ export class Material {
 
   @Column({ type: 'float', name: 'mat_price_per_unit' })
   price_per_unit: number;
+
+  @OneToMany(() => BillDetail, (bill_detail) => bill_detail.material)
+  bill_detail: BillDetail[];
 
   @CreateDateColumn({ name: 'mat_start_date' })
   createdAt: Date;
