@@ -28,6 +28,7 @@ import { OrderItem } from './orders/entities/order-item';
 import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
 import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 import { SummarySalaryModule } from './summary_salary/summary_salary.module';
+import { CheckMaterialDetailModule } from './check_material_detail/check_material_detail.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { SummarySalaryModule } from './summary_salary/summary_salary.module';
     OrdersModule,
     CheckInOutsModule,
     SummarySalaryModule,
+    CheckMaterialDetailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
