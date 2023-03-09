@@ -29,14 +29,11 @@ import { CheckInOutsModule } from './check_in_outs/check_in_outs.module';
 import { CheckInOut } from './check_in_outs/entities/check_in_out.entity';
 import { BillDetailModule } from './bill_detail/bill_detail.module';
 import { SummarySalaryModule } from './summary_salary/summary_salary.module';
-<<<<<<< HEAD
 import { BillDetail } from './bill_detail/entities/bill_detail.entity';
-
-=======
 import { CheckMaterialDetailModule } from './check_material_detail/check_material_detail.module';
 import { CheckMaterialDetail } from './check_material_detail/entities/check_material_detail.entity';
 import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
->>>>>>> a7d81eac056d47de405b26fbb2723cda2052b970
+
 @Module({
   imports: [
     ProductsModule,
@@ -68,12 +65,9 @@ import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
         OrderItem,
         CheckInOut,
         CheckMaterial,
-<<<<<<< HEAD
         BillDetail,
-=======
         CheckMaterialDetail,
         SummarySalary,
->>>>>>> a7d81eac056d47de405b26fbb2723cda2052b970
       ],
       synchronize: true,
     }),
