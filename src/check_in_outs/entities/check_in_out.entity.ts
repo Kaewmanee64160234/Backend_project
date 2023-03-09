@@ -1,3 +1,4 @@
+import { Employee } from 'src/employees/entities/employee.entity';
 import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 import {
   Column,
@@ -16,16 +17,21 @@ export class CheckInOut {
 
   @Column({ name: 'cio_date' })
   date: Date;
+
+  @Column({ type: 'datetime', name: 'cio_time_in' })
+  time_in: Date;
+
+  @Column({ type: 'datetime', name: 'cio_time_out' })
+  time_out: Date;
+
+  @Column({ type: 'datetime', name: 'cio_total_hour' })
+  total_hour: Date;
+
+  @ManyToOne(() => Employee, (employee) => employee.check_in_outs)
+  employeeId: Employee;
+
   @ManyToOne(() => SummarySalary, (summary_salary) => summary_salary.checkInOut)
   summary_salary: SummarySalary;
-  @Column({ name: 'cio_time_in' })
-  time_in: number;
-
-  @Column({ name: 'cio_time_out' })
-  time_out: number;
-
-  @Column({ name: 'cio_total_hour' })
-  total_hour: number;
 
   @CreateDateColumn({ name: 'cio_start_date' })
   createdDate: Date;

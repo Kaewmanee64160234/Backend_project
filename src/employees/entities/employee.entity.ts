@@ -10,6 +10,7 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
+import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 
 @Entity()
 export class Employee {
@@ -36,6 +37,9 @@ export class Employee {
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
+
+  @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employeeId)
+  check_in_outs: CheckInOut[];
 
   @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employees)
   checkmaterials: CheckMaterial[];
