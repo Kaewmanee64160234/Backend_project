@@ -33,15 +33,10 @@ export class Product {
     default: 'no_image.jpg',
   })
   image: string;
-
-<<<<<<< HEAD
   @Column()
   catagoryId: number;
-=======
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
->>>>>>> 65b2a077458b3f89e2a6dbf427222049a36c941d
-
   @ManyToOne(() => Catagory, (catagory) => catagory.products)
   catagory: Catagory;
 
