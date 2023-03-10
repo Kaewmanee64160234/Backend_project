@@ -33,10 +33,10 @@ export class CheckInOut {
   @ManyToOne(() => SummarySalary, (summary_salary) => summary_salary.checkInOut)
   summary_salary: SummarySalary;
 
-  @CreateDateColumn({ name: 'cio_start_date' })
+  @CreateDateColumn({ name: 'cio_start_date', type: 'datetime' })
   createdDate: Date;
 
-  @UpdateDateColumn({ name: 'cio_update_date' })
+  @UpdateDateColumn({ name: 'cio_update_date', type: 'datetime' })
   updatedDate: Date;
 
   @DeleteDateColumn({ name: 'cio_delete_date' })

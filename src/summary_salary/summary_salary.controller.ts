@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SummarySalaryService } from './summary_salary.service';
 import { CreateSummarySalaryDto } from './dto/create-summary_salary.dto';
@@ -21,8 +22,13 @@ export class SummarySalaryController {
   }
 
   @Get()
-  findAll() {
-    return this.summarySalaryService.findAll();
+  findAll(@Query() query: { employee_id?: string }) {
+    return this.summarySalaryService.findAll({
+      relations: ['summary_salary'],
+      where: query.employee_id
+        ? { employee_id: parseInt(query.employee_id) }
+        : {},
+    });
   }
 
   @Get(':id')

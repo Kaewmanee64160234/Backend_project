@@ -16,12 +16,20 @@ export class SummarySalaryService {
     return this.summaryRepository.save(createSummarySalaryDto);
   }
 
-  findAll() {
-    return this.summaryRepository.find();
+  findAll(option) {
+    return this.summaryRepository.find(option);
   }
 
-  findOne(id: number) {
-    return this.summaryRepository.findOne({ where: { id: id } });
+  async findOne(id: number) {
+    const summary_salary = await this.summaryRepository.findOne({
+      where: { id: id },
+    });
+
+    if (summary_salary) {
+      return summary_salary;
+    } else {
+      throw new NotFoundException('Summary Salary not found');
+    }
   }
 
   async update(id: number, updateSummarySalaryDto: UpdateSummarySalaryDto) {
