@@ -58,12 +58,12 @@ export class CustomersService {
     return customer;
   }
   async upDatePointCustomer(
-    id: number,
+    id: string,
     point: number,
     updateCustomerDto: UpdateCustomerDto,
   ) {
     const customer = await this.customersRepositiry.findOne({
-      where: { id: id },
+      where: { id: parseInt(id) },
     });
 
     if (!customer) {
