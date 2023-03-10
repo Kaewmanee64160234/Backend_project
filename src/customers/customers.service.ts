@@ -57,4 +57,24 @@ export class CustomersService {
     }
     return customer;
   }
+  async upDatePointCustomer(
+    id: number,
+    point: number,
+    updateCustomerDto: UpdateCustomerDto,
+  ) {
+    const customer = await this.customersRepositiry.findOne({
+      where: { id: id },
+    });
+
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+    updateCustomerDto.point += point;
+    const customerUpdated = {
+      ...customer,
+      ...updateCustomerDto,
+    };
+
+    return this.customersRepositiry.save(customerUpdated);
+  }
 }
