@@ -11,8 +11,6 @@ export class CheckInOutsService {
   constructor(
     @InjectRepository(CheckInOut)
     private readonly check_in_outsRepositiry: Repository<CheckInOut>,
-    @InjectRepository(SummarySalary)
-    private readonly summaryRepository: Repository<SummarySalary>,
   ) {}
   async create(createCheckInOutDto: CreateCheckInOutDto) {
     const check_in_out = await this.check_in_outsRepositiry.save(
@@ -73,7 +71,18 @@ export class CheckInOutsService {
         ...check_in_out,
         ...updateCheckInOutDto,
       };
-
+      // const summary = this.summaryRepository
+      //   .createQueryBuilder('CheckInOut')
+      //   .leftJoinAndSelect(
+      //     SummarySalary,
+      //     'summary_salary.id = check_in_out.summary_salary',
+      //   )
+      //   .where('check_in_out.time_in = :time_in', {
+      //     time_in: updateCheckInOutDto.time_in,
+      //   })
+      //   .orderBy('check_in_out.time_in', 'DESC')
+      //   .getOne();
+      // console.log(summary);
       return this.check_in_outsRepositiry.save(updateCheckInOut);
     }
   }
