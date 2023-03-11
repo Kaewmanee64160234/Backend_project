@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateBillDto {
   @IsNotEmpty()
   @IsString()
+  @Length(2, 100)
   shop_name: string;
 
   @IsNotEmpty()
@@ -18,5 +19,5 @@ export class CreateBillDto {
   buy: number;
 
   @IsNotEmpty()
-  change: boolean;
+  change: string;
 }

@@ -10,19 +10,36 @@ import {
   OneToMany,
 } from 'typeorm';
 import { OrderItem } from './order-item';
+import { Store } from 'src/stores/entities/store.entity';
+import { Employee } from 'src/employees/entities/employee.entity';
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  amount: number;
+  discount: number;
+
+  @Column()
+  recieved: number;
+
+  @Column()
+  change: number;
+
+  @Column()
+  payment: string;
 
   @Column({ type: 'float' })
   total: number;
 
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer; // Customer Id
+
+  @ManyToOne(() => Store, (store) => store.orders)
+  store: Store;
+
+  @ManyToOne(() => Employee, (employee) => employee.orders)
+  employee: Employee;
 
   @CreateDateColumn()
   createdDate: Date;
@@ -35,4 +52,5 @@ export class Order {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   orderItems: OrderItem[];
+  orders: any;
 }

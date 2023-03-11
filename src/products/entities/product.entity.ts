@@ -13,6 +13,7 @@ import {
 
 @Entity()
 export class Product {
+  [x: string]: any;
   @PrimaryGeneratedColumn({ name: 'product_id' })
   id: number;
 
