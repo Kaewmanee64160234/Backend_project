@@ -1,4 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
+import { Product } from 'src/products/entities/product.entity';
+import { Order } from '../entities/order.entity';
 
 class CreatedOrderItemDto {
   @IsNotEmpty()
@@ -7,6 +9,20 @@ class CreatedOrderItemDto {
   productId: number;
   @IsNotEmpty()
   amount: number;
+  @IsNotEmpty()
+  total: number;
+  @IsNotEmpty()
+  price: number;
+  @IsNotEmpty()
+  order?: Order;
+  @IsNotEmpty()
+  product?: Product; // Product Id
+  @IsNotEmpty()
+  createdDate?: Date;
+  @IsNotEmpty()
+  updatedDate?: Date;
+  @IsNotEmpty()
+  deletedDate?: Date;
 }
 export class CreateOrderDto {
   @IsNotEmpty()
