@@ -118,7 +118,7 @@ export class CustomersController {
     return this.customersService.remove(+id);
   }
 
-  @Patch('customers/point/:id/')
+  @Patch('customers/point/:id')
   updatePointCustomer(
     @Param('id') id: string,
     @Body('customer') updateCustomerDto: UpdateCustomerDto,
