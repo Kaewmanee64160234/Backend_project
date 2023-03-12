@@ -8,6 +8,5 @@ import { CheckInOut } from './entities/check_in_out.entity';
   imports: [TypeOrmModule.forFeature([CheckInOut])],
   controllers: [CheckInOutsController],
   providers: [CheckInOutsService],
-  exports: [CheckInOutsModule],
 })
 export class CheckInOutsModule {}
