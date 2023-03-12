@@ -34,12 +34,17 @@ export class EmployeesService {
   }
 
   async findAll() {
-    const users = await this.employeesRepositiry.find();
+    const users = await this.employeesRepositiry.find({
+      relations: ['check_in_outs'],
+    });
     return users;
   }
 
   async findOne(id: number) {
-    const employee = await this.employeesRepositiry.findOneBy({ id: id });
+    const employee = await this.employeesRepositiry.findOne({
+      relations: ['check_in_outs'],
+      where: { id: id },
+    });
     if (!employee) {
       throw new NotFoundException('Employee not found');
     } else {

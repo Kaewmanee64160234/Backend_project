@@ -19,47 +19,44 @@ export class CheckInOutsService {
   ) {}
   async create(createCheckInOutDto: CreateCheckInOutDto) {
     try {
-      // const summary_salary = await this.summary_salaryRepositiry.findOne({
-      //   relations: ['employee', 'check_in_out'],where:{id}
-      // });
-      // console.log(summary_salary);
-      const check_in_out = new CheckInOut();
-      // if (summary_salary) {
-      //   const employee = await this.employeeRepositiry.findOne({
-      //     where: { id: createCheckInOutDto.employeeId },
-      //   });
-      //   check_in_out.time_in = createCheckInOutDto.time_in;
-      //   check_in_out.date = createCheckInOutDto.date;
-      //   check_in_out.employee = employee;
-      //   check_in_out.total_hour = createCheckInOutDto.total_hour;
-      //   check_in_out.summary_salary = summary_salary;
-      //   summary_salary.checkInOut.push(check_in_out);
-      //   await this.summary_salaryRepositiry.save(summary_salary);
-      //   await this.check_in_outsRepositiry.save(check_in_out);
-      //   return check_in_out;
-      // } else {
-      const employee = await this.employeeRepositiry.findOne({
+      const emp = await this.employeeRepositiry.find({
+        relations: ['check_in_out', 'summary_salary'],
         where: { id: createCheckInOutDto.employeeId },
       });
-      const summary_salary_ = new SummarySalary();
+      const summary_salary = emp[0].check_in_outs[0].summary_salary;
+      console.log(summary_salary);
+      const check_in_out = new CheckInOut();
+      if (summary_salary) {
+        const employee = await this.employeeRepositiry.findOne({
+          where: { id: createCheckInOutDto.employeeId },
+        });
+        check_in_out.time_in = createCheckInOutDto.time_in;
+        check_in_out.date = createCheckInOutDto.date;
+        check_in_out.employee = employee;
+        check_in_out.total_hour = createCheckInOutDto.total_hour;
+        check_in_out.summary_salary = summary_salary;
+        summary_salary.checkInOut.push(check_in_out);
+        await this.summary_salaryRepositiry.save(summary_salary);
+        await this.check_in_outsRepositiry.save(check_in_out);
+        return check_in_out;
+      } else {
+        const employee = await this.employeeRepositiry.findOne({
+          where: { id: createCheckInOutDto.employeeId },
+        });
+        const summary_salary_ = new SummarySalary();
 
-      //checkin-out
-      check_in_out.time_in = createCheckInOutDto.time_in;
-      check_in_out.employee = employee;
-      check_in_out.total_hour = createCheckInOutDto.total_hour;
-      check_in_out.summary_salary = summary_salary_;
-      check_in_out.time_in = new Date();
-      check_in_out.time_out = new Date();
-      check_in_out.date = new Date();
-      //summary_salary
-      summary_salary_.hour = createCheckInOutDto.total_hour;
-      summary_salary_.ss_date = new Date();
-      summary_salary_.salary = 500;
-      // summary_salary_.checkInOut.push(check_in_out);
-      await this.summary_salaryRepositiry.save(summary_salary_);
-      await this.check_in_outsRepositiry.save(check_in_out);
-      return check_in_out;
-      // }
+        summary_salary_.ss_date = new Date();
+        summary_salary_.salary = 5000.0;
+        //checkin-out
+        check_in_out.time_in = createCheckInOutDto.time_in;
+        check_in_out.employee = employee;
+        check_in_out.summary_salary = summary_salary_;
+        check_in_out.time_in = new Date();
+        check_in_out.date = new Date();
+        await this.summary_salaryRepositiry.save(summary_salary_);
+        await this.check_in_outsRepositiry.save(check_in_out);
+        return check_in_out;
+      }
     } catch (e) {
       console.log(e);
     }

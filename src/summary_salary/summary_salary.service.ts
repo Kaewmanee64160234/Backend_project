@@ -45,9 +45,8 @@ export class SummarySalaryService {
     return this.summaryRepository.save(summaryUpdate);
   }
   async findOneByEmployee(employeeId: number) {
-    const summary = await this.summaryRepository.findOne({
-      relations: ['employee'],
-      where: { id: employeeId },
+    const summary = await this.summaryRepository.find({
+      relations: ['check_in_out'],
     });
     return summary;
   }
