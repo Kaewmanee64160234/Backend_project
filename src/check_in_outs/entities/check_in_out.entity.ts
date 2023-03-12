@@ -28,7 +28,7 @@ export class CheckInOut {
   total_hour: Date;
 
   @ManyToOne(() => Employee, (employee) => employee.check_in_outs)
-  employeeId: Employee;
+  employee: Employee;
 
   @ManyToOne(() => SummarySalary, (summary_salary) => summary_salary.checkInOut)
   summary_salary: SummarySalary;
