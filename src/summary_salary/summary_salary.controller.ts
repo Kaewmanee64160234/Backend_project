@@ -22,13 +22,8 @@ export class SummarySalaryController {
   }
 
   @Get()
-  findAll(@Query() query: { employee_id?: string }) {
-    return this.summarySalaryService.findAll({
-      relations: ['summary_salary'],
-      where: query.employee_id
-        ? { employee_id: parseInt(query.employee_id) }
-        : {},
-    });
+  findAll() {
+    return this.summarySalaryService.findAll();
   }
 
   @Get(':id')

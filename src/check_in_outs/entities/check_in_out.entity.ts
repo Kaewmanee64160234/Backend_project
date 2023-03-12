@@ -18,14 +18,14 @@ export class CheckInOut {
   @Column({ name: 'cio_date' })
   date: Date;
 
-  @Column({ type: 'datetime', name: 'cio_time_in' })
+  @CreateDateColumn({ type: 'datetime', name: 'cio_time_in' })
   time_in: Date;
 
-  @Column({ type: 'datetime', name: 'cio_time_out' })
+  @Column({ type: 'datetime', name: 'cio_time_out', nullable: true })
   time_out: Date;
 
-  @Column({ type: 'datetime', name: 'cio_total_hour' })
-  total_hour: Date;
+  @Column({ name: 'cio_total_hour', nullable: true })
+  total_hour: number;
 
   @ManyToOne(() => Employee, (employee) => employee.check_in_outs)
   employee: Employee;

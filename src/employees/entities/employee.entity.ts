@@ -38,7 +38,7 @@ export class Employee {
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
 
-  @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employeeId)
+  @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employee)
   check_in_outs: CheckInOut[];
 
   @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employees)

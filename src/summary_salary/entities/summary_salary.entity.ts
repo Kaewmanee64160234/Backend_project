@@ -12,9 +12,9 @@ import {
 export class SummarySalary {
   @PrimaryGeneratedColumn({ name: 'ss_id' })
   id: number;
-  @Column({ name: 'ss_date' })
-  ss_date: number;
-  @Column({ name: 'ss_work_hour', type: 'float' })
+  @CreateDateColumn({ name: 'ss_date', nullable: true })
+  ss_date: Date;
+  @Column({ name: 'ss_work_hour', type: 'float', nullable: true })
   hour: number;
   @Column({ name: 'ss_salary', type: 'float' })
   salary: number;

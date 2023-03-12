@@ -16,8 +16,8 @@ export class SummarySalaryService {
     return this.summaryRepository.save(createSummarySalaryDto);
   }
 
-  findAll(option) {
-    return this.summaryRepository.find(option);
+  findAll() {
+    return this.summaryRepository.find();
   }
 
   async findOne(id: number) {
@@ -43,6 +43,13 @@ export class SummarySalaryService {
     };
 
     return this.summaryRepository.save(summaryUpdate);
+  }
+  async findOneByEmployee(employeeId: number) {
+    const summary = await this.summaryRepository.findOne({
+      relations: ['employee'],
+      where: { id: employeeId },
+    });
+    return summary;
   }
 
   async remove(id: number) {
