@@ -37,5 +37,5 @@ export class User {
   deletedAt: Date;
 
   @OneToOne(() => Employee, (employee) => employee.user)
-  employee: User[];
+  employee: User;
 }
