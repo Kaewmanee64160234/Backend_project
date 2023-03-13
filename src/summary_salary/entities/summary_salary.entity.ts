@@ -15,9 +15,9 @@ export class SummarySalary {
   id: number;
   @CreateDateColumn({ name: 'ss_date', nullable: true })
   ss_date: Date;
-  @Column({ name: 'ss_work_hour', type: 'float', default: 0, nullable: true })
+  @Column({ name: 'ss_work_hour', type: 'float', default: 0 })
   hour: number;
-  @Column({ name: 'ss_salary', type: 'float' })
+  @Column({ name: 'ss_salary', type: 'float', default: 0 })
   salary: number;
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.summary_salary)
   @JoinTable()

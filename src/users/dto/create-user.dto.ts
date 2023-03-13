@@ -3,15 +3,15 @@ export class CreateUserDto {
   @IsNotEmpty()
   @Length(3, 64)
   username: string;
-
+  telEmployee: string;
   @IsNotEmpty()
   @Length(3, 64)
   @IsEmail()
   login: string;
-
+  addressEmployee: string;
+  position: string;
   @IsNotEmpty()
   role: string;
-
   @IsNotEmpty()
   @Length(6, 64)
   @Matches(

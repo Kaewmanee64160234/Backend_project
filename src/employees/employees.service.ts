@@ -34,15 +34,15 @@ export class EmployeesService {
   }
 
   async findAll() {
-    const users = await this.employeesRepositiry.find({
-      relations: ['check_in_outs'],
+    const employees = await this.employeesRepositiry.find({
+      relations: ['check_in_outs', 'user'],
     });
-    return users;
+    return employees;
   }
 
   async findOne(id: number) {
     const employee = await this.employeesRepositiry.findOne({
-      relations: ['check_in_outs'],
+      relations: ['check_in_outs', 'user'],
       where: { id: id },
     });
     if (!employee) {

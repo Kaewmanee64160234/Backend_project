@@ -5,24 +5,49 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Employee } from 'src/employees/entities/employee.entity';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Employee)
+    private employeeRepository: Repository<Employee>,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = hash;
-    return await this.usersRepository.save(createUserDto);
+    const user = new User();
+
+    user.login = createUserDto.login;
+    user.password = hash;
+    user.username = createUserDto.username;
+    user.role = createUserDto.role;
+    const user_ = await this.usersRepository.save(user);
+    const employee = new Employee();
+    employee.name = createUserDto.username;
+    employee.email = createUserDto.login;
+    employee.hourly = 0;
+    employee.address = createUserDto.addressEmployee;
+    employee.tel = createUserDto.telEmployee;
+    employee.position = createUserDto.position;
+    const emp_ = await this.employeeRepository.save(employee);
+
+    user_.employee = emp_;
+    // employee.user = user;
+    await this.employeeRepository.save(employee);
+    return await this.usersRepository.save(user_);
   }
 
   findAll() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({ relations: ['employee'] });
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne({ where: { id } });
+    return this.usersRepository.findOne({
+      where: { id: id },
+      relations: ['employee'],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

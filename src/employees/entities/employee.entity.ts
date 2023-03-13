@@ -10,6 +10,7 @@ import {
   OneToMany,
   JoinTable,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
@@ -67,5 +68,6 @@ export class Employee {
   order: Order[];
 
   @OneToOne(() => User, (user) => user.employee)
+  @JoinColumn()
   user: User;
 }

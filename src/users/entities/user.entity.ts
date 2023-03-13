@@ -37,5 +37,6 @@ export class User {
   deletedAt: Date;
 
   @OneToOne(() => Employee, (employee) => employee.user)
-  employee: User;
+  @JoinColumn()
+  employee: Employee;
 }

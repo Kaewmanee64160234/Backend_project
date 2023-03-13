@@ -19,44 +19,43 @@ export class CheckInOutsService {
   ) {}
   async create(createCheckInOutDto: CreateCheckInOutDto) {
     try {
-      const emp = await this.employeeRepositiry.find({
-        relations: ['check_in_outs'],
+      // const emp = await this.employeeRepositiry.findOne({
+      //   relations: ['check_in_outs'],
+      //   where: { id: createCheckInOutDto.employeeId },
+      // });
+      const summary_salary = await this.summary_salaryRepositiry.findOne({
+        relations: ['checkInOut', 'checkInOut.employee'],
+        where: {
+          checkInOut: { employee: { id: createCheckInOutDto.employeeId } },
+        },
+      });
+      const check_in_out = new CheckInOut();
+      check_in_out.date = new Date();
+      check_in_out.time_in = new Date();
+      check_in_out.employee = await this.employeeRepositiry.findOne({
         where: { id: createCheckInOutDto.employeeId },
       });
-      const summary_salary = emp[0].check_in_outs[0].summary_salary;
-      console.log(summary_salary);
-      const check_in_out = new CheckInOut();
-      if (summary_salary) {
-        const employee = await this.employeeRepositiry.findOne({
-          where: { id: createCheckInOutDto.employeeId },
-        });
-        check_in_out.time_in = createCheckInOutDto.time_in;
-        check_in_out.date = createCheckInOutDto.date;
-        check_in_out.employee = employee;
-        check_in_out.total_hour = createCheckInOutDto.total_hour;
-        check_in_out.summary_salary = summary_salary;
-        summary_salary.checkInOut.push(check_in_out);
-        await this.summary_salaryRepositiry.save(summary_salary);
+      if (!summary_salary) {
+        const summary_salary_ = new SummarySalary();
+        const sum_ = await this.summary_salaryRepositiry.save(summary_salary_);
+        check_in_out.summary_salary = sum_;
         await this.check_in_outsRepositiry.save(check_in_out);
         return check_in_out;
       } else {
-        const employee = await this.employeeRepositiry.findOne({
-          where: { id: createCheckInOutDto.employeeId },
-        });
-        const summary_salary_ = new SummarySalary();
-
-        summary_salary_.ss_date = new Date();
-        summary_salary_.salary = 5000.0;
-        //checkin-out
-        check_in_out.time_in = createCheckInOutDto.time_in;
-        check_in_out.employee = employee;
-        check_in_out.summary_salary = summary_salary_;
-        check_in_out.time_in = new Date();
-        check_in_out.date = new Date();
-        await this.summary_salaryRepositiry.save(summary_salary_);
-        await this.check_in_outsRepositiry.save(check_in_out);
-        return check_in_out;
+        check_in_out.summary_salary = summary_salary;
+        return await this.check_in_outsRepositiry.save(check_in_out);
       }
+
+      // if (emp.check_in_outs.length > 0) {
+
+      // } else {
+
+      //   // summary_salary.checkInOut.push(check_in_out);
+
+      //   console.log(sum_save);
+      //   await this.summary_salaryRepositiry.save(summary_salary);
+
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -77,12 +76,12 @@ export class CheckInOutsService {
       return check_in_out;
     }
   }
-  async updated(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
+  async updated(id: number) {
     const check_in_out = await this.check_in_outsRepositiry.findOne({
-      relations: ['summary_salary'],
-      where: { id: id },
+      relations: ['employee', 'summary_salary'],
+      where: { employee: { id: id } },
+      order: { id: 'DESC' },
     });
-    console.log(check_in_out);
 
     if (check_in_out) {
       if (check_in_out.time_out === null) {
@@ -93,13 +92,11 @@ export class CheckInOutsService {
           ) / 3600000;
 
         const summary_salary = await this.summary_salaryRepositiry.findOne({
-          where: { id: check_in_out.summary_salary.id },
+          where: { checkInOut: { id: check_in_out.id } },
         });
         console.log(summary_salary);
-        summary_salary.hour = 0;
         summary_salary.hour = summary_salary.hour + check_in_out.total_hour;
         const updatedCheckInOut = {
-          ...updateCheckInOutDto,
           ...check_in_out,
         };
         await this.summary_salaryRepositiry.save(summary_salary);
