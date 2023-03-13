@@ -63,5 +63,5 @@ export class Employee {
   order: Order[];
 
   @OneToOne(() => User, (user) => user.employee)
-  user: User[];
+  user: User;
 }
