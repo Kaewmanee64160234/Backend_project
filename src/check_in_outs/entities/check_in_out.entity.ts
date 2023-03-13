@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -28,9 +29,11 @@ export class CheckInOut {
   total_hour: number;
 
   @ManyToOne(() => Employee, (employee) => employee.check_in_outs)
+  @JoinTable()
   employee: Employee;
 
   @ManyToOne(() => SummarySalary, (summary_salary) => summary_salary.checkInOut)
+  @JoinTable()
   summary_salary: SummarySalary;
 
   @CreateDateColumn({ name: 'cio_start_date', type: 'datetime' })

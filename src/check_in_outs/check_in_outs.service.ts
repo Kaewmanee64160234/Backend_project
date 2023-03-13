@@ -20,7 +20,7 @@ export class CheckInOutsService {
   async create(createCheckInOutDto: CreateCheckInOutDto) {
     try {
       const emp = await this.employeeRepositiry.find({
-        relations: ['check_in_out', 'summary_salary'],
+        relations: ['check_in_outs'],
         where: { id: createCheckInOutDto.employeeId },
       });
       const summary_salary = emp[0].check_in_outs[0].summary_salary;
@@ -79,56 +79,38 @@ export class CheckInOutsService {
   }
   async updated(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
     const check_in_out = await this.check_in_outsRepositiry.findOne({
+      relations: ['summary_salary'],
       where: { id: id },
     });
-    const updatedCheckInOut = {
-      ...check_in_out,
-      ...updateCheckInOutDto,
-    };
+    console.log(check_in_out);
+
     if (check_in_out) {
-      return await this.check_in_outsRepositiry.save(updatedCheckInOut);
+      if (check_in_out.time_out === null) {
+        check_in_out.time_out = new Date();
+        check_in_out.total_hour =
+          Math.abs(
+            check_in_out.time_in.getTime() - check_in_out.time_out.getTime(),
+          ) / 3600000;
+
+        const summary_salary = await this.summary_salaryRepositiry.findOne({
+          where: { id: check_in_out.summary_salary.id },
+        });
+        console.log(summary_salary);
+        summary_salary.hour = 0;
+        summary_salary.hour = summary_salary.hour + check_in_out.total_hour;
+        const updatedCheckInOut = {
+          ...updateCheckInOutDto,
+          ...check_in_out,
+        };
+        await this.summary_salaryRepositiry.save(summary_salary);
+        return await this.check_in_outsRepositiry.save(updatedCheckInOut);
+      } else {
+        throw new Error('You check out already');
+      }
     } else {
       throw new NotFoundException('CheckinCheckout not found');
     }
   }
-  // async updateDateCheckout(
-  //   id: number,
-  //   updateCheckInOutDto: UpdateCheckInOutDto,
-  // ) {
-  //   const check_in_out = await this.check_in_outsRepositiry.findOneBy({
-  //     id: id,
-  //   });
-  //   if (!check_in_out) {
-  //     throw new NotFoundException('Checkinout not found');
-  //   } else {
-  //     updateCheckInOutDto.time_out = moment().format('YYYY-MM-DD HH:mm:ss');
-  //     const timecheckIn = parseInt(
-  //       updateCheckInOutDto.time_in.substring(11, 13),
-  //     );
-  //     const timecheckOut = parseInt(
-  //       updateCheckInOutDto.time_out.substring(11, 13),
-  //     );
-  //     const totalHour = timecheckOut - timecheckIn;
-  //     updateCheckInOutDto.total_hour = totalHour;
-  //     const updateCheckInOut = {
-  //       ...check_in_out,
-  //       ...updateCheckInOutDto,
-  //     };
-  // const summary = this.summaryRepository
-  //   .createQueryBuilder('CheckInOut')
-  //   .leftJoinAndSelect(
-  //     SummarySalary,
-  //     'summary_salary.id = check_in_out.summary_salary',
-  //   )
-  //   .where('check_in_out.time_in = :time_in', {
-  //     time_in: updateCheckInOutDto.time_in,
-  //   })
-  //   .orderBy('check_in_out.time_in', 'DESC')
-  //   .getOne();
-  // console.log(summary);
-  //     return this.check_in_outsRepositiry.save(updateCheckInOut);
-  //   }
-  // }
 
   async remove(id: number) {
     const check_in_out = await this.check_in_outsRepositiry.findOneBy({
