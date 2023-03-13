@@ -29,6 +29,7 @@ export class CheckInOutsService {
           checkInOut: { employee: { id: createCheckInOutDto.employeeId } },
         },
       });
+      console.log(summary_salary);
       const check_in_out = new CheckInOut();
       check_in_out.date = new Date();
       check_in_out.time_in = new Date();
@@ -45,17 +46,6 @@ export class CheckInOutsService {
         check_in_out.summary_salary = summary_salary;
         return await this.check_in_outsRepositiry.save(check_in_out);
       }
-
-      // if (emp.check_in_outs.length > 0) {
-
-      // } else {
-
-      //   // summary_salary.checkInOut.push(check_in_out);
-
-      //   console.log(sum_save);
-      //   await this.summary_salaryRepositiry.save(summary_salary);
-
-      // }
     } catch (e) {
       console.log(e);
     }
@@ -78,11 +68,12 @@ export class CheckInOutsService {
   }
   async updated(id: number) {
     const check_in_out = await this.check_in_outsRepositiry.findOne({
-      relations: ['employee', 'summary_salary'],
+      relations: ['summary_salary', 'employee'],
       where: { employee: { id: id } },
-      order: { id: 'DESC' },
+      order: { createdDate: 'DESC' },
     });
-
+    // console.log(check_in_out);
+    // return check_in_out;
     if (check_in_out) {
       if (check_in_out.time_out === null) {
         check_in_out.time_out = new Date();
@@ -91,15 +82,12 @@ export class CheckInOutsService {
             check_in_out.time_in.getTime() - check_in_out.time_out.getTime(),
           ) / 3600000;
 
-        const summary_salary = await this.summary_salaryRepositiry.findOne({
-          where: { checkInOut: { id: check_in_out.id } },
-        });
-        console.log(summary_salary);
-        summary_salary.hour = summary_salary.hour + check_in_out.total_hour;
+        check_in_out.summary_salary.hour =
+          check_in_out.summary_salary.hour + check_in_out.total_hour;
         const updatedCheckInOut = {
           ...check_in_out,
         };
-        await this.summary_salaryRepositiry.save(summary_salary);
+        await this.summary_salaryRepositiry.save(check_in_out.summary_salary);
         return await this.check_in_outsRepositiry.save(updatedCheckInOut);
       } else {
         throw new Error('You check out already');
