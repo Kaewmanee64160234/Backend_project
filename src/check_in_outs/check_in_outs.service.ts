@@ -84,6 +84,8 @@ export class CheckInOutsService {
 
         check_in_out.summary_salary.hour =
           check_in_out.summary_salary.hour + check_in_out.total_hour;
+        check_in_out.summary_salary.salary =
+          check_in_out.employee.hourly * check_in_out.summary_salary.hour;
         const updatedCheckInOut = {
           ...check_in_out,
         };

@@ -36,7 +36,7 @@ export class Employee {
   @Column({ name: 'employee_position' })
   position: string;
 
-  @Column({ name: 'employee_hourly_wage' })
+  @Column({ name: 'employee_hourly_wage', type: 'float', default: 65 })
   hourly: number;
 
   @Column({ length: '128', default: 'no_image.jpg' })
