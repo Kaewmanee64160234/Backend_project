@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { CheckInOutsService } from './check_in_outs.service';
 import { CreateCheckInOutDto } from './dto/create-check_in_out.dto';
@@ -20,10 +21,19 @@ export class CheckInOutsController {
   create(@Body() createCheckInOutDto: CreateCheckInOutDto) {
     return this.checkInOutsService.create(createCheckInOutDto);
   }
-
+  // @Get()
+  // findAll(@Query() query: { cat?: string }) {
+  //   return this.productsService.findAll({
+  //     relations: ['catagory'],
+  //     where: query.cat ? { catagoryId: parseInt(query.cat) } : {},
+  //   });
+  // }
   @Get()
-  findAll() {
-    return this.checkInOutsService.findAll();
+  findAll(@Query() query: { cus?: string }) {
+    return this.checkInOutsService.findAll({
+      relations: ['employee', 'summary_salary'],
+      where: query.cus ? { employeeId: parseInt(query.cus) } : {},
+    });
   }
 
   @Get(':id')

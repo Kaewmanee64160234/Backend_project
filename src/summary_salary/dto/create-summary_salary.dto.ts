@@ -6,7 +6,7 @@ export class CreateSummarySalaryDto {
   id?: number;
   @IsNotEmpty()
   @Min(0)
-  ss_date: number;
+  ss_date: Date;
   @IsNotEmpty()
   @IsNumber()
   @Min(0)

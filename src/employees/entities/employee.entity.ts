@@ -8,9 +8,11 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Employee {
@@ -59,4 +61,7 @@ export class Employee {
 
   @OneToMany(() => Order, (order) => order.orders)
   order: Order[];
+
+  @OneToOne(() => User, (user) => user.employees)
+  user: User[];
 }
