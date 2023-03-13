@@ -35,4 +35,7 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToOne(() => Employee, (employee) => employee.user)
+  employee: User[];
 }
