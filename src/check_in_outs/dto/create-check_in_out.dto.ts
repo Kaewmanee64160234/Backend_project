@@ -3,26 +3,16 @@ import { Employee } from 'src/employees/entities/employee.entity';
 import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 
 export class CreateCheckInOutDto {
-  @IsNotEmpty()
+  id?: number;
   date: Date;
-
+  time_in: Date;
+  time_out: Date;
   @IsNotEmpty()
-  time_in: string;
-
-  @IsNotEmpty()
-  time_out: string;
-  @IsNotEmpty()
-  employeeId?: number;
-  @IsNotEmpty()
-  total_hour?: number;
-  @IsNotEmpty()
+  employeeId: number;
+  total_hour: number;
   employee?: Employee;
-  @IsNotEmpty()
   summary_salary?: SummarySalary;
-  @IsNotEmpty()
   createdDate?: Date;
-  @IsNotEmpty()
   updatedDate?: Date;
-  @IsNotEmpty()
   deletedDate?: Date;
 }
