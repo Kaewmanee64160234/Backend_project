@@ -70,6 +70,7 @@ export class UsersService {
   async findOneByEmail(name: string) {
     try {
       const user = await this.usersRepository.findOne({
+        relations: ['employee'],
         where: { login: name },
       });
       if (user) {

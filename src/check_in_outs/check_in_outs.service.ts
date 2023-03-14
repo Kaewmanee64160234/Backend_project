@@ -66,6 +66,7 @@ export class CheckInOutsService {
       return check_in_out;
     }
   }
+
   async updated(id: number) {
     const check_in_out = await this.check_in_outsRepositiry.findOne({
       relations: ['summary_salary', 'employee'],
@@ -81,6 +82,7 @@ export class CheckInOutsService {
           Math.abs(
             check_in_out.time_in.getTime() - check_in_out.time_out.getTime(),
           ) / 3600000;
+        // console.log(check_in_out.total_hour);
 
         check_in_out.summary_salary.hour =
           check_in_out.summary_salary.hour + check_in_out.total_hour;
