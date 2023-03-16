@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -16,8 +17,8 @@ export class Bill {
   @PrimaryGeneratedColumn({ name: 'bill_id' })
   id: number;
 
-  @Column({ name: 'bill_shop_name' })
-  shop_name: string;
+  @Column({ name: 'bill_shop_name', default: '' })
+  name: string;
 
   @Column({ type: 'datetime', name: 'bill_date' })
   date: Date;
@@ -35,9 +36,11 @@ export class Bill {
   change: string;
 
   @ManyToOne(() => Employee, (employee) => employee.bills)
+  @JoinColumn()
   employee: Employee;
 
   @OneToMany(() => BillDetail, (bill_detail) => bill_detail.bill)
+  @JoinColumn()
   bill_detail: BillDetail[];
 
   @CreateDateColumn()

@@ -4,15 +4,29 @@ import { UpdateBillDto } from './dto/update-Bill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bill } from './entities/bill.entity';
 import { Repository } from 'typeorm';
+import { Employee } from 'src/employees/entities/employee.entity';
 
 @Injectable()
 export class BillsService {
   constructor(
     @InjectRepository(Bill)
     private billsRepository: Repository<Bill>,
+    @InjectRepository(Employee)
+    private employeesRepositiry: Repository<Employee>,
   ) {}
-  create(createBillDto: CreateBillDto) {
-    return this.billsRepository.save(createBillDto);
+  async create(createBillDto: CreateBillDto) {
+    const employee = await this.employeesRepositiry.findOneBy({
+      id: createBillDto.employeeId,
+    });
+    const bill: Bill = new Bill();
+    bill.employee = employee;
+    bill.name = createBillDto.shop_name;
+    bill.date = createBillDto.date;
+    bill.time = createBillDto.time;
+    bill.total = createBillDto.total;
+    bill.buy = createBillDto.buy;
+    bill.change = createBillDto.change;
+    return await this.billsRepository.save(bill);
   }
 
   findAll() {
