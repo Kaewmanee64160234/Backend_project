@@ -36,11 +36,14 @@ export class Employee {
   @Column({ name: 'employee_position' })
   position: string;
 
-  @Column({ name: 'employee_hourly_wage', type: 'float', default: 65 })
+  @Column({ name: 'employee_hourly_wage' })
+  @Column({ name: 'employee_hourly_wage', default: 0 })
   hourly: number;
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
+  @OneToOne(() => User, (user) => user.employee)
+  user: User;
 
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employee)
   @JoinTable()
@@ -65,9 +68,6 @@ export class Employee {
 
   @OneToMany(() => Order, (order) => order.orders)
   @JoinTable()
-  order: Order[];
-
-  @OneToOne(() => User, (user) => user.employee)
   @JoinColumn()
-  user: User;
+  order: Order[];
 }

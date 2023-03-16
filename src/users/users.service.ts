@@ -6,37 +6,38 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { CreateEmployeeDto } from 'src/employees/dto/create-employee.dto';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
     @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>,
+    private employeesRepository: Repository<Employee>,
   ) {}
   async create(createUserDto: CreateUserDto) {
+    const user = new User();
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = hash;
-    const user = new User();
-
-    user.login = createUserDto.login;
     user.password = hash;
     user.username = createUserDto.username;
+    user.login = createUserDto.login;
     user.role = createUserDto.role;
-    const user_ = await this.usersRepository.save(user);
-    const employee = new Employee();
-    employee.name = createUserDto.username;
-    employee.email = createUserDto.login;
-    employee.hourly = 0;
-    employee.address = createUserDto.addressEmployee;
-    employee.tel = createUserDto.telEmployee;
-    employee.position = createUserDto.position;
-    const emp_ = await this.employeeRepository.save(employee);
 
-    user_.employee = emp_;
-    // employee.user = user;
-    await this.employeeRepository.save(employee);
-    return await this.usersRepository.save(user_);
+    const employee = new Employee();
+    employee.email = createUserDto.login;
+    employee.name = createUserDto.name_employee;
+    employee.address = createUserDto.address;
+    employee.image = createUserDto.image;
+    employee.tel = createUserDto.tel;
+    employee.position = createUserDto.position;
+    employee.hourly = createUserDto.hourly;
+    const emp = await this.employeesRepository.save(employee);
+
+    user.employee = await this.employeesRepository.findOne({
+      where: { id: emp.id },
+    });
+    return await this.usersRepository.save(user);
   }
 
   findAll() {
@@ -44,10 +45,7 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne({
-      where: { id: id },
-      relations: ['employee'],
-    });
+    return this.usersRepository.findOne({ where: { id: id } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -58,11 +56,16 @@ export class UsersService {
         const hash = await bcrypt.hash(updateUserDto.password, salt);
         updateUserDto.password = hash;
       }
-      const updatedUser = await this.usersRepository.save({
-        id,
-        ...updateUserDto,
+      const user = await this.usersRepository.findOne({
+        where: { id: id },
+        relations: ['employee'],
       });
-      return updatedUser;
+      const updatedUser = {
+        ...user,
+        ...updateUserDto,
+      };
+
+      return await this.usersRepository.save(updatedUser);
     } catch (e) {
       throw new NotFoundException();
     }
@@ -70,7 +73,6 @@ export class UsersService {
   async findOneByEmail(name: string) {
     try {
       const user = await this.usersRepository.findOne({
-        relations: ['employee'],
         where: { login: name },
       });
       if (user) {
