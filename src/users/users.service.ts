@@ -71,6 +71,7 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOne({
         where: { login: name },
+        relations: ['employee'],
       });
       if (user) {
         // const salt = await bcrypt.genSalt();
