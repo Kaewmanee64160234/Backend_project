@@ -17,11 +17,12 @@ export class SummarySalaryService {
   }
 
   findAll() {
-    return this.summaryRepository.find();
+    return this.summaryRepository.find({ relations: ['checkInOut'] });
   }
 
   async findOne(id: number) {
     const summary_salary = await this.summaryRepository.findOne({
+      relations: ['check_in_outs'],
       where: { id: id },
     });
 
@@ -45,9 +46,9 @@ export class SummarySalaryService {
     return this.summaryRepository.save(summaryUpdate);
   }
   async findOneByEmployee(employeeId: number) {
-    const summary = await this.summaryRepository.findOne({
-      relations: ['employee'],
-      where: { id: employeeId },
+    const summary = await this.summaryRepository.find({
+      relations: ['checkInOut', 'checkInOut.employee'],
+      where: { checkInOut: { employee: { id: employeeId } } },
     });
     return summary;
   }

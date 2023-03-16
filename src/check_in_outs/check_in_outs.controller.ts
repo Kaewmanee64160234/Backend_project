@@ -43,16 +43,8 @@ export class CheckInOutsController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCheckInOutDto: UpdateCheckInOutDto,
-  ) {
-    const cio = this.checkInOutsService.findOne(+id);
-    const cioUpdated = {
-      ...cio,
-      ...updateCheckInOutDto,
-    };
-    return this.checkInOutsService.updated(+id, cioUpdated);
+  update(@Param('id') id: string) {
+    return this.checkInOutsService.updated(+id);
   }
 
   @UseGuards(JwtAuthGuard)

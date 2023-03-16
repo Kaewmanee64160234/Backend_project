@@ -11,6 +11,8 @@ export class EmployeesService {
   constructor(
     @InjectRepository(Employee)
     private readonly employeesRepositiry: Repository<Employee>,
+    @InjectRepository(SummarySalary)
+    private readonly summary_salaryRepositiry: Repository<SummarySalary>,
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto) {
@@ -34,12 +36,17 @@ export class EmployeesService {
   }
 
   async findAll() {
-    const users = await this.employeesRepositiry.find();
-    return users;
+    const employees = await this.employeesRepositiry.find({
+      relations: ['check_in_outs', 'user'],
+    });
+    return employees;
   }
 
   async findOne(id: number) {
-    const employee = await this.employeesRepositiry.findOneBy({ id: id });
+    const employee = await this.employeesRepositiry.findOne({
+      relations: ['check_in_outs', 'user'],
+      where: { id: id },
+    });
     if (!employee) {
       throw new NotFoundException('Employee not found');
     } else {
@@ -72,5 +79,12 @@ export class EmployeesService {
       await this.employeesRepositiry.softRemove(employee);
     }
     return employee;
+  }
+  findCheckInCheckOut(employeeId: number) {
+    const summary_salary = this.summary_salaryRepositiry.find({
+      relations: ['checkInOut'],
+      where: { checkInOut: { employee: { id: employeeId } } },
+    });
+    return summary_salary;
   }
 }

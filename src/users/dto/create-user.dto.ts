@@ -10,15 +10,14 @@ export class CreateUserDto {
   @IsNotEmpty()
   @Length(3, 64)
   username: string;
-
+  telEmployee: string;
   @IsNotEmpty()
   @Length(3, 64)
   @IsEmail()
   login: string;
-
+  addressEmployee: string;
   @IsNotEmpty()
   role: string;
-
   @IsNotEmpty()
   @IsString()
   @IsPhoneNumber('TH')
