@@ -16,6 +16,7 @@ export class User {
   id: number;
 
   @OneToOne(() => Employee, (employee) => employee.user)
+  @JoinColumn()
   employee: Employee;
   @JoinColumn()
   @Column({ name: 'user_name' })
@@ -29,9 +30,6 @@ export class User {
 
   @Column({ name: 'user_role' })
   role: string;
-
-  @Column({ name: 'employee_hourly_wage', default: 0 })
-  hourly: number;
 
   @CreateDateColumn()
   createdAt: Date;
