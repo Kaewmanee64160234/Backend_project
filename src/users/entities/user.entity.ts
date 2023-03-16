@@ -16,9 +16,10 @@ export class User {
   @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
   
-  @JoinColumn()
   @OneToOne(() => Employee, (employee) => employee.user)
   employee: Employee;
+  @JoinColumn()
+
 
   @Column({ name: 'user_name' })
   username: string;
@@ -31,6 +32,11 @@ export class User {
 
   @Column({ name: 'user_role' })
   role: string;
+
+  @Column({ name: 'employee_hourly_wage' , default: 0})
+  hourly: number;
+
+
 
 
   @CreateDateColumn()
