@@ -5,24 +5,48 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Employee } from 'src/employees/entities/employee.entity';
+import { CreateEmployeeDto } from 'src/employees/dto/create-employee.dto';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Employee) private employeesRepository: Repository<Employee>,
   ) {}
   async create(createUserDto: CreateUserDto) {
+    const user = new User();
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = hash;
-    return await this.usersRepository.save(createUserDto);
+    user.password = hash;
+    user.username = createUserDto.username;
+    user.login = createUserDto.login;
+    user.role = createUserDto.role;
+  
+    
+    const employee = new Employee();
+    employee.email = createUserDto.login;
+    employee.name = createUserDto.name_employee;
+    employee.address = createUserDto.address;
+    employee.image = createUserDto.image;
+    employee.tel = createUserDto.tel;
+    employee.position = createUserDto.position;
+    employee.hourly = createUserDto.hourly;
+    const emp = await this.employeesRepository.save(employee);
+
+    user.employee = await this.employeesRepository.findOne({
+      where: {id: emp.id},
+    });
+    return await this.usersRepository.save(user);
+    
   }
 
   findAll() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({relations:['employee']});
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne({ where: { id } });
+    return this.usersRepository.findOne({where: { id: id },})
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -33,11 +57,14 @@ export class UsersService {
         const hash = await bcrypt.hash(updateUserDto.password, salt);
         updateUserDto.password = hash;
       }
-      const updatedUser = await this.usersRepository.save({
-        id,
+      const user = await this.usersRepository.findOne({where: { id: id }, relations:['employee']});
+      const updatedUser = {
+        ...user,
         ...updateUserDto,
-      });
-      return updatedUser;
+      };
+      
+      return await this.usersRepository.save(updatedUser);
+
     } catch (e) {
       throw new NotFoundException();
     }
