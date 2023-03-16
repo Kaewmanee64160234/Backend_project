@@ -36,6 +36,8 @@ export class User {
   @Column({ name: 'employee_hourly_wage' , default: 0})
   hourly: number;
 
+  @Column({ length: '255', default: 'no_image.jpg' })
+  image: string;
 
 
 

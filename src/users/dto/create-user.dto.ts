@@ -46,5 +46,5 @@ export class CreateUserDto {
   @IsString()
   position?: string;
 
-  image = 'no_image.jpg';
+  image: string;;
 }
