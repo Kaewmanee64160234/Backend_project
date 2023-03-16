@@ -11,7 +11,8 @@ import { CreateEmployeeDto } from 'src/employees/dto/create-employee.dto';
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-    @InjectRepository(Employee) private employeesRepository: Repository<Employee>,
+    @InjectRepository(Employee)
+    private employeesRepository: Repository<Employee>,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const user = new User();
@@ -22,7 +23,7 @@ export class UsersService {
     user.username = createUserDto.username;
     user.login = createUserDto.login;
     user.role = createUserDto.role;
-    
+
     const employee = new Employee();
     employee.email = createUserDto.login;
     employee.name = createUserDto.name_employee;
@@ -31,21 +32,18 @@ export class UsersService {
     employee.tel = createUserDto.tel;
     employee.position = createUserDto.position;
     employee.hourly = createUserDto.hourly;
+    employee.image = createUserDto.image;
     const emp = await this.employeesRepository.save(employee);
-
-    user.employee = await this.employeesRepository.findOne({
-      where: {id: emp.id},
-    });
+    user.employee = emp;
     return await this.usersRepository.save(user);
-    
   }
 
   findAll() {
-    return this.usersRepository.find({relations:['employee']});
+    return this.usersRepository.find({ relations: ['employee'] });
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne({where: { id: id },})
+    return this.usersRepository.findOne({ where: { id: id } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -56,14 +54,16 @@ export class UsersService {
         const hash = await bcrypt.hash(updateUserDto.password, salt);
         updateUserDto.password = hash;
       }
-      const user = await this.usersRepository.findOne({where: { id: id }, relations:['employee']});
+      const user = await this.usersRepository.findOne({
+        where: { id: id },
+        relations: ['employee'],
+      });
       const updatedUser = {
         ...user,
         ...updateUserDto,
       };
-      
-      return await this.usersRepository.save(updatedUser);
 
+      return await this.usersRepository.save(updatedUser);
     } catch (e) {
       throw new NotFoundException();
     }

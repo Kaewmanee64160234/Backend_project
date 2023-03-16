@@ -12,15 +12,13 @@ import {
 
 @Entity()
 export class User {
-  
   @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
-  
+
   @OneToOne(() => Employee, (employee) => employee.user)
+  @JoinColumn()
   employee: Employee;
   @JoinColumn()
-
-
   @Column({ name: 'user_name' })
   username: string;
 
@@ -33,8 +31,9 @@ export class User {
   @Column({ name: 'user_role' })
   role: string;
 
-  @Column({ length: '255', default: 'no_image.jpg' })
+  @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
+
 
   @CreateDateColumn()
   createdAt: Date;
@@ -44,6 +43,4 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-
 }

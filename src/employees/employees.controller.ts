@@ -124,4 +124,9 @@ export class EmployeesController {
   loginEmployee(@Body() body: { name: string; email: string }) {
     return this.employeesService.emplyeeLogin(body.name, body.email);
   }
+
+  @Get('summary/employee/:id')
+  findCheckInCheckOut(@Param('id') id: string) {
+    return this.employeesService.findCheckInCheckOut(+id);
+  }
 }
