@@ -46,5 +46,5 @@ export class CreateUserDto {
   @IsString()
   position?: string;
 
-  image: string;;
+  image: string;
 }

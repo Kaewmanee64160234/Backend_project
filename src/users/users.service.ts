@@ -22,7 +22,6 @@ export class UsersService {
     user.username = createUserDto.username;
     user.login = createUserDto.login;
     user.role = createUserDto.role;
-  
     
     const employee = new Employee();
     employee.email = createUserDto.login;
