@@ -53,11 +53,7 @@ export class UsersController {
   ) {
     res.sendFile(ImageFileName, { root: './user_images' });
   }
-  @Get(':id/image')
-  async getImage(@Param('id') id: string, @Res() res: Response) {
-    const user = await this.usersService.findOne(+id);
-    res.sendFile(user.image, { root: './user_images' });
-  }
+
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id/image')

@@ -31,8 +31,7 @@ export class User {
   @Column({ name: 'user_role' })
   role: string;
 
-  @Column({ length: '128', default: 'no_image.jpg' })
-  image: string;
+
 
 
   @CreateDateColumn()

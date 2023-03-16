@@ -6,7 +6,6 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/employees/entities/employee.entity';
-import { CreateEmployeeDto } from 'src/employees/dto/create-employee.dto';
 @Injectable()
 export class UsersService {
   constructor(
