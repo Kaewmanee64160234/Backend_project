@@ -46,7 +46,6 @@ export class Employee {
   @OneToOne(() => User, (user) => user.employee)
   user: User;
   @JoinColumn()
-
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employee)
   @JoinTable()
   check_in_outs: CheckInOut[];

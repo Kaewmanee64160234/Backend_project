@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -60,7 +61,7 @@ export class UsersService {
       const updatedUser = {
         ...user,
         ...updateUserDto,
-      };
+            };
 
       return await this.usersRepository.save(updatedUser);
     } catch (e) {
@@ -85,7 +86,7 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const user = await this.usersRepository.findOneBy({ id });
+    const user = await this.usersRepository.findOneBy({ id:id });
     if (!user) {
       throw new NotFoundException();
     }

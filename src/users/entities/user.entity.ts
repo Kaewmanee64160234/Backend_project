@@ -31,9 +31,6 @@ export class User {
   @Column({ name: 'user_role' })
   role: string;
 
-
-
-
   @CreateDateColumn()
   createdAt: Date;
 
