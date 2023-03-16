@@ -30,9 +30,6 @@ export class User {
   @Column({ name: 'user_role' })
   role: string;
 
-  @Column({ name: 'employee_hourly_wage', default: 0 })
-  hourly: number;
-
   @CreateDateColumn()
   createdAt: Date;
 
