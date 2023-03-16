@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -17,7 +18,7 @@ export class Bill {
   id: number;
 
   @Column({ name: 'bill_shop_name' })
-  shop_name: string;
+  name: string;
 
   @Column({ type: 'datetime', name: 'bill_date' })
   date: Date;

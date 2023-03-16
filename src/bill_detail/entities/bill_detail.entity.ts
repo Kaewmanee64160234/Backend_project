@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -28,9 +29,11 @@ export class BillDetail {
   total: number;
 
   @ManyToOne(() => Bill, (bill) => bill.bill_detail)
+  @JoinColumn()
   bill: Bill;
 
   @ManyToOne(() => Material, (material) => material.bill_detail)
+  @JoinColumn()
   material: Material;
 
   @CreateDateColumn()

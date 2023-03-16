@@ -20,4 +20,7 @@ export class CreateBillDto {
 
   @IsNotEmpty()
   change: string;
+
+  @IsNotEmpty()
+  employeeId: number;
 }

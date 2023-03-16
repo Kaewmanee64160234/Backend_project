@@ -18,4 +18,10 @@ export class CreateBillDetailDto {
   @IsNotEmpty()
   @Min(0)
   total: number;
+
+  @IsNotEmpty()
+  materialId: number;
+
+  @IsNotEmpty()
+  billId: number;
 }

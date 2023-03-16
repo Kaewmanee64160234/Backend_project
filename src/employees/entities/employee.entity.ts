@@ -34,7 +34,7 @@ export class Employee {
   @Column({ name: 'employee_position' })
   position: string;
 
-  @Column({ name: 'employee_hourly_wage' , default: 0})
+  @Column({ name: 'employee_hourly_wage', default: 0 })
   hourly: number;
 
   @Column({ length: '128', default: 'no_image.jpg' })
@@ -63,6 +63,4 @@ export class Employee {
 
   @OneToMany(() => Order, (order) => order.orders)
   order: Order[];
-
-  
 }

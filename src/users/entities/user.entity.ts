@@ -12,10 +12,9 @@ import {
 
 @Entity()
 export class User {
-  
   @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
-  
+
   @JoinColumn()
   @OneToOne(() => Employee, (employee) => employee.user)
   employee: Employee;
@@ -32,7 +31,6 @@ export class User {
   @Column({ name: 'user_role' })
   role: string;
 
-
   @CreateDateColumn()
   createdAt: Date;
 
@@ -41,6 +39,4 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-
 }
