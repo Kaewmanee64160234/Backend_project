@@ -25,7 +25,12 @@ export class BillDetailService {
     const bill = await this.billsRepository.findOneBy({
       id: createBillDetailDto.billId,
     });
-
+    const employee = await this.billsRepository.findOne({
+      relations: ['bill_detail', 'bill_detail.bill'],
+      where: {
+        bill_detail: { bill: { id: createBillDetailDto.billId } },
+      },
+    });
     const bill_detail: BillDetail = new BillDetail();
     bill_detail.name = createBillDetailDto.name;
     bill_detail.amount = createBillDetailDto.amount;
@@ -33,11 +38,14 @@ export class BillDetailService {
     bill_detail.total = createBillDetailDto.total;
     bill_detail.material = material;
     bill_detail.bill = bill;
+    bill_detail.bill = employee;
     return this.billDetailRepository.save(bill_detail);
   }
 
   findAll() {
-    return this.billDetailRepository.find({ relations: ['material', 'bill'] });
+    return this.billDetailRepository.find({
+      relations: ['bill', 'material', 'bill.employee'],
+    });
   }
 
   findOne(id: number) {
