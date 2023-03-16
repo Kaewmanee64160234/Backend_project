@@ -33,10 +33,7 @@ export class UsersService {
     employee.position = createUserDto.position;
     employee.hourly = createUserDto.hourly;
     const emp = await this.employeesRepository.save(employee);
-
-    user.employee = await this.employeesRepository.findOne({
-      where: { id: emp.id },
-    });
+    user.employee = emp;
     return await this.usersRepository.save(user);
   }
 
