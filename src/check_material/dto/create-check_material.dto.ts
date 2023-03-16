@@ -5,4 +5,7 @@ export class CreateCheckMaterialDto {
 
   @IsNotEmpty()
   time: Date;
+
+  @IsNotEmpty()
+  employeeId: number;
 }
