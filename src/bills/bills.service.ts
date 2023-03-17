@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Bill } from './entities/bill.entity';
 import { Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 
 @Injectable()
 export class BillsService {
@@ -13,6 +14,8 @@ export class BillsService {
     private billsRepository: Repository<Bill>,
     @InjectRepository(Employee)
     private employeesRepositiry: Repository<Employee>,
+    @InjectRepository(BillDetail)
+    private billDetailRepository: Repository<BillDetail>,
   ) {}
   async create(createBillDto: CreateBillDto) {
     const employee = await this.employeesRepositiry.findOneBy({
@@ -26,17 +29,35 @@ export class BillsService {
     bill.total = createBillDto.total;
     bill.buy = createBillDto.buy;
     bill.change = createBillDto.change;
-    return await this.billsRepository.save(bill);
+    await this.billsRepository.save(bill);
+
+    for (const od of createBillDto.bill_detail) {
+      const bill_detail = new BillDetail();
+      bill_detail.name = od.name;
+      bill_detail.price = od.price;
+      bill_detail.amount = od.amount;
+      bill_detail.total = bill_detail.price * bill_detail.amount;
+      bill_detail.bill = bill; // อ้างกลับ
+      await this.billDetailRepository.save(bill_detail);
+      bill.total = bill.total + bill_detail.total;
+    }
+    await this.billsRepository.save(bill); // ได้ id
+    return await this.billsRepository.findOne({
+      where: { id: bill.id },
+      relations: ['bill_detail'],
+    });
   }
 
   findAll() {
-    return this.billsRepository.find({ relations: ['employee'] });
+    return this.billsRepository.find({
+      relations: ['employee', 'bill_detail'],
+    });
   }
 
   async findOne(id: number) {
     const bill = this.billsRepository.findOne({
       where: { id: id },
-      relations: ['employee'],
+      relations: ['employee', 'bill_detail'],
     });
     if (!bill) {
       throw new NotFoundException();
