@@ -40,7 +40,10 @@ export class UsersService {
   }
 
   findAll() {
-    return this.usersRepository.find({ relations: ['employee'] });
+    return this.usersRepository.find({
+      relations: ['employee'],
+      order: { username: 'ASC' },
+    });
   }
 
   findOne(id: number) {
@@ -74,6 +77,7 @@ export class UsersService {
       const user = await this.usersRepository.findOne({
         where: { login: name },
         relations: ['employee'],
+        order: { login: 'ASC' },
       });
       if (user) {
         // const salt = await bcrypt.genSalt();
@@ -100,6 +104,7 @@ export class UsersService {
       const user = this.usersRepository.find({
         where: { username: name },
         relations: ['employee'],
+        order: { username: 'ASC' },
       });
       return user;
     } catch (e) {
