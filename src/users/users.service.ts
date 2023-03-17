@@ -1,15 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
 @Injectable()
 export class UsersService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(User) private usersRepository: Repository<User>,
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
@@ -92,17 +93,5 @@ export class UsersService {
       throw new NotFoundException();
     }
     return this.usersRepository.softRemove(user);
-  }
-
-  findUserByName(name: string) {
-    try {
-      const user = this.usersRepository.findOne({
-        where: { username: name },
-        relations: ['employee'],
-      });
-      return user;
-    } catch (e) {
-      console.log(e);
-    }
   }
 }

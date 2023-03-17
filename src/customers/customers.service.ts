@@ -79,7 +79,7 @@ export class CustomersService {
   }
   findCustomerByTel(tel: string) {
     try {
-      const customer = this.customersRepositiry.findOne({
+      const customer = this.customersRepositiry.find({
         where: { tel: tel },
       });
       return customer;

@@ -17,7 +17,9 @@ export class SummarySalaryService {
   }
 
   findAll() {
-    return this.summaryRepository.find({ relations: ['checkInOut'] });
+    return this.summaryRepository.find({
+      relations: ['checkInOut', 'checkInOut.employee'],
+    });
   }
 
   async findOne(id: number) {

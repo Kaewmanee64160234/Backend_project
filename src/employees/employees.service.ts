@@ -93,8 +93,6 @@ export class EmployeesService {
     try {
       const employee = this.employeesRepositiry.find({
         where: { name: name },
-        relations: ['checkInOut'],
-        order: { name: 'ASC' },
       });
       return employee;
     } catch (err) {
