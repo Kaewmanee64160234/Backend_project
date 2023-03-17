@@ -130,7 +130,7 @@ export class EmployeesController {
     return this.employeesService.findCheckInCheckOut(+id);
   }
 
-  @Get('name/:name')
+  @Get('search/name/:name')
   findEmployeeByName(@Param('name') name: string) {
     return this.employeesService.findEmployeeByName(name);
   }
