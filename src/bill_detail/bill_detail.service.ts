@@ -6,7 +6,6 @@ import { BillDetail } from './entities/bill_detail.entity';
 import { Repository } from 'typeorm';
 import { Material } from 'src/materials/entities/material.entity';
 import { Bill } from 'src/bills/entities/bill.entity';
-import { Employee } from 'src/employees/entities/employee.entity';
 
 @Injectable()
 export class BillDetailService {
@@ -51,7 +50,7 @@ export class BillDetailService {
   findOne(id: number) {
     const bill_detail = this.billDetailRepository.findOne({
       where: { id: id },
-      relations: ['bill', 'material'],
+      relations: ['bill', 'material', 'bill.employee'],
     });
     if (!bill_detail) {
       throw new NotFoundException();

@@ -20,7 +20,7 @@ export class BillsService {
     });
     const bill: Bill = new Bill();
     bill.employee = employee;
-    bill.name = createBillDto.shop_name;
+    bill.name = createBillDto.name;
     bill.date = createBillDto.date;
     bill.time = createBillDto.time;
     bill.total = createBillDto.total;
