@@ -54,16 +54,23 @@ export class UsersService {
         const hash = await bcrypt.hash(updateUserDto.password, salt);
         updateUserDto.password = hash;
       }
-      const user = await this.usersRepository.findOne({
-        where: { id: id },
-        relations: ['employee'],
-      });
-      const updatedUser = {
-        ...user,
-        ...updateUserDto,
-      };
+      let user = new User();
+      user =   await this.usersRepository.findOne({
+          where: { id: id },
+          relations: ['employee'],
+        });
+        user.login = updateUserDto.login;
+        user.password = updateUserDto.password;
+        user.username = updateUserDto.username;
+        user.role = updateUserDto.role; 
+      // const user = await this.usersRepository.findOne({
+      //   where: { id: id },
+      //   relations: ['employee'],
+      // });
+   
+      // };
 
-      return await this.usersRepository.save(updatedUser);
+      return await this.usersRepository.save(user);
     } catch (e) {
       throw new NotFoundException();
     }
