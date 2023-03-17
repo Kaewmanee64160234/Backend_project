@@ -46,6 +46,7 @@ export class EmployeesService {
     const employee = await this.employeesRepositiry.findOne({
       relations: ['check_in_outs', 'user'],
       where: { id: id },
+      order: { check_in_outs: { date: 'DESC' } },
     });
     if (!employee) {
       throw new NotFoundException('Employee not found');
@@ -86,5 +87,16 @@ export class EmployeesService {
       where: { checkInOut: { employee: { id: employeeId } } },
     });
     return summary_salary;
+  }
+
+  findEmployeeByName(name: string) {
+    try {
+      const employee = this.employeesRepositiry.find({
+        where: { name: name },
+      });
+      return employee;
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

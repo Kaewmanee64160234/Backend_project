@@ -77,4 +77,14 @@ export class CustomersService {
 
     return this.customersRepositiry.save(customerUpdated);
   }
+  findCustomerByTel(tel: string) {
+    try {
+      const customer = this.customersRepositiry.find({
+        where: { tel: tel },
+      });
+      return customer;
+    } catch (errr) {
+      console.log(errr);
+    }
+  }
 }

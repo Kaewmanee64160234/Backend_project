@@ -55,6 +55,3 @@ export class UsersController {
     return this.usersService.findOneByEmail(email);
   }
 }
-function uuidv4() {
-  throw new Error('Function not implemented.');
-}

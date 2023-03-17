@@ -52,4 +52,10 @@ export class MaterialsService {
     }
     return material;
   }
+  async findMaterialByName(name: string) {
+    const material = await this.materialsRepository.find({
+      where: { name: name },
+    });
+    return material;
+  }
 }

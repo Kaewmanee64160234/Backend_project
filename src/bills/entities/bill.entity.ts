@@ -33,7 +33,7 @@ export class Bill {
   buy: number;
 
   @Column({ name: 'bill_change' })
-  change: string;
+  change: number;
 
   @ManyToOne(() => Employee, (employee) => employee.bills)
   @JoinColumn()

@@ -129,4 +129,9 @@ export class EmployeesController {
   findCheckInCheckOut(@Param('id') id: string) {
     return this.employeesService.findCheckInCheckOut(+id);
   }
+
+  @Get('search/name/:name')
+  findEmployeeByName(@Param('name') name: string) {
+    return this.employeesService.findEmployeeByName(name);
+  }
 }

@@ -44,4 +44,10 @@ export class MaterialsController {
   remove(@Param('id') id: string) {
     return this.materialsService.remove(+id);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('search/name/:name')
+  findMaterialByName(@Param('name') name: string) {
+    return this.materialsService.findMaterialByName(name);
+  }
 }
