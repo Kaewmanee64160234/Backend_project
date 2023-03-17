@@ -93,4 +93,16 @@ export class UsersService {
     }
     return this.usersRepository.softRemove(user);
   }
+
+  findUserByName(name: string) {
+    try {
+      const user = this.usersRepository.findOne({
+        where: { username: name },
+        relations: ['employee'],
+      });
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

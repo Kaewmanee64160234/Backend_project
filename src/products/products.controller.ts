@@ -125,4 +125,9 @@ export class ProductsController {
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
   }
+  @UseGuards(JwtAuthGuard)
+  @Get('search/name/:name')
+  findProductByName(@Param('name') name: string) {
+    return this.productsService.findProductByName(name);
+  }
 }

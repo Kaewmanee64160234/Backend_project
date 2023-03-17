@@ -63,4 +63,12 @@ export class ProductsService {
     }
     return this.productsRepository.softRemove(product);
   }
+  findProductByName(name: string) {
+    try {
+      const product = this.productsRepository.find({ where: { name: name } });
+      return product;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
