@@ -130,4 +130,8 @@ export class CustomersController {
       updateCustomerDto,
     );
   }
+  @Get('customers/tel/:tel')
+  findCustomerByTel(@Param('tel') tel: string) {
+    return this.customersService.findCustomerByTel(tel);
+  }
 }
