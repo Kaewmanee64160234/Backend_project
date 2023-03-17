@@ -50,7 +50,7 @@ export class Employee {
   @JoinTable()
   check_in_outs: CheckInOut[];
 
-  @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employees)
+  @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employee)
   @JoinTable()
   checkmaterials: CheckMaterial[];
 

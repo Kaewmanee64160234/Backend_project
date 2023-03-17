@@ -24,7 +24,7 @@ export class CheckMaterial {
 
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
   @JoinTable()
-  employees: Employee;
+  employee: Employee;
 
   @OneToMany(
     () => CheckMaterialDetail,

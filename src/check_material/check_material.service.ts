@@ -22,7 +22,7 @@ export class CheckMaterialService {
       id: createCheckMaterialDto.employeeId,
     });
     const checkmaterial: CheckMaterial = new CheckMaterial();
-    checkmaterial.employees = employee;
+    checkmaterial.employee = employee;
     checkmaterial.date = new Date();
     checkmaterial.time = new Date();
    const checkmaterials =  await this.CheckMaterialsRepository.save(checkmaterial);
