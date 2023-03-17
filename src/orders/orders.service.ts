@@ -56,6 +56,13 @@ export class OrdersService {
   findAll() {
     return this.ordersRepository.find({
       relations: ['customer', 'orderItems'],
+      order: { createdDate: 'DESC' },
+    });
+  }
+  findAllAsc() {
+    return this.ordersRepository.find({
+      relations: ['customer', 'orderItems'],
+      order: { createdDate: 'ASC' },
     });
   }
 
