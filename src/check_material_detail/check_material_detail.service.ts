@@ -27,7 +27,9 @@ export class CheckMaterialDetailService {
     const employees = await this.checkmaterialsRepository.findOne({
       relations: ['Check_Material_detail', 'Check_Material'],
       where: {
-        checkmaterialdetails: { materials: { id: createCheckMaterialDetailDto.materialId } },
+        checkmaterialdetails: {
+          materials: { id: createCheckMaterialDetailDto.materialId },
+        },
       },
     });
     const checkmaterialdetails: CheckMaterialDetail = new CheckMaterialDetail();
@@ -40,7 +42,6 @@ export class CheckMaterialDetailService {
     checkmaterialdetails.checkmaterials = employees;
     return this.CheckMaterialsDetailRepository.save(checkmaterialdetails);
   }
-  
 
   findAll() {
     return this.CheckMaterialsDetailRepository.find({

@@ -61,7 +61,7 @@ export class UsersService {
       const updatedUser = {
         ...user,
         ...updateUserDto,
-            };
+      };
 
       return await this.usersRepository.save(updatedUser);
     } catch (e) {
@@ -87,7 +87,7 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const user = await this.usersRepository.findOneBy({ id:id });
+    const user = await this.usersRepository.findOneBy({ id: id });
     if (!user) {
       throw new NotFoundException();
     }

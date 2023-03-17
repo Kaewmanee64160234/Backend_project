@@ -26,7 +26,7 @@ export class CheckMaterialService {
   }
 
   findAll() {
-    return this.CheckMaterialsRepository.find({relations: ['employee']});
+    return this.CheckMaterialsRepository.find({ relations: ['employee'] });
   }
 
   async findOne(id: number) {
@@ -39,7 +39,7 @@ export class CheckMaterialService {
     }
     return this.CheckMaterialsRepository.findOne({ where: { id: id } });
   }
-  
+
   async remove(id: number) {
     const Checkmaterial = await this.CheckMaterialsRepository.findOne({
       where: { id: id },

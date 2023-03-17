@@ -40,10 +40,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
@@ -53,14 +50,11 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 
- @Get(':email')
+  @Get(':email')
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
-
-  
 }
 function uuidv4() {
   throw new Error('Function not implemented.');
 }
-

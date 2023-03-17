@@ -19,4 +19,10 @@ export class CreateCheckMaterialDetailDto {
   @IsNumber()
   @Min(5)
   qty_expire: number;
+
+  @IsNotEmpty()
+  materialId: number;
+
+  @IsNotEmpty()
+  checkmaterialID: number;
 }
