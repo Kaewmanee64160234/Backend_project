@@ -45,4 +45,15 @@ export class CatagoriesService {
     }
     return this.catagoriesRepository.softRemove(catagory);
   }
+
+  async findCatagoryByName(name: string) {
+    try {
+      const catagory = await this.catagoriesRepository.findOne({
+        where: { name: name },
+      });
+      return catagory;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
