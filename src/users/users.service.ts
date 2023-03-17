@@ -96,7 +96,10 @@ export class UsersService {
 
   findUserByName(name: string) {
     try {
-      const user = this.usersRepository.findOne({ where: { username: name } });
+      const user = this.usersRepository.findOne({
+        where: { username: name },
+        relations: ['employee'],
+      });
       return user;
     } catch (e) {
       console.log(e);
