@@ -54,7 +54,9 @@ export class UsersController {
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
-}
-function uuidv4() {
-  throw new Error('Function not implemented.');
+
+  @Get('search/name/:name')
+  findUserByName(@Param('name') name: string) {
+    return this.usersService.findUserByName(name);
+  }
 }
