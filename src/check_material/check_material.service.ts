@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CheckMaterial } from './entities/check_material.entity';
 import { Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 
 @Injectable()
 export class CheckMaterialService {
@@ -13,28 +14,49 @@ export class CheckMaterialService {
     private CheckMaterialsRepository: Repository<CheckMaterial>,
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
+    @InjectRepository(CheckMaterialDetail)
+    private CheckMaterialDetailsRepository: Repository<CheckMaterialDetail>,
   ) {}
   async create(createCheckMaterialDto: CreateCheckMaterialDto) {
     const employee = await this.employeesRepository.findOneBy({
       id: createCheckMaterialDto.employeeId,
     });
-    const checkMat: CheckMaterial = new CheckMaterial();
-    checkMat.employees = employee;
-    checkMat.date = createCheckMaterialDto.date;
-    checkMat.time = createCheckMaterialDto.time;
-    return await this.CheckMaterialsRepository.save(checkMat);
+    const checkmaterial: CheckMaterial = new CheckMaterial();
+    checkmaterial.employees = employee;
+    checkmaterial.date = new Date();
+    checkmaterial.time = new Date();
+   const checkmaterials =  await this.CheckMaterialsRepository.save(checkmaterial);
+
+    for (const cd of createCheckMaterialDto.checkmaterialdetail) {
+      const checkmaterialdetail = new CheckMaterialDetail();
+      checkmaterialdetail.name = cd.name;
+      checkmaterialdetail.qty_last = cd.qty_last;
+      checkmaterialdetail.qty_remain = cd.qty_remain;
+      checkmaterialdetail.qty_expire = cd.qty_expire;
+      checkmaterialdetail.checkmaterials = checkmaterials;
+
+      await this.CheckMaterialDetailsRepository.save(checkmaterialdetail);
+    }
+    await this.CheckMaterialsRepository.save(checkmaterial); 
+    return await this.CheckMaterialsRepository.findOne({
+      where: { id: checkmaterial.id },
+      relations: ['checkmaterialdetail'],
+    });
   }
+  
 
   findAll() {
-    return this.CheckMaterialsRepository.find({ relations: ['employee'] });
+    return this.CheckMaterialsRepository.find({
+      relations: ['employee', 'checkmaterialdetail'],
+    });
   }
 
   async findOne(id: number) {
-    const check = this.CheckMaterialsRepository.findOne({
+    const checkmaterial = this.CheckMaterialsRepository.findOne({
       where: { id: id },
-      relations: ['employee'],
+      relations: ['employee', 'checkmaterialdetail'],
     });
-    if (!check) {
+    if (!checkmaterial) {
       throw new NotFoundException();
     }
     return this.CheckMaterialsRepository.findOne({ where: { id: id } });

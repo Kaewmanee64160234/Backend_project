@@ -16,6 +16,7 @@ export class CheckMaterialDetailService {
   ) {}
   async create(createCheckMaterialDetailDto: CreateCheckMaterialDetailDto) {
     const cmd = new CheckMaterialDetail();
+    cmd.name = createCheckMaterialDetailDto.name;
     cmd.qty_last = createCheckMaterialDetailDto.qty_last;
     cmd.qty_remain = createCheckMaterialDetailDto.qty_remain;
     cmd.qty_expire = createCheckMaterialDetailDto.qty_expire;
@@ -28,7 +29,7 @@ export class CheckMaterialDetailService {
     material.unit = createCheckMaterialDetailDto.unit;
     material.price_per_unit = createCheckMaterialDetailDto.price_per_unit;
     const mtr = await this.materialsRepository.save(material);
-    cmd.materials = mtr;
+    cmd.material = mtr;
     return await this.CheckMaterialsDetailRepository.save(cmd);
   }
 

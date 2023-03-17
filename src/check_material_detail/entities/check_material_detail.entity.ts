@@ -38,11 +38,13 @@ export class CheckMaterialDetail {
 
   @ManyToOne(() => Material, (material) => material.checkmaterialdetails)
   @JoinColumn()
-  materials: Material;
+  material: Material;
 
   @ManyToOne(
     () => CheckMaterial,
     (checkmaterial) => checkmaterial.checkmaterialdetails,
   )
+  @JoinColumn()
+
   checkmaterials: CheckMaterial;
 }

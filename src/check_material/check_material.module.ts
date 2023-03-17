@@ -4,9 +4,10 @@ import { CheckMaterialController } from './check_material.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CheckMaterial } from './entities/check_material.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CheckMaterial, Employee])],
+  imports: [TypeOrmModule.forFeature([CheckMaterial, Employee, CheckMaterialDetail])],
   controllers: [CheckMaterialController],
   providers: [CheckMaterialService],
 })
