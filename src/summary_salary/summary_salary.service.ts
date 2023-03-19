@@ -21,7 +21,7 @@ export class SummarySalaryService {
     const take = query.take || 10;
     const skip = (page - 1) * take;
     const keyword = query.keyword || '';
-    const orderBy = query.orderBy || 'name';
+    const orderBy = query.orderBy || 'createdDate';
     const order = query.order || 'ASC';
     const currentPage = page;
 
