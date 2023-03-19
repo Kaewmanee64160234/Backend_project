@@ -19,7 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('products')
 export class ProductsController {
@@ -47,13 +47,7 @@ export class ProductsController {
 
   @Get()
   findAll(@Query() query: { cat?: string }) {
-    return this.productsService.findAll({
-      relations: ['catagory'],
-      where: query.cat ? { catagoryId: parseInt(query.cat) } : {},
-      order: {
-        name: 'ASC',
-      },
-    });
+    return this.productsService.findAll(query);
   }
 
   @Get(':id')

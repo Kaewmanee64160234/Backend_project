@@ -3,8 +3,9 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
+import { Paginate } from 'src/types/Paginate';
 
 @Injectable()
 export class ProductsService {
@@ -29,8 +30,24 @@ export class ProductsService {
     return this.productsRepository.save(createProductDto);
   }
 
-  findAll(option) {
-    return this.productsRepository.find(option);
+  async findAll(query): Promise<Paginate> {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'name';
+    const order = query.order || 'ASC';
+    const [result, total] = await this.productsRepository.findAndCount({
+      where: { name: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
+      relations: ['catagory'],
+      take: take,
+      skip: skip,
+    });
+    return {
+      data: result,
+      count: total,
+    };
   }
 
   findByCategory(id: number) {
