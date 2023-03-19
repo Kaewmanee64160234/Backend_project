@@ -67,7 +67,7 @@ export class CheckInOutsService {
     }
   }
 
-  async updated(id: number) {
+  async updated(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
     const check_in_out = await this.check_in_outsRepositiry.findOne({
       relations: ['summary_salary', 'employee'],
       where: { employee: { id: id } },
@@ -89,6 +89,7 @@ export class CheckInOutsService {
         check_in_out.summary_salary.salary =
           check_in_out.employee.hourly * check_in_out.summary_salary.hour;
         const updatedCheckInOut = {
+          ...updateCheckInOutDto,
           ...check_in_out,
         };
         await this.summary_salaryRepositiry.save(check_in_out.summary_salary);
