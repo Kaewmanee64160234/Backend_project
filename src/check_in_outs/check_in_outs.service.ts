@@ -94,7 +94,7 @@ export class CheckInOutsService {
         await this.summary_salaryRepositiry.save(check_in_out.summary_salary);
         return await this.check_in_outsRepositiry.save(updatedCheckInOut);
       } else {
-        throw new Error('You check out already');
+        throw new NotFoundException('You check out already');
       }
     } else {
       throw new NotFoundException('CheckinCheckout not found');
