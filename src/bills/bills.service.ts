@@ -18,9 +18,11 @@ export class BillsService {
     private billDetailRepository: Repository<BillDetail>,
   ) {}
   async create(createBillDto: CreateBillDto) {
+    console.log(createBillDto);
     const employee = await this.employeesRepositiry.findOneBy({
       id: createBillDto.employeeId,
     });
+    console.log(employee);
     const bill: Bill = new Bill();
     bill.employee = employee;
     bill.name = createBillDto.name;
