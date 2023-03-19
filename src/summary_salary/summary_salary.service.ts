@@ -40,10 +40,6 @@ export class SummarySalaryService {
       currentPage: currentPage,
       lastPage: lastPage,
     };
-    return this.summaryRepository.find({
-      relations: ['checkInOut', 'checkInOut.employee'],
-      order: { checkInOut: { employee: { name: 'ASC' } } },
-    });
   }
 
   async findOne(id: number) {
