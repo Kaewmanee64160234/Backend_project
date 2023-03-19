@@ -4,12 +4,12 @@ import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity
 
 export class CreateCheckInOutDto {
   id?: number;
-  date: Date;
-  time_in: Date;
-  time_out: Date;
+  date?: Date;
+  time_in?: Date;
+  time_out?: Date;
   @IsNotEmpty()
   employeeId: number;
-  total_hour: number;
+  total_hour?: number;
   employee?: Employee;
   summary_salary?: SummarySalary;
   createdDate?: Date;
