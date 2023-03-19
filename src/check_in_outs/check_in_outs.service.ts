@@ -108,6 +108,13 @@ export class CheckInOutsService {
     if (!check_in_out) {
       throw new NotFoundException('Checkinout not found');
     } else {
+      const summ = await this.summary_salaryRepositiry.findOne({
+        relations: ['checkInOut', 'checkInOut.employee'],
+        where: { checkInOut: { employee: { id: check_in_out.employee.id } } },
+      });
+      summ.hour = summ.hour - check_in_out.total_hour;
+      summ.salary = summ.hour * check_in_out.employee.hourly;
+      await this.summary_salaryRepositiry.save(summ);
       await this.check_in_outsRepositiry.softRemove(check_in_out);
     }
     return check_in_out;
