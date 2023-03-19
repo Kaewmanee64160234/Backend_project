@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateSummarySalaryDto } from './dto/create-summary_salary.dto';
 import { UpdateSummarySalaryDto } from './dto/update-summary_salary.dto';
 import { SummarySalary } from './entities/summary_salary.entity';
@@ -16,7 +16,30 @@ export class SummarySalaryService {
     return this.summaryRepository.save(createSummarySalaryDto);
   }
 
-  findAll() {
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'name';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.summaryRepository.findAndCount({
+      where: { checkInOut: { employee: { name: Like(`%${keyword}%`) } } },
+      relations: ['checkInOut', 'checkInOut.employee'],
+      order: { checkInOut: { employee: { name: order } } },
+
+      take: take,
+      skip: skip,
+    });
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
     return this.summaryRepository.find({
       relations: ['checkInOut', 'checkInOut.employee'],
       order: { checkInOut: { employee: { name: 'ASC' } } },
