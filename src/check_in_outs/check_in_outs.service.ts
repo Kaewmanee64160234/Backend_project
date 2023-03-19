@@ -67,7 +67,7 @@ export class CheckInOutsService {
     }
   }
 
-  async updated(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
+  async updated(id: number) {
     const check_in_out = await this.check_in_outsRepositiry.findOne({
       relations: ['summary_salary', 'employee'],
       where: { employee: { id: id } },
@@ -89,7 +89,6 @@ export class CheckInOutsService {
         check_in_out.summary_salary.salary =
           check_in_out.employee.hourly * check_in_out.summary_salary.hour;
         const updatedCheckInOut = {
-          ...updateCheckInOutDto,
           ...check_in_out,
         };
         await this.summary_salaryRepositiry.save(check_in_out.summary_salary);
@@ -97,6 +96,22 @@ export class CheckInOutsService {
       } else {
         throw new Error('You check out already');
       }
+    } else {
+      throw new NotFoundException('CheckinCheckout not found');
+    }
+  }
+  async upDateData(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
+    const check_in_out = await this.check_in_outsRepositiry.findOne({
+      relations: ['summary_salary', 'employee'],
+      where: { employee: { id: id } },
+      order: { createdDate: 'DESC' },
+    });
+    if (check_in_out) {
+      const update = {
+        ...check_in_out,
+        ...updateCheckInOutDto,
+      };
+      return await this.check_in_outsRepositiry.save(update);
     } else {
       throw new NotFoundException('CheckinCheckout not found');
     }
