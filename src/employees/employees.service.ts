@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 
@@ -36,11 +36,29 @@ export class EmployeesService {
     }
   }
 
-  async findAll() {
-    const employees = await this.employeesRepositiry.find({
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'tel';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.employeesRepositiry.findAndCount({
+      where: { tel: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
       relations: ['check_in_outs', 'user'],
+      take: take,
+      skip: skip,
     });
-    return employees;
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   async findOne(id: number) {
