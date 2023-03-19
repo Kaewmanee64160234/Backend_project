@@ -50,6 +50,9 @@ export class ProductsController {
     return this.productsService.findAll({
       relations: ['catagory'],
       where: query.cat ? { catagoryId: parseInt(query.cat) } : {},
+      order: {
+        name: 'ASC',
+      },
     });
   }
 

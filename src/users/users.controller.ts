@@ -54,4 +54,9 @@ export class UsersController {
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
+
+  @Get('search/name/:name')
+  findUserByName(@Param('name') name: string) {
+    return this.usersService.findUserByName(name);
+  }
 }

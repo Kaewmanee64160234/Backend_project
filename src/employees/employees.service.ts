@@ -2,13 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 
 @Injectable()
 export class EmployeesService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Employee)
     private readonly employeesRepositiry: Repository<Employee>,
     @InjectRepository(SummarySalary)
@@ -89,12 +90,29 @@ export class EmployeesService {
     return summary_salary;
   }
 
-  findEmployeeByName(name: string) {
+  async findEmployeeByName(name: string) {
     try {
-      const employee = this.employeesRepositiry.find({
-        where: { name: name },
-      });
-      return employee;
+      const employee_ = await this.dataSource.query(
+        'SELECT * FROM employee WHERE employee_name LIKE ?',
+        [`%${name}%`],
+      );
+      const employees = new Array<Employee>();
+      for (let i = 0; i < employee_.length; i++) {
+        const employee = new Employee();
+        employee.id = employee_[i].employee_id;
+        employee.name = employee_[i].employee_name;
+        employee.address = employee_[i].employee_address;
+        employee.tel = employee_[i].employee_tel;
+        employee.email = employee_[i].employee_email;
+        employee.position = employee_[i].employee_position;
+        employee.createdDate = employee_[i].created_date;
+        employee.updatedDate = employee_[i].updated_date;
+        employee.deletedDate = employee_[i].deleted_date;
+        employee.hourly = employee_[i].employee_hourly_wage;
+        employee.image = employee_[i].employee_image;
+        employees.push(employee);
+      }
+      return employees;
     } catch (err) {
       console.log(err);
     }

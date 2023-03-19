@@ -19,6 +19,7 @@ export class SummarySalaryService {
   findAll() {
     return this.summaryRepository.find({
       relations: ['checkInOut', 'checkInOut.employee'],
+      order: { checkInOut: { employee: { name: 'ASC' } } },
     });
   }
 

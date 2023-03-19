@@ -16,7 +16,7 @@ export class StoresService {
   }
 
   findAll() {
-    return this.storesRepository.find();
+    return this.storesRepository.find({ order: { name: 'ASC' } });
   }
 
   async findOne(id: number) {
