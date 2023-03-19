@@ -2,15 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 
 @Injectable()
 export class EmployeesService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Employee)
     private readonly employeesRepositiry: Repository<Employee>,
+    @InjectRepository(SummarySalary)
+    private readonly summary_salaryRepositiry: Repository<SummarySalary>,
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto) {
@@ -34,12 +37,18 @@ export class EmployeesService {
   }
 
   async findAll() {
-    const users = await this.employeesRepositiry.find();
-    return users;
+    const employees = await this.employeesRepositiry.find({
+      relations: ['check_in_outs', 'user'],
+    });
+    return employees;
   }
 
   async findOne(id: number) {
-    const employee = await this.employeesRepositiry.findOneBy({ id: id });
+    const employee = await this.employeesRepositiry.findOne({
+      relations: ['check_in_outs', 'user'],
+      where: { id: id },
+      order: { check_in_outs: { date: 'DESC' } },
+    });
     if (!employee) {
       throw new NotFoundException('Employee not found');
     } else {
@@ -72,5 +81,40 @@ export class EmployeesService {
       await this.employeesRepositiry.softRemove(employee);
     }
     return employee;
+  }
+  findCheckInCheckOut(employeeId: number) {
+    const summary_salary = this.summary_salaryRepositiry.find({
+      relations: ['checkInOut'],
+      where: { checkInOut: { employee: { id: employeeId } } },
+    });
+    return summary_salary;
+  }
+
+  async findEmployeeByName(name: string) {
+    try {
+      const employee_ = await this.dataSource.query(
+        'SELECT * FROM employee WHERE employee_name LIKE ?',
+        [`%${name}%`],
+      );
+      const employees = new Array<Employee>();
+      for (let i = 0; i < employee_.length; i++) {
+        const employee = new Employee();
+        employee.id = employee_[i].employee_id;
+        employee.name = employee_[i].employee_name;
+        employee.address = employee_[i].employee_address;
+        employee.tel = employee_[i].employee_tel;
+        employee.email = employee_[i].employee_email;
+        employee.position = employee_[i].employee_position;
+        employee.createdDate = employee_[i].created_date;
+        employee.updatedDate = employee_[i].updated_date;
+        employee.deletedDate = employee_[i].deleted_date;
+        employee.hourly = employee_[i].employee_hourly_wage;
+        employee.image = employee_[i].employee_image;
+        employees.push(employee);
+      }
+      return employees;
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

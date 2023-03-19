@@ -42,4 +42,9 @@ export class CatagoriesController {
   remove(@Param('id') id: string) {
     return this.catagoriesService.remove(+id);
   }
+
+  @Get('search/:name')
+  findCatagoryByName(@Param('name') name: string) {
+    return this.catagoriesService.findCatagoryByName(name);
+  }
 }

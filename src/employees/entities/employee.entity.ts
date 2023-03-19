@@ -8,9 +8,13 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  JoinTable,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Employee {
@@ -33,15 +37,21 @@ export class Employee {
   position: string;
 
   @Column({ name: 'employee_hourly_wage' })
+  @Column({ name: 'employee_hourly_wage', default: 0 })
   hourly: number;
 
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
 
+  @OneToOne(() => User, (user) => user.employee)
+  user: User;
+  @JoinColumn()
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.employee)
+  @JoinTable()
   check_in_outs: CheckInOut[];
 
   @OneToMany(() => CheckMaterial, (checkmaterial) => checkmaterial.employees)
+  @JoinTable()
   checkmaterials: CheckMaterial[];
 
   @OneToMany(() => Bill, (bill) => bill.employee)
@@ -58,5 +68,7 @@ export class Employee {
   orders: any;
 
   @OneToMany(() => Order, (order) => order.orders)
+  @JoinTable()
+  @JoinColumn()
   order: Order[];
 }

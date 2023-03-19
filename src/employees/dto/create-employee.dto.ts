@@ -5,6 +5,7 @@ import {
   IsString,
   Length,
 } from 'class-validator';
+import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
@@ -24,6 +25,7 @@ export class CreateEmployeeDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+  checkInOut?: CheckInOut[];
 
   @IsNotEmpty()
   @IsString()

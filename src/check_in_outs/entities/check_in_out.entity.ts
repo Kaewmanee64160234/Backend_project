@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,13 +25,15 @@ export class CheckInOut {
   @Column({ type: 'datetime', name: 'cio_time_out', nullable: true })
   time_out: Date;
 
-  @Column({ name: 'cio_total_hour', nullable: true })
+  @Column({ name: 'cio_total_hour', default: 0, type: 'float' })
   total_hour: number;
 
   @ManyToOne(() => Employee, (employee) => employee.check_in_outs)
+  @JoinTable()
   employee: Employee;
 
   @ManyToOne(() => SummarySalary, (summary_salary) => summary_salary.checkInOut)
+  @JoinTable()
   summary_salary: SummarySalary;
 
   @CreateDateColumn({ name: 'cio_start_date', type: 'datetime' })

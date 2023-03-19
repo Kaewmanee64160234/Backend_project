@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -22,12 +23,14 @@ export class CheckMaterial {
   time: Date;
 
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
-  employees: Employee[];
+  @JoinTable()
+  employees: Employee;
 
   @OneToMany(
     () => CheckMaterialDetail,
     (checkmaterialdetail) => checkmaterialdetail.checkmaterials,
   )
+  @JoinTable()
   checkmaterialdetails: CheckMaterialDetail[];
 
   @CreateDateColumn({ name: 'check_mat_start_date' })

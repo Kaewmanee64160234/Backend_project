@@ -32,17 +32,6 @@ export class CheckMaterialDetailController {
     return this.checkMaterialDetailService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCheckMaterialDetailDto: UpdateCheckMaterialDetailDto,
-  ) {
-    return this.checkMaterialDetailService.update(
-      +id,
-      updateCheckMaterialDetailDto,
-    );
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkMaterialDetailService.remove(+id);

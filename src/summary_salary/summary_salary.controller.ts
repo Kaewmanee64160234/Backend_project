@@ -43,4 +43,9 @@ export class SummarySalaryController {
   remove(@Param('id') id: string) {
     return this.summarySalaryService.remove(+id);
   }
+
+  @Get('employee/:id')
+  findOneByEmployee(@Param('id') id: string) {
+    return this.summarySalaryService.findOneByEmployee(+id);
+  }
 }

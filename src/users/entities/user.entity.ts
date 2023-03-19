@@ -15,6 +15,10 @@ export class User {
   @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
 
+  @OneToOne(() => Employee, (employee) => employee.user)
+  @JoinColumn()
+  employee: Employee;
+  @JoinColumn()
   @Column({ name: 'user_name' })
   username: string;
 
