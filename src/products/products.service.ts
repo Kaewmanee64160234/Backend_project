@@ -37,6 +37,8 @@ export class ProductsService {
     const keyword = query.keyword || '';
     const orderBy = query.orderBy || 'name';
     const order = query.order || 'ASC';
+    const currentPage = page;
+
     const [result, total] = await this.productsRepository.findAndCount({
       where: { name: Like(`%${keyword}%`) },
       order: { [orderBy]: order },
@@ -44,9 +46,12 @@ export class ProductsService {
       take: take,
       skip: skip,
     });
+    const lastPage = Math.ceil(total / take);
     return {
       data: result,
       count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
     };
   }
 
