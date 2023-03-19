@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { Customer } from './entities/customer.entity';
@@ -18,9 +18,28 @@ export class CustomersService {
     return user;
   }
 
-  async findAll() {
-    const users = await this.customersRepositiry.find();
-    return users;
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'tel';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.customersRepositiry.findAndCount({
+      where: { tel: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
+      take: take,
+      skip: skip,
+    });
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   async findOne(id: number) {
