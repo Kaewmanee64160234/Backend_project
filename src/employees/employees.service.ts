@@ -41,12 +41,12 @@ export class EmployeesService {
     const take = query.take || 10;
     const skip = (page - 1) * take;
     const keyword = query.keyword || '';
-    const orderBy = query.orderBy || 'tel';
+    const orderBy = query.orderBy || 'name';
     const order = query.order || 'ASC';
     const currentPage = page;
 
     const [result, total] = await this.employeesRepositiry.findAndCount({
-      where: { tel: Like(`%${keyword}%`) },
+      where: { name: Like(`%${keyword}%`) },
       order: { [orderBy]: order },
       relations: ['check_in_outs', 'user'],
       take: take,
