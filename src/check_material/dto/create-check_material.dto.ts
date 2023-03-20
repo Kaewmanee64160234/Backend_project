@@ -11,5 +11,8 @@ export class CreateCheckMaterialDto {
   employeeId: number;
 
   @IsNotEmpty()
+  materialId: number;
+
+  @IsNotEmpty()
   checkmaterialdetail: CheckMaterialDetail[];
 }

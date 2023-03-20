@@ -6,6 +6,7 @@ import { CheckMaterial } from './entities/check_material.entity';
 import { Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
+import { Material } from 'src/materials/entities/material.entity';
 
 @Injectable()
 export class CheckMaterialService {
@@ -14,6 +15,8 @@ export class CheckMaterialService {
     private CheckMaterialsRepository: Repository<CheckMaterial>,
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
+    @InjectRepository(CheckMaterialDetail)
+    private materialsRepository: Repository<Material>,
     @InjectRepository(CheckMaterialDetail)
     private CheckMaterialDetailsRepository: Repository<CheckMaterialDetail>,
   ) {}
@@ -40,21 +43,21 @@ export class CheckMaterialService {
     await this.CheckMaterialsRepository.save(checkmaterial); 
     return await this.CheckMaterialsRepository.findOne({
       where: { id: checkmaterial.id },
-      relations: ['checkmaterialdetail'],
+      relations: ['checkmaterialdetails'],
     });
   }
   
 
   findAll() {
     return this.CheckMaterialsRepository.find({
-      relations: ['employee', 'checkmaterialdetail'],
+      relations: ['employee', 'checkmaterialdetails'],
     });
   }
 
   async findOne(id: number) {
     const checkmaterial = this.CheckMaterialsRepository.findOne({
       where: { id: id },
-      relations: ['employee', 'checkmaterialdetail'],
+      relations: ['employee', 'checkmaterialdetails'],
     });
     if (!checkmaterial) {
       throw new NotFoundException();
