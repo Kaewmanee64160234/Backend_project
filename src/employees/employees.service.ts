@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
+import { CheckInOut } from 'src/check_in_outs/entities/check_in_out.entity';
 
 @Injectable()
 export class EmployeesService {
@@ -14,6 +15,8 @@ export class EmployeesService {
     private readonly employeesRepositiry: Repository<Employee>,
     @InjectRepository(SummarySalary)
     private readonly summary_salaryRepositiry: Repository<SummarySalary>,
+    @InjectRepository(CheckInOut)
+    private readonly cioRepositiry: Repository<CheckInOut>,
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto) {
@@ -36,11 +39,29 @@ export class EmployeesService {
     }
   }
 
-  async findAll() {
-    const employees = await this.employeesRepositiry.find({
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'name';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.employeesRepositiry.findAndCount({
+      where: { name: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
       relations: ['check_in_outs', 'user'],
+      take: take,
+      skip: skip,
     });
-    return employees;
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   async findOne(id: number) {
@@ -82,12 +103,30 @@ export class EmployeesService {
     }
     return employee;
   }
-  findCheckInCheckOut(employeeId: number) {
-    const summary_salary = this.summary_salaryRepositiry.find({
-      relations: ['checkInOut'],
-      where: { checkInOut: { employee: { id: employeeId } } },
+  async findCheckInCheckOut(query) {
+    const page = query.page || 1;
+    const take = query.take || 5;
+    const empId = query.empId;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'createdDate';
+    const order = query.order || 'DESC';
+    const currentPage = page;
+
+    const [result, total] = await this.cioRepositiry.findAndCount({
+      relations: ['summary_salary', 'employee'],
+      where: { employee: { id: empId } },
+      order: { [orderBy]: order },
+      take: take,
+      skip: skip,
     });
-    return summary_salary;
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   async findEmployeeByName(name: string) {

@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
@@ -39,11 +39,29 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  findAll() {
-    return this.usersRepository.find({
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'username';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.usersRepository.findAndCount({
+      where: { username: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
       relations: ['employee'],
-      order: { username: 'ASC' },
+      take: take,
+      skip: skip,
     });
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   findOne(id: number) {

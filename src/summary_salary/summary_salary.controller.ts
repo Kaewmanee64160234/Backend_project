@@ -22,8 +22,8 @@ export class SummarySalaryController {
   }
 
   @Get()
-  findAll() {
-    return this.summarySalaryService.findAll();
+  findAll(@Query() query: { cat?: string }) {
+    return this.summarySalaryService.findAll(query);
   }
 
   @Get(':id')
