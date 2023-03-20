@@ -10,8 +10,8 @@ export class CreateCheckMaterialDto {
   @IsNotEmpty()
   employeeId: number;
 
-  @IsNotEmpty()
-  materialId: number;
+  
+  materialId?: number;
 
   @IsNotEmpty()
   checkmaterialdetail: CheckMaterialDetail[];

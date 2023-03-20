@@ -16,9 +16,10 @@ export class CheckMaterialService {
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
     @InjectRepository(CheckMaterialDetail)
-    private materialsRepository: Repository<Material>,
-    @InjectRepository(CheckMaterialDetail)
     private CheckMaterialDetailsRepository: Repository<CheckMaterialDetail>,
+    @InjectRepository(Material)
+    private MaterialsRepository: Repository<Material>,
+    
   ) {}
   async create(createCheckMaterialDto: CreateCheckMaterialDto) {
     const employee = await this.employeesRepository.findOneBy({
@@ -32,7 +33,11 @@ export class CheckMaterialService {
 
     for (const cd of createCheckMaterialDto.checkmaterialdetail) {
       const checkmaterialdetail = new CheckMaterialDetail();
+      const material = await this.MaterialsRepository.findOne({
+        where: { name: checkmaterialdetail.name},
+      });
       checkmaterialdetail.name = cd.name;
+      checkmaterialdetail.material = material;
       checkmaterialdetail.qty_last = cd.qty_last;
       checkmaterialdetail.qty_remain = cd.qty_remain;
       checkmaterialdetail.qty_expire = cd.qty_expire;
