@@ -10,6 +10,7 @@ import {
   UploadedFile,
   Res,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -82,8 +83,8 @@ export class EmployeesController {
   }
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.employeesService.findAll();
+  findAll(@Query() query: { emp?: string }) {
+    return this.employeesService.findAll(query);
   }
 
   @Get(':id')
@@ -125,9 +126,9 @@ export class EmployeesController {
     return this.employeesService.emplyeeLogin(body.name, body.email);
   }
 
-  @Get('summary/employee/:id')
-  findCheckInCheckOut(@Param('id') id: string) {
-    return this.employeesService.findCheckInCheckOut(+id);
+  @Get('cio/employee')
+  findCheckInCheckOut(@Query() query: { emp?: string }) {
+    return this.employeesService.findCheckInCheckOut(query);
   }
 
   @Get('search/name/:name')

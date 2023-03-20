@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderItem } from './entities/order-item';
@@ -53,11 +53,29 @@ export class OrdersService {
     });
   }
 
-  findAll() {
-    return this.ordersRepository.find({
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'createdDate';
+    const order = query.order || 'DESC';
+    const currentPage = page;
+
+    const [result, total] = await this.ordersRepository.findAndCount({
+      order: { [orderBy]: order },
       relations: ['customer', 'orderItems'],
-      order: { createdDate: 'DESC' },
+
+      take: take,
+      skip: skip,
     });
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
   findAllAsc() {
     return this.ordersRepository.find({

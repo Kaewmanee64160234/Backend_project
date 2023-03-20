@@ -30,8 +30,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() query: { cat?: string }) {
+    return this.usersService.findAll(query);
   }
 
   @Get(':id')
@@ -53,5 +53,10 @@ export class UsersController {
   @Get(':email')
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
+  }
+
+  @Get('search/name/:name')
+  findUserByName(@Param('name') name: string) {
+    return this.usersService.findUserByName(name);
   }
 }

@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Material } from './entities/material.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 
 @Injectable()
 export class MaterialsService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Material)
     private materialsRepository: Repository<Material>,
   ) {}
@@ -15,8 +16,29 @@ export class MaterialsService {
     return this.materialsRepository.save(createMaterialDto);
   }
 
-  findAll() {
-    return this.materialsRepository.find();
+  async findAll(query) {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
+    const keyword = query.keyword || '';
+    const orderBy = query.orderBy || 'name';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.materialsRepository.findAndCount({
+      where: { name: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
+
+      take: take,
+      skip: skip,
+    });
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   async findOne(id: number) {
@@ -53,9 +75,24 @@ export class MaterialsService {
     return material;
   }
   async findMaterialByName(name: string) {
-    const material = await this.materialsRepository.find({
-      where: { name: name },
-    });
-    return material;
+    const materials = await this.dataSource.query(
+      'SELECT * FROM material WHERE mat_name LIKE ?',
+      [`%${name}%`],
+    );
+    const matList = new Array<Material>();
+    for (let i = 0; i < materials.length; i++) {
+      const mat = new Material();
+      mat.id = materials[i].mat_id;
+      mat.name = materials[i].mat_name;
+      mat.min_quantity = materials[i].min_quantity;
+      mat.quantity = materials[i].mat_quantity;
+      mat.price_per_unit = materials[i].mat_price_per_unit;
+      mat.createdAt = materials[i].mat_start_date;
+      mat.updatedAt = materials[i].mat_end_date;
+      mat.deletedAt = materials[i].mat_deleted_at;
+      mat.unit = materials[i].mat_unit;
+      matList.push(mat);
+    }
+    return matList;
   }
 }

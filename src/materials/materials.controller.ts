@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { MaterialsService } from './materials.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
@@ -23,8 +24,8 @@ export class MaterialsController {
   }
 
   @Get()
-  findAll() {
-    return this.materialsService.findAll();
+  findAll(@Query() query: { emp?: string }) {
+    return this.materialsService.findAll(query);
   }
 
   @Get(':id')

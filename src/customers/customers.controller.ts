@@ -10,6 +10,7 @@ import {
   UploadedFile,
   Res,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -80,8 +81,8 @@ export class CustomersController {
   }
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.customersService.findAll();
+  findAll(@Query() query: { cus?: string }) {
+    return this.customersService.findAll(query);
   }
 
   @Get(':id')

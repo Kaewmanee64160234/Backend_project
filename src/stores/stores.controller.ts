@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { StoresService } from './stores.service';
 import { CreateStoreDto } from './dto/create-store.dto';
@@ -23,8 +24,8 @@ export class StoresController {
   }
 
   @Get()
-  findAll() {
-    return this.storesService.findAll();
+  findAll(@Query() query: { cat?: string }) {
+    return this.storesService.findAll(query);
   }
 
   @Get(':id')
