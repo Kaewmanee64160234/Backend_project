@@ -94,7 +94,7 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOne({
         where: { login: name },
-        relations: ['employee'],
+        relations: ['employee', 'employee.check_in_outs'],
         order: { login: 'ASC' },
       });
       if (user) {
