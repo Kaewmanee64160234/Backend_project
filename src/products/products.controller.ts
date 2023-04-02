@@ -50,7 +50,8 @@ export class ProductsController {
     createProductDto.image = file.filename;
     return this.productsService.create(createProductDto);
   }
-
+  // @Roles(Role.Owner)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cat?: string }) {
     return this.productsService.findAll(query);
