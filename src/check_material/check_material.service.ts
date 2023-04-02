@@ -58,6 +58,21 @@ export class CheckMaterialService {
       relations: ['employee', 'checkmaterialdetails'],
     });
   }
+  async findCheckByMatId(id: number) {
+    try {
+      const mat = await this.MaterialsRepository.findOne({
+        where: { id:id },
+        relations: ['checkmaterialdetails','checkmaterial']
+      });
+      if (mat) {
+        return mat;
+      } else {
+        throw new NotFoundException();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   async findOne(id: number) {
     const checkmaterial = this.CheckMaterialsRepository.findOne({

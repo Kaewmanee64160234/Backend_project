@@ -29,6 +29,11 @@ export class CheckMaterialController {
   findOne(@Param('id') id: string) {
     return this.checkMaterialService.findOne(+id);
   }
+  @Get(':id')
+  findCheckByMatId(@Param('id') id: string) {
+    return this.checkMaterialService.findCheckByMatId(+id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkMaterialService.remove(+id);
