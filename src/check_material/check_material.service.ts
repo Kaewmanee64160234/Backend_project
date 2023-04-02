@@ -12,7 +12,7 @@ import { Material } from 'src/materials/entities/material.entity';
 export class CheckMaterialService {
   constructor(
     @InjectRepository(CheckMaterial)
-    private CheckMaterialsRepository: Repository<CheckMaterial>,
+    private checkMaterialsRepository: Repository<CheckMaterial>,
     @InjectRepository(CheckMaterialDetail)
     private CheckMaterialDetailsRepository: Repository<CheckMaterialDetail>,
     @InjectRepository(Employee)
@@ -24,60 +24,66 @@ export class CheckMaterialService {
     const employee = await this.employeesRepository.findOneBy({
       id: createCheckMaterialDto.employeeId,
     });
-    const checkMat: CheckMaterial = new CheckMaterial();
-    checkMat.employees = employee;
+    let checkMat: CheckMaterial = new CheckMaterial();
+    let matDetail = new CheckMaterialDetail();
+
+    checkMat.employee = employee;
     checkMat.date = new Date(); // TODO: demo for backend
     checkMat.time = new Date();
-    checkMat.checkmaterialdetails = createCheckMaterialDto.checkMaterialDetails;
-    for (const detail of checkMat.checkmaterialdetails) {
-      const matDetail = new CheckMaterialDetail();
+    checkMat = await this.checkMaterialsRepository.save(checkMat);
+
+    for (const detail of createCheckMaterialDto.checkMaterialDetails) {
       const mat = await this.materialRepository.findOne({
         where: { name: detail.name },
         relations: ['checkmaterialdetails'],
       });
       if (mat) {
-        // console.log(' found');
+        console.log(' found');
         matDetail.name = mat.name;
         matDetail.materials = mat;
         matDetail.qty_expire = detail.qty_expire;
         matDetail.qty_last = detail.qty_last;
         matDetail.qty_remain = detail.qty_remain;
         matDetail.createdAt = new Date();
+        matDetail.checkmaterials = checkMat;
         mat.quantity = detail.qty_last;
-        const matDetail_ = await this.CheckMaterialDetailsRepository.save(
-          matDetail,
-        );
-        mat.checkmaterialdetails.push(matDetail_);
+        matDetail = await this.CheckMaterialDetailsRepository.save(matDetail);
+
+        mat.checkmaterialdetails.push(matDetail);
+
         await this.materialRepository.save(mat);
       }
     }
-    const checkMat_ = await this.CheckMaterialsRepository.save(checkMat);
-    return checkMat_;
+
+    checkMat = await this.checkMaterialsRepository.save(checkMat);
+    return checkMat;
   }
 
   findAll() {
-    return this.CheckMaterialsRepository.find({ relations: ['employee'] });
+    return this.checkMaterialsRepository.find({
+      relations: ['employee', 'checkmaterialdetails'],
+    });
   }
 
   async findOne(id: number) {
-    const check = this.CheckMaterialsRepository.findOne({
+    const check = this.checkMaterialsRepository.findOne({
       where: { id: id },
-      relations: ['employee'],
+      relations: ['employee', 'checkmaterialdetails'],
     });
     if (!check) {
       throw new NotFoundException();
     }
-    return this.CheckMaterialsRepository.findOne({ where: { id: id } });
+    return this.checkMaterialsRepository.findOne({ where: { id: id } });
   }
 
   async remove(id: number) {
-    const Checkmaterial = await this.CheckMaterialsRepository.findOne({
+    const Checkmaterial = await this.checkMaterialsRepository.findOne({
       where: { id: id },
     });
     if (!Checkmaterial) {
       throw new NotFoundException();
     } else {
-      await this.CheckMaterialsRepository.softRemove(Checkmaterial);
+      await this.checkMaterialsRepository.softRemove(Checkmaterial);
     }
     return Checkmaterial;
   }
