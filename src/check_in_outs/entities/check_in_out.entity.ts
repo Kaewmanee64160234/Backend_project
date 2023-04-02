@@ -25,7 +25,7 @@ export class CheckInOut {
   @Column({ type: 'datetime', name: 'cio_time_out', nullable: true })
   time_out: Date;
 
-  @Column({ name: 'cio_total_hour', default: 0, type: 'float' })
+  @Column({ name: 'cio_total_hour', default: 1, type: 'float' })
   total_hour: number;
 
   @ManyToOne(() => Employee, (employee) => employee.check_in_outs)
