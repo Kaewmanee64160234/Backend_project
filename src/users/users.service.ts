@@ -105,11 +105,8 @@ export class UsersService {
       const user = await this.usersRepository.findOne({
         where: { login: name },
         relations: ['employee', 'employee.check_in_outs'],
-        order: { login: 'ASC' },
       });
       if (user) {
-        // const salt = await bcrypt.genSalt();
-        // user.password = await bcrypt.hash(user.password, salt);
         return user;
       } else {
         throw new NotFoundException();
