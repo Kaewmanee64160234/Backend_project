@@ -44,5 +44,4 @@ export class CreateCheckMaterialDetailDto {
 
   @IsNotEmpty()
   materialId: number;
-
 }

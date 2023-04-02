@@ -45,6 +45,5 @@ export class CheckMaterialDetail {
     (checkmaterial) => checkmaterial.checkmaterialdetails,
   )
   @JoinColumn()
-
   checkmaterials: CheckMaterial;
 }

@@ -77,19 +77,19 @@ export class UsersService {
         updateUserDto.password = hash;
       }
       let user = new User();
-      user =   await this.usersRepository.findOne({
-          where: { id: id },
-          relations: ['employee'],
-        });
-        user.login = updateUserDto.login;
-        user.password = updateUserDto.password;
-        user.username = updateUserDto.username;
-        user.role = updateUserDto.role; 
+      user = await this.usersRepository.findOne({
+        where: { id: id },
+        relations: ['employee'],
+      });
+      user.login = updateUserDto.login;
+      user.password = updateUserDto.password;
+      user.username = updateUserDto.username;
+      user.role = updateUserDto.role;
       // const user = await this.usersRepository.findOne({
       //   where: { id: id },
       //   relations: ['employee'],
       // });
-   
+
       // };
 
       return await this.usersRepository.save(user);

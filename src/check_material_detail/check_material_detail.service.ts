@@ -21,7 +21,6 @@ export class CheckMaterialDetailService {
     cmd.qty_remain = createCheckMaterialDetailDto.qty_remain;
     cmd.qty_expire = createCheckMaterialDetailDto.qty_expire;
 
-
     const material = new Material();
     material.name = createCheckMaterialDetailDto.name_material;
     material.min_quantity = createCheckMaterialDetailDto.min_quantity;
@@ -34,7 +33,9 @@ export class CheckMaterialDetailService {
   }
 
   findAll() {
-    return this.CheckMaterialsDetailRepository.find({ relations: ['materail'] });
+    return this.CheckMaterialsDetailRepository.find({
+      relations: ['materail'],
+    });
   }
 
   findOne(id: number) {

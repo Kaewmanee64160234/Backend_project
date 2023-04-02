@@ -19,7 +19,6 @@ export class CheckMaterialService {
     private CheckMaterialDetailsRepository: Repository<CheckMaterialDetail>,
     @InjectRepository(Material)
     private MaterialsRepository: Repository<Material>,
-    
   ) {}
   async create(createCheckMaterialDto: CreateCheckMaterialDto) {
     const employee = await this.employeesRepository.findOneBy({
@@ -29,12 +28,14 @@ export class CheckMaterialService {
     checkmaterial.employee = employee;
     checkmaterial.date = new Date();
     checkmaterial.time = new Date();
-   const checkmaterials =  await this.CheckMaterialsRepository.save(checkmaterial);
+    const checkmaterials = await this.CheckMaterialsRepository.save(
+      checkmaterial,
+    );
 
     for (const cd of createCheckMaterialDto.checkmaterialdetail) {
       const checkmaterialdetail = new CheckMaterialDetail();
       const material = await this.MaterialsRepository.findOne({
-        where: { name: checkmaterialdetail.name},
+        where: { name: checkmaterialdetail.name },
       });
       checkmaterialdetail.name = cd.name;
       checkmaterialdetail.material = material;
@@ -45,13 +46,12 @@ export class CheckMaterialService {
 
       await this.CheckMaterialDetailsRepository.save(checkmaterialdetail);
     }
-    await this.CheckMaterialsRepository.save(checkmaterial); 
+    await this.CheckMaterialsRepository.save(checkmaterial);
     return await this.CheckMaterialsRepository.findOne({
       where: { id: checkmaterial.id },
       relations: ['checkmaterialdetails'],
     });
   }
-  
 
   findAll() {
     return this.CheckMaterialsRepository.find({
