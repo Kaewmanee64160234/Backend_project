@@ -1,4 +1,5 @@
 import { Employee } from 'src/employees/entities/employee.entity';
+import { Role } from 'src/types/Role.enum';
 import {
   Column,
   Entity,
@@ -28,8 +29,8 @@ export class User {
   @Column({ name: 'user_password' })
   password: string;
 
-  @Column({ name: 'user_role' })
-  role: string;
+  @Column({ name: 'user_role', default: Role.Employee })
+  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;
