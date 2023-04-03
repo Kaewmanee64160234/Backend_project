@@ -22,7 +22,8 @@ export class SummarySalary {
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.summary_salary)
   @JoinTable()
   checkInOut: CheckInOut[];
-
+  @Column({ name: 'ss_paid', default: false })
+  paid: boolean;
   @CreateDateColumn()
   createdAt: Date;
 
