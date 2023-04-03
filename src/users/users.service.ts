@@ -139,4 +139,20 @@ export class UsersService {
       console.log(e);
     }
   }
+  async confirmWithPassword(createUserDto:CreateUserDto) {
+    const user = await this.usersRepository.findOne({where:{login:createUserDto.login}})
+    const isMatch = await bcrypt.compare(createUserDto.password, user.password);
+    if(isMatch){
+      return {
+        status:true
+      };
+    }else{
+      throw new NotFoundException('Your password is not matches')
+    }
+    try{
+
+    }catch(e){
+
+    }
+  }
 }

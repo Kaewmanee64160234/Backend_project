@@ -54,4 +54,8 @@ export class UsersController {
   findUserByName(@Param('name') name: string) {
     return this.usersService.findUserByName(name);
   }
+  @Post('confirm')
+  confirmWithPassword(@Body() createUserDto:CreateUserDto){
+    return this.usersService.confirmWithPassword(createUserDto);
+  }
 }
