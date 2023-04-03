@@ -43,6 +43,8 @@ export class Employee {
   @Column({ length: '128', default: 'no_image.jpg' })
   image: string;
 
+  @Column({ name: 'employee_full_time', default: true })
+  fullTime: boolean;
   @OneToOne(() => User, (user) => user.employee)
   user: User;
   @JoinColumn()

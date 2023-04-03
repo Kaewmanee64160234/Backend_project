@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsPhoneNumber,
@@ -33,6 +34,10 @@ export class CreateEmployeeDto {
 
   @IsNotEmpty()
   hourly: number;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  fullTile: boolean;
 
   image = 'no_image.jpg';
 }
