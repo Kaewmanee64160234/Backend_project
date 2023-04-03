@@ -24,7 +24,6 @@ export class CheckMaterialService {
     const employee = await this.employeesRepository.findOneBy({
       id: createCheckMaterialDto.employeeId,
     });
-
     let checkMat: CheckMaterial = new CheckMaterial();
     let matDetail = new CheckMaterialDetail();
 
@@ -44,7 +43,10 @@ export class CheckMaterialService {
         matDetail.material = mat;
         matDetail.qty_expire = detail.qty_expire;
         matDetail.qty_last = detail.qty_last;
-        matDetail.qty_remain = detail.qty_remain;
+        matDetail.qty_remain = detail.qty_last - detail.qty_expire;
+        if(matDetail.qty_remain <=0){
+          matDetail.qty_remain =0;
+        }
         matDetail.createdAt = new Date();
         matDetail.checkmaterials = checkMat;
         mat.quantity = detail.qty_last;
