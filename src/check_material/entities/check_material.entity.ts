@@ -16,10 +16,10 @@ export class CheckMaterial {
   @PrimaryGeneratedColumn({ name: 'check_mat_id' })
   id: number;
 
-  @Column({ type: 'datetime', name: 'check_mat_date' })
+  @Column({ name: 'check_mat_date' })
   date: Date;
 
-  @Column({ type: 'datetime', name: 'check_mat_time' })
+  @Column({ name: 'check_mat_time' })
   time: Date;
 
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
