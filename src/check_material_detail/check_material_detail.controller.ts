@@ -36,4 +36,8 @@ export class CheckMaterialDetailController {
   remove(@Param('id') id: string) {
     return this.checkMaterialDetailService.remove(+id);
   }
+  @Get('/material/:id')
+  findCheckmaterialdetailByMatId(@Param('id') id: string) {
+    return this.checkMaterialDetailService.findCheckmaterialdetailByMatId(id);
+  }
 }

@@ -14,7 +14,7 @@ export class CheckMaterialDetail {
   @PrimaryGeneratedColumn({ name: 'cmd_id' })
   id: number;
 
-  @Column({ name: 'cmd_name' })
+  @Column({ name: 'cmd_name', default: 'check stock' })
   name: string;
 
   @Column({ name: 'cmd_qty_last' })
@@ -36,11 +36,11 @@ export class CheckMaterialDetail {
   deletedAt: Date;
 
   @ManyToOne(() => Material, (material) => material.checkmaterialdetails)
-  materials: Material;
+  material: Material;
 
   @ManyToOne(
     () => CheckMaterial,
     (checkmaterial) => checkmaterial.checkmaterialdetails,
   )
-  checkmaterials: CheckMaterial;
+  checkmaterial: CheckMaterial;
 }

@@ -10,10 +10,9 @@ export class CreateCheckMaterialDetailDto {
   @Min(5)
   qty_last: number;
 
-  @IsNotEmpty()
   @IsNumber()
   @Min(5)
-  qty_remain: number;
+  qty_remain?: number;
 
   @IsNotEmpty()
   @IsNumber()

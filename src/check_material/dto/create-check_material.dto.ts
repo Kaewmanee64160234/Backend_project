@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 export class CreateCheckMaterialDto {
   @IsNotEmpty()
   date: Date;
@@ -8,4 +9,6 @@ export class CreateCheckMaterialDto {
 
   @IsNotEmpty()
   employeeId: number;
+  @IsNotEmpty()
+  checkMaterialDetails: CheckMaterialDetail[];
 }

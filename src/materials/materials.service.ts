@@ -4,6 +4,7 @@ import { UpdateMaterialDto } from './dto/update-material.dto';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Material } from './entities/material.entity';
 import { DataSource, Like, Repository } from 'typeorm';
+import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 
 @Injectable()
 export class MaterialsService {
@@ -11,6 +12,8 @@ export class MaterialsService {
     @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Material)
     private materialsRepository: Repository<Material>,
+    @InjectRepository(CheckMaterialDetail)
+    private checkMaterialDetailRepository: Repository<CheckMaterialDetail>,
   ) {}
   create(createMaterialDto: CreateMaterialDto) {
     return this.materialsRepository.save(createMaterialDto);
@@ -94,5 +97,17 @@ export class MaterialsService {
       matList.push(mat);
     }
     return matList;
+  }
+
+  async findMaterialsDetailByMaterialId(id: string) {
+    try {
+      const mat = await this.materialsRepository.findOneBy({ id: +id });
+      const checkMatDetailList = await this.checkMaterialDetailRepository.find({
+        where: { name: mat.name },
+      });
+      return checkMatDetailList;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

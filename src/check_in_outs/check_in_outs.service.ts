@@ -19,25 +19,32 @@ export class CheckInOutsService {
   ) {}
   async create(createCheckInOutDto: CreateCheckInOutDto) {
     try {
-      // const emp = await this.employeeRepositiry.findOne({
-      //   relations: ['check_in_outs'],
-      //   where: { id: createCheckInOutDto.employeeId },
-      // });
-      const summary_salary = await this.summary_salaryRepositiry.findOne({
-        relations: ['checkInOut', 'checkInOut.employee'],
-        where: {
-          checkInOut: { employee: { id: createCheckInOutDto.employeeId } },
-        },
-      });
-      console.log(summary_salary);
       const check_in_out = new CheckInOut();
       check_in_out.date = new Date();
       check_in_out.time_in = new Date();
       check_in_out.employee = await this.employeeRepositiry.findOne({
         where: { id: createCheckInOutDto.employeeId },
       });
+      //หาว่ามีsummaryมั้ย
+      const summary_salaries = await this.summary_salaryRepositiry.find({
+        relations: ['checkInOut', 'checkInOut.employee'],
+        where: {
+          checkInOut: { employee: { id: createCheckInOutDto.employeeId } },
+        },
+        order: { ss_date: 'DESC' },
+      });
+
+      const summary_salary = summary_salaries.find(
+        (ss) =>
+          ss.ss_date.getMonth() + ' ' + ss.ss_date.getFullYear() ===
+          check_in_out.date.getMonth() + ' ' + check_in_out.date.getFullYear(),
+      );
+      console.log(summary_salary);
+
+      // if ไม่เจอsummary
       if (!summary_salary) {
         const summary_salary_ = new SummarySalary();
+        summary_salary_.ss_date = new Date();
         const sum_ = await this.summary_salaryRepositiry.save(summary_salary_);
         check_in_out.summary_salary = sum_;
         await this.check_in_outsRepositiry.save(check_in_out);
@@ -68,12 +75,13 @@ export class CheckInOutsService {
   }
 
   async updated(id: number) {
+    console.log(id);
     const check_in_out = await this.check_in_outsRepositiry.findOne({
       relations: ['summary_salary', 'employee'],
       where: { employee: { id: id } },
       order: { createdDate: 'DESC' },
     });
-    // console.log(check_in_out);
+    console.log(check_in_out);
     // return check_in_out;
     if (check_in_out) {
       if (check_in_out.time_out === null) {

@@ -7,10 +7,8 @@ export class CreateBillDto {
   @Length(2, 100)
   name: string;
 
-  @IsNotEmpty()
   date: Date;
 
-  @IsNotEmpty()
   time: Date;
 
   @IsNotEmpty()
