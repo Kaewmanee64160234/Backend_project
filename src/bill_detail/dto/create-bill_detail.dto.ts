@@ -24,4 +24,5 @@ export class CreateBillDetailDto {
 
   @IsNotEmpty()
   billId: number;
+  length: any;
 }
