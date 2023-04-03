@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -37,14 +36,11 @@ export class CheckMaterialDetail {
   deletedAt: Date;
 
   @ManyToOne(() => Material, (material) => material.checkmaterialdetails)
-  @JoinColumn()
   material: Material;
 
   @ManyToOne(
     () => CheckMaterial,
     (checkmaterial) => checkmaterial.checkmaterialdetails,
   )
-  @JoinColumn()
-  checkmaterials: CheckMaterial;
-  static checkmaterial: string;
+  checkmaterial: CheckMaterial;
 }

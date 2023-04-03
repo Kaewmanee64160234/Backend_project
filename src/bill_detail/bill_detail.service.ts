@@ -25,7 +25,7 @@ export class BillDetailService {
       id: createBillDetailDto.billId,
     });
     const employee = await this.billsRepository.findOne({
-      relations: ['bill_detail', 'bill_detail.bill'],
+      relations: ['bill_detail', 'bill_detail.bill', 'bill_detail.material'],
       where: {
         bill_detail: { bill: { id: createBillDetailDto.billId } },
       },
@@ -38,6 +38,7 @@ export class BillDetailService {
     bill_detail.material = material;
     bill_detail.bill = bill;
     bill_detail.bill = employee;
+    console.log(material);
     return this.billDetailRepository.save(bill_detail);
   }
 

@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CheckMaterialDetail } from './entities/check_material_detail.entity';
 import { Repository } from 'typeorm';
 import { Material } from 'src/materials/entities/material.entity';
+import { CheckMaterial } from 'src/check_material/entities/check_material.entity';
 
 @Injectable()
 export class CheckMaterialDetailService {
@@ -13,33 +14,50 @@ export class CheckMaterialDetailService {
     private CheckMaterialsDetailRepository: Repository<CheckMaterialDetail>,
     @InjectRepository(Material)
     private materialsRepository: Repository<Material>,
+    @InjectRepository(CheckMaterial)
+    private checkmaterialsRepository: Repository<CheckMaterial>,
   ) {}
   async create(createCheckMaterialDetailDto: CreateCheckMaterialDetailDto) {
-    const cmd = new CheckMaterialDetail();
-    cmd.name = createCheckMaterialDetailDto.name;
-    cmd.qty_last = createCheckMaterialDetailDto.qty_last;
-    cmd.qty_remain = createCheckMaterialDetailDto.qty_remain;
-    cmd.qty_expire = createCheckMaterialDetailDto.qty_expire;
-
-    const material = new Material();
-    material.name = createCheckMaterialDetailDto.name_material;
-    material.min_quantity = createCheckMaterialDetailDto.min_quantity;
-    material.quantity = createCheckMaterialDetailDto.quantity;
-    material.unit = createCheckMaterialDetailDto.unit;
-    material.price_per_unit = createCheckMaterialDetailDto.price_per_unit;
-    const mtr = await this.materialsRepository.save(material);
-    cmd.material = mtr;
-    return await this.CheckMaterialsDetailRepository.save(cmd);
+    const material = await this.materialsRepository.findOneBy({
+      id: createCheckMaterialDetailDto.materialId,
+    });
+    const checkmaterial = await this.checkmaterialsRepository.findOneBy({
+      id: createCheckMaterialDetailDto.checkmaterialID,
+    });
+    const employees = await this.checkmaterialsRepository.findOne({
+      relations: ['Check_Material_detail', 'Check_Material'],
+      where: {
+        checkmaterialdetails: {
+          material: { id: createCheckMaterialDetailDto.materialId },
+        },
+      },
+    });
+    const checkmaterialdetails: CheckMaterialDetail = new CheckMaterialDetail();
+    checkmaterialdetails.name = createCheckMaterialDetailDto.name;
+    checkmaterialdetails.qty_last = createCheckMaterialDetailDto.qty_last;
+    checkmaterialdetails.qty_remain = createCheckMaterialDetailDto.qty_remain;
+    checkmaterialdetails.qty_expire = createCheckMaterialDetailDto.qty_expire;
+    checkmaterialdetails.material = material;
+    checkmaterialdetails.checkmaterial = checkmaterial;
+    checkmaterialdetails.checkmaterial = employees;
+    return this.CheckMaterialsDetailRepository.save(checkmaterialdetails);
   }
 
   findAll() {
     return this.CheckMaterialsDetailRepository.find({
-      relations: ['material'],
+      relations: ['checkmaterial', 'material', 'check_material.employees'],
     });
   }
 
   findOne(id: number) {
-    return this.CheckMaterialsDetailRepository.findOne({ where: { id: id } });
+    const check_material_detail = this.checkmaterialsRepository.findOne({
+      where: { id: id },
+      relations: ['checkmaterial', 'material'],
+    });
+    if (!check_material_detail) {
+      throw new NotFoundException();
+    }
+    return this.checkmaterialsRepository.findOne({ where: { id: id } });
   }
 
   async remove(id: number) {
@@ -53,5 +71,17 @@ export class CheckMaterialDetailService {
       await this.CheckMaterialsDetailRepository.softRemove(Checkmaterialdetail);
     }
     return Checkmaterialdetail;
+  }
+  async findCheckmaterialdetailByMatId(idmat: string) {
+    try {
+      const Checkmaterialdetails =
+        await this.CheckMaterialsDetailRepository.find({
+          where: { material: { id: +idmat } },
+          relations: ['material', 'checkmaterial'],
+        });
+      if (Checkmaterialdetails) {
+        return Checkmaterialdetails;
+      }
+    } catch (e) {}
   }
 }

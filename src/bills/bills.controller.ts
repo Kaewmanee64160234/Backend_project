@@ -30,9 +30,9 @@ export class BillsController {
     return this.billsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBillDto: UpdateBillDto) {
-    return this.billsService.update(+id, updateBillDto);
+  @Patch('updated')
+  update(@Body() updateBillDto: UpdateBillDto) {
+    return this.billsService.update(updateBillDto);
   }
 
   @Delete(':id')
