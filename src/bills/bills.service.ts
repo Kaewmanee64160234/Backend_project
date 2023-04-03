@@ -35,12 +35,17 @@ export class BillsService {
     await this.billsRepository.save(bill); //id employee
 
     for (const od of createBillDto.bill_detail) {
+      const mat = await this.materialsRepository.findOne({
+        where: { name: od.name },
+        relations: ['bill_detail'],
+      });
       const bill_detail = new BillDetail();
       bill_detail.name = od.name;
       bill_detail.price = od.price;
       bill_detail.amount = od.amount;
       bill_detail.total = bill_detail.price * bill_detail.amount;
       bill_detail.bill = bill; // อ้างกลับ
+      bill_detail.material = mat;
       await this.billDetailRepository.save(bill_detail);
       bill.total = bill.total + bill_detail.total;
     }
@@ -53,14 +58,14 @@ export class BillsService {
 
   findAll() {
     return this.billsRepository.find({
-      relations: ['employee', 'bill_detail'],
+      relations: ['employee', 'bill_detail', 'bill_detail.material'],
     });
   }
 
   async findOne(id: number) {
     const bill = this.billsRepository.findOne({
       where: { id: id },
-      relations: ['employee', 'bill_detail'],
+      relations: ['employee', 'bill_detail', 'bill_detail.material'],
     });
     if (!bill) {
       throw new NotFoundException();
@@ -68,7 +73,7 @@ export class BillsService {
     return this.billsRepository.findOne({ where: { id: id } });
   }
 
-  async update(updateBillDto: UpdateBillDto) {
+  async updateBill(updateBillDto: UpdateBillDto) {
     // const bill = await this.billsRepository.findOne({
     //   relations: ['employee', 'bill_detail'],
     //   where: { id: id },
@@ -82,14 +87,16 @@ export class BillsService {
     for (const od of updateBillDto.bill_detail) {
       const material = await this.materialsRepository.findOne({
         where: { name: od.name },
-        relations: ['bill_detail', 'bill_detail.material'],
+        relations: ['bill_detail'],
       });
       console.log(material);
       if (material) {
         material.quantity =
-          parseInt('od.amount') + parseInt('material.quantity');
+          parseInt(od.amount + '') + parseInt(material.quantity + '');
+        console.log(material.quantity);
         material.min_quantity =
-          parseInt('od.amount') + parseInt('material.quantity');
+          parseInt(od.amount + '') + parseInt(material.min_quantity + '');
+        console.log(material.min_quantity);
         material.price_per_unit = od.price;
         await this.materialsRepository.save(material);
       } else {

@@ -38,7 +38,6 @@ export class BillDetailService {
     bill_detail.material = material;
     bill_detail.bill = bill;
     bill_detail.bill = employee;
-    console.log(material);
     return this.billDetailRepository.save(bill_detail);
   }
 
