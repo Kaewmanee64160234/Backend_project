@@ -38,21 +38,39 @@ export class ProductsService {
     const orderBy = query.orderBy || 'name';
     const order = query.order || 'ASC';
     const currentPage = page;
-
-    const [result, total] = await this.productsRepository.findAndCount({
-      where: { name: Like(`%${keyword}%`) },
-      order: { [orderBy]: order },
-      relations: ['catagory'],
-      take: take,
-      skip: skip,
-    });
-    const lastPage = Math.ceil(total / take);
-    return {
-      data: result,
-      count: total,
-      currentPage: currentPage,
-      lastPage: lastPage,
-    };
+    const cat = query.cat || 0;
+    console.log(cat);
+    if (cat !== '' && cat !== '') {
+      const [result, total] = await this.productsRepository.findAndCount({
+        where: { name: Like(`%${keyword}%`), catagory: { name: cat } },
+        order: { [orderBy]: order },
+        relations: ['catagory'],
+        take: take,
+        skip: skip,
+      });
+      const lastPage = Math.ceil(total / take);
+      return {
+        data: result,
+        count: total,
+        currentPage: currentPage,
+        lastPage: lastPage,
+      };
+    } else {
+      const [result, total] = await this.productsRepository.findAndCount({
+        where: { name: Like(`%${keyword}%`) },
+        order: { [orderBy]: order },
+        relations: ['catagory'],
+        take: take,
+        skip: skip,
+      });
+      const lastPage = Math.ceil(total / take);
+      return {
+        data: result,
+        count: total,
+        currentPage: currentPage,
+        lastPage: lastPage,
+      };
+    }
   }
 
   findByCategory(id: number) {
