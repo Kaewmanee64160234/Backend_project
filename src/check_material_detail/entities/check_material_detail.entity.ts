@@ -36,11 +36,11 @@ export class CheckMaterialDetail {
   deletedAt: Date;
 
   @ManyToOne(() => Material, (material) => material.checkmaterialdetails)
-  materials: Material;
+  material: Material;
 
   @ManyToOne(
     () => CheckMaterial,
     (checkmaterial) => checkmaterial.checkmaterialdetails,
   )
-  checkmaterials: CheckMaterial;
+  checkmaterial: CheckMaterial;
 }

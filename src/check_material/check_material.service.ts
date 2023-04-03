@@ -43,7 +43,7 @@ export class CheckMaterialService {
         if (mat) {
           console.log(' found');
           matDetail.name = mat.name;
-          matDetail.materials = mat;
+          matDetail.material = mat;
           matDetail.qty_expire = detail.qty_expire;
           matDetail.qty_last = detail.qty_last;
           matDetail.qty_remain = detail.qty_last - detail.qty_expire;
@@ -51,7 +51,7 @@ export class CheckMaterialService {
             matDetail.qty_remain = 0;
           }
           matDetail.createdAt = new Date();
-          matDetail.checkmaterials = checkMat;
+          matDetail.checkmaterial = checkMat;
           mat.quantity = detail.qty_last;
           matDetail = await this.CheckMaterialDetailsRepository.save(matDetail);
         }

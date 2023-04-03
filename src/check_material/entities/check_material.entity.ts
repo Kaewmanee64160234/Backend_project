@@ -28,7 +28,7 @@ export class CheckMaterial {
 
   @OneToMany(
     () => CheckMaterialDetail,
-    (checkmaterialdetail) => checkmaterialdetail.checkmaterials,
+    (checkmaterialdetail) => checkmaterialdetail.checkmaterial,
   )
   @JoinTable()
   checkmaterialdetails: CheckMaterialDetail[];
