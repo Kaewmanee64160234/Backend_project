@@ -32,7 +32,7 @@ export class BillsController {
 
   @Patch('updated')
   update(@Body() updateBillDto: UpdateBillDto) {
-    return this.billsService.update(updateBillDto);
+    return this.billsService.updateBill(updateBillDto);
   }
 
   @Delete(':id')

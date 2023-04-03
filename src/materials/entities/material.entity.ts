@@ -44,7 +44,7 @@ export class Material {
 
   @OneToMany(
     () => CheckMaterialDetail,
-    (checkmaterialdetail) => checkmaterialdetail.materials,
+    (checkmaterialdetail) => checkmaterialdetail.material,
   )
   checkmaterialdetails: CheckMaterialDetail[];
 }
