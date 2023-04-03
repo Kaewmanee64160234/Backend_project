@@ -32,6 +32,7 @@ export class CheckMaterialDetailController {
     return this.checkMaterialDetailService.findOne(+id);
   }
 
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkMaterialDetailService.remove(+id);

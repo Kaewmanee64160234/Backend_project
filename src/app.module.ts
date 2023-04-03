@@ -70,7 +70,8 @@ import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
         SummarySalary,
       ],
       synchronize: true,
-    }),TypeOrmModule.forRoot({
+    }),
+    TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'www.db4free.net',
       port: 3306,

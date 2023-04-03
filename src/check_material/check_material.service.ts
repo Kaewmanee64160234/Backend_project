@@ -61,8 +61,8 @@ export class CheckMaterialService {
   async findCheckByMatId(id: number) {
     try {
       const mat = await this.MaterialsRepository.findOne({
-        where: { id:id },
-        relations: ['checkmaterialdetails','checkmaterial']
+        where: { id: id },
+        relations: ['checkmaterialdetails'],
       });
       if (mat) {
         return mat;

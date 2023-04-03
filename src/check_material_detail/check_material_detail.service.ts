@@ -34,13 +34,14 @@ export class CheckMaterialDetailService {
 
   findAll() {
     return this.CheckMaterialsDetailRepository.find({
-      relations: ['materail'],
+      relations: ['material'],
     });
   }
 
   findOne(id: number) {
     return this.CheckMaterialsDetailRepository.findOne({ where: { id: id } });
   }
+
 
   async remove(id: number) {
     const Checkmaterialdetail =
