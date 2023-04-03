@@ -38,7 +38,7 @@ export class CheckMaterialService {
       for (const detail of createCheckMaterialDto.checkMaterialDetails) {
         const mat = await this.materialRepository.findOne({
           where: { name: detail.name },
-          // relations: ['checkmaterialdetails'],
+          relations: ['checkmaterialdetails'],
         });
         if (mat) {
           console.log(' found');
@@ -54,10 +54,6 @@ export class CheckMaterialService {
           matDetail.checkmaterials = checkMat;
           mat.quantity = detail.qty_last;
           matDetail = await this.CheckMaterialDetailsRepository.save(matDetail);
-
-          mat.checkmaterialdetails.push(matDetail);
-
-          await this.materialRepository.save(mat);
         }
       }
       checkMat = await this.checkMaterialsRepository.save(checkMat);
