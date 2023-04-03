@@ -7,6 +7,7 @@ import { DataSource, Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
+import { Role } from 'src/types/Role.enum';
 @Injectable()
 export class UsersService {
   constructor(
@@ -23,7 +24,11 @@ export class UsersService {
     user.password = hash;
     user.username = createUserDto.username;
     user.login = createUserDto.login;
-    user.role = createUserDto.role;
+    if (createUserDto.role.toLowerCase() === 'owner') {
+      user.role = Role.Owner;
+    } else {
+      user.role = Role.Employee;
+    }
 
     const employee = new Employee();
     employee.email = createUserDto.login;
@@ -81,14 +86,15 @@ export class UsersService {
         where: { id: id },
         relations: ['employee'],
       });
-      user.login = updateUserDto.login;
-      user.password = updateUserDto.password;
-      user.username = updateUserDto.username;
-      user.role = updateUserDto.role;
-      // const user = await this.usersRepository.findOne({
-      //   where: { id: id },
-      //   relations: ['employee'],
-      // });
+      if (updateUserDto.role.toLowerCase() === 'owner') {
+        updateUserDto.role = Role.Owner;
+      } else {
+        updateUserDto.role = Role.Employee;
+      }
+      const updatedUser = {
+        ...user,
+        ...updateUserDto,
+      };
 
       // };
 
@@ -101,12 +107,9 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOne({
         where: { login: name },
-        relations: ['employee'],
-        order: { login: 'ASC' },
+        relations: ['employee', 'employee.check_in_outs'],
       });
       if (user) {
-        // const salt = await bcrypt.genSalt();
-        // user.password = await bcrypt.hash(user.password, salt);
         return user;
       } else {
         throw new NotFoundException();
@@ -135,6 +138,5 @@ export class UsersService {
     } catch (e) {
       console.log(e);
     }
-    
   }
 }

@@ -42,7 +42,6 @@ export class CheckMaterialDetailService {
     return this.CheckMaterialsDetailRepository.findOne({ where: { id: id } });
   }
 
-
   async remove(id: number) {
     const Checkmaterialdetail =
       await this.CheckMaterialsDetailRepository.findOne({

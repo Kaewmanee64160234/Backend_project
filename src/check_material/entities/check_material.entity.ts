@@ -19,7 +19,7 @@ export class CheckMaterial {
   @Column({ type: 'datetime', name: 'check_mat_date' })
   date: Date;
 
-  @Column({ type: 'time', name: 'check_mat_time' })
+  @Column({ type: 'datetime', name: 'check_mat_time' })
   time: Date;
 
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)

@@ -11,6 +11,8 @@ import {
   Res,
   UseGuards,
   Query,
+  HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -21,6 +23,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { Response, Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Role } from 'src/types/Role.enum';
+import { Roles } from 'src/authorize/roles.decorator';
+import { RolesGuard } from 'src/authorize/roles.guard';
+import { AuthGuard } from '@nestjs/passport';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -44,7 +50,8 @@ export class ProductsController {
     createProductDto.image = file.filename;
     return this.productsService.create(createProductDto);
   }
-
+  // @Roles(Role.Owner)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cat?: string }) {
     return this.productsService.findAll(query);

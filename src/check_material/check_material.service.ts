@@ -12,87 +12,79 @@ import { Material } from 'src/materials/entities/material.entity';
 export class CheckMaterialService {
   constructor(
     @InjectRepository(CheckMaterial)
-    private CheckMaterialsRepository: Repository<CheckMaterial>,
-    @InjectRepository(Employee)
-    private employeesRepository: Repository<Employee>,
+    private checkMaterialsRepository: Repository<CheckMaterial>,
     @InjectRepository(CheckMaterialDetail)
     private CheckMaterialDetailsRepository: Repository<CheckMaterialDetail>,
+    @InjectRepository(Employee)
+    private employeesRepository: Repository<Employee>,
     @InjectRepository(Material)
-    private MaterialsRepository: Repository<Material>,
+    private materialRepository: Repository<Material>,
   ) {}
   async create(createCheckMaterialDto: CreateCheckMaterialDto) {
     const employee = await this.employeesRepository.findOneBy({
       id: createCheckMaterialDto.employeeId,
     });
-    const checkmaterial: CheckMaterial = new CheckMaterial();
-    checkmaterial.employee = employee;
-    checkmaterial.date = new Date();
-    checkmaterial.time = new Date();
-    const checkmaterials = await this.CheckMaterialsRepository.save(
-      checkmaterial,
-    );
 
-    for (const cd of createCheckMaterialDto.checkmaterialdetail) {
-      const checkmaterialdetail = new CheckMaterialDetail();
-      const material = await this.MaterialsRepository.findOne({
-        where: { name: checkmaterialdetail.name },
-      });
-      checkmaterialdetail.name = cd.name;
-      checkmaterialdetail.material = material;
-      checkmaterialdetail.qty_last = cd.qty_last;
-      checkmaterialdetail.qty_remain = cd.qty_remain;
-      checkmaterialdetail.qty_expire = cd.qty_expire;
-      checkmaterialdetail.checkmaterials = checkmaterials;
+    let checkMat: CheckMaterial = new CheckMaterial();
+    let matDetail = new CheckMaterialDetail();
 
-      await this.CheckMaterialDetailsRepository.save(checkmaterialdetail);
-    }
-    await this.CheckMaterialsRepository.save(checkmaterial);
-    return await this.CheckMaterialsRepository.findOne({
-      where: { id: checkmaterial.id },
-      relations: ['checkmaterialdetails'],
-    });
-  }
+    checkMat.employee = employee;
+    checkMat.date = new Date(); // TODO: demo for backend
+    checkMat.time = new Date();
+    checkMat = await this.checkMaterialsRepository.save(checkMat);
 
-  findAll() {
-    return this.CheckMaterialsRepository.find({
-      relations: ['employee', 'checkmaterialdetails'],
-    });
-  }
-  async findCheckByMatId(id: number) {
-    try {
-      const mat = await this.MaterialsRepository.findOne({
-        where: { id: id },
+    for (const detail of createCheckMaterialDto.checkMaterialDetails) {
+      const mat = await this.materialRepository.findOne({
+        where: { name: detail.name },
         relations: ['checkmaterialdetails'],
       });
       if (mat) {
-        return mat;
-      } else {
-        throw new NotFoundException();
+        console.log(' found');
+        matDetail.name = mat.name;
+        matDetail.material = mat;
+        matDetail.qty_expire = detail.qty_expire;
+        matDetail.qty_last = detail.qty_last;
+        matDetail.qty_remain = detail.qty_remain;
+        matDetail.createdAt = new Date();
+        matDetail.checkmaterials = checkMat;
+        mat.quantity = detail.qty_last;
+        matDetail = await this.CheckMaterialDetailsRepository.save(matDetail);
+
+        mat.checkmaterialdetails.push(matDetail);
+
+        await this.materialRepository.save(mat);
       }
-    } catch (e) {
-      console.log(e);
     }
+
+    checkMat = await this.checkMaterialsRepository.save(checkMat);
+    return checkMat;
+  }
+
+  findAll() {
+    return this.checkMaterialsRepository.find({
+      relations: ['employee', 'checkmaterialdetails'],
+    });
   }
 
   async findOne(id: number) {
-    const checkmaterial = this.CheckMaterialsRepository.findOne({
+    const check = this.checkMaterialsRepository.findOne({
       where: { id: id },
       relations: ['employee', 'checkmaterialdetails'],
     });
-    if (!checkmaterial) {
+    if (!check) {
       throw new NotFoundException();
     }
-    return this.CheckMaterialsRepository.findOne({ where: { id: id } });
+    return this.checkMaterialsRepository.findOne({ where: { id: id } });
   }
 
   async remove(id: number) {
-    const Checkmaterial = await this.CheckMaterialsRepository.findOne({
+    const Checkmaterial = await this.checkMaterialsRepository.findOne({
       where: { id: id },
     });
     if (!Checkmaterial) {
       throw new NotFoundException();
     } else {
-      await this.CheckMaterialsRepository.softRemove(Checkmaterial);
+      await this.checkMaterialsRepository.softRemove(Checkmaterial);
     }
     return Checkmaterial;
   }
