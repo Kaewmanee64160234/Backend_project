@@ -68,12 +68,13 @@ export class CheckInOutsService {
   }
 
   async updated(id: number) {
+    console.log(id);
     const check_in_out = await this.check_in_outsRepositiry.findOne({
       relations: ['summary_salary', 'employee'],
       where: { employee: { id: id } },
       order: { createdDate: 'DESC' },
     });
-    // console.log(check_in_out);
+    console.log(check_in_out);
     // return check_in_out;
     if (check_in_out) {
       if (check_in_out.time_out === null) {

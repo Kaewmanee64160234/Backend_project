@@ -23,6 +23,8 @@ class CreatedOrderItemDto {
   updatedDate?: Date;
   @IsNotEmpty()
   deletedDate?: Date;
+
+  image?: string;
 }
 export class CreateOrderDto {
   @IsNotEmpty()

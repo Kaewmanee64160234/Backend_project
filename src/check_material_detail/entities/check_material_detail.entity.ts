@@ -14,7 +14,7 @@ export class CheckMaterialDetail {
   @PrimaryGeneratedColumn({ name: 'cmd_id' })
   id: number;
 
-  @Column({ name: 'cmd_name' })
+  @Column({ name: 'cmd_name', default: 'check stock' })
   name: string;
 
   @Column({ name: 'cmd_qty_last' })
