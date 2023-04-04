@@ -58,14 +58,14 @@ export class SummarySalaryService {
   async update(id: number, updateSummarySalaryDto: UpdateSummarySalaryDto) {
     const summary = await this.summaryRepository.findOne({ where: { id: id } });
     if (summary) {
+      const summaryUpdate = {
+        ...summary,
+        ...updateSummarySalaryDto,
+      };
+      return this.summaryRepository.save(summaryUpdate);
+    } else {
       throw new NotFoundException();
     }
-    const summaryUpdate = {
-      ...summary,
-      updateSummarySalaryDto,
-    };
-
-    return this.summaryRepository.save(summaryUpdate);
   }
   async findOneByEmployee(employeeId: number) {
     const summary = await this.summaryRepository.find({
