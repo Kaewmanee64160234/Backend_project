@@ -101,11 +101,12 @@ export class MaterialsService {
 
   async findMaterialsDetailByMaterialId(id: string) {
     try {
-      const mat = await this.materialsRepository.findOneBy({ id: +id });
+    const mat = await this.materialsRepository.findOneBy({ id: +id});
       const checkMatDetailList = await this.checkMaterialDetailRepository.find({
         where: { name: mat.name },
       });
       return checkMatDetailList;
+      
     } catch (e) {
       console.log(e);
     }

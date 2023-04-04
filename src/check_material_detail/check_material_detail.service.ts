@@ -72,10 +72,9 @@ export class CheckMaterialDetailService {
     }
     return Checkmaterialdetail;
   }
-  async findCheckmaterialdetailByMatId(idmat: string) {
+  async findCheckmaterialdetailByMatId(idmat:string) {
     try {
-      const Checkmaterialdetails =
-        await this.CheckMaterialsDetailRepository.find({
+    const Checkmaterialdetails = await this.CheckMaterialsDetailRepository.find({
           where: { material: { id: +idmat } },
           relations: ['material', 'checkmaterial'],
         });
