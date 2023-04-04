@@ -5,6 +5,9 @@ import {
   IsEmail,
   IsString,
   IsPhoneNumber,
+  IsPositive,
+  Min,
+  IsBoolean,
 } from 'class-validator';
 export class CreateUserDto {
   @IsNotEmpty()
@@ -22,11 +25,16 @@ export class CreateUserDto {
   @IsString()
   @IsPhoneNumber('TH')
   tel: string;
-
+  @IsNotEmpty()
+  @IsPositive()
+  @Min(9000)
+  salary: number;
   @IsNotEmpty()
   @Length(3, 64)
   address: string;
-
+  @IsNotEmpty()
+  @IsBoolean()
+  fullTime: boolean;
   @IsNotEmpty()
   @Length(3, 64)
   name_employee: string;

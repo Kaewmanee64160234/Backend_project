@@ -39,6 +39,8 @@ export class UsersService {
     employee.position = createUserDto.position;
     employee.hourly = createUserDto.hourly;
     employee.image = createUserDto.image;
+    employee.salary = createUserDto.salary;
+    employee.fullTime = createUserDto.fullTime;
     const emp = await this.employeesRepository.save(employee);
     user.employee = emp;
     return await this.usersRepository.save(user);
