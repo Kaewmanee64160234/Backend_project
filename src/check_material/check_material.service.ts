@@ -29,7 +29,7 @@ export class CheckMaterialService {
 
     checkMat.employee = employee;
     checkMat.date = new Date(); // TODO: demo for backend
-    checkMat.time = new Date();
+    // checkMat.time = new Date();
     checkMat = await this.checkMaterialsRepository.save(checkMat);
 
     for (const detail of createCheckMaterialDto.checkMaterialDetails) {
