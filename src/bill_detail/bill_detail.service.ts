@@ -25,7 +25,7 @@ export class BillDetailService {
       id: createBillDetailDto.billId,
     });
     const employee = await this.billsRepository.findOne({
-      relations: ['bill_detail', 'bill_detail.bill'],
+      relations: ['bill_detail', 'bill_detail.bill', 'bill_detail.material'],
       where: {
         bill_detail: { bill: { id: createBillDetailDto.billId } },
       },

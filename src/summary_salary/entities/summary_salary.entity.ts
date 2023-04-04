@@ -17,12 +17,13 @@ export class SummarySalary {
   ss_date: Date;
   @Column({ name: 'ss_work_hour', type: 'float', default: 1 })
   hour: number;
-  @Column({ name: 'ss_salary', type: 'float', default: 1 })
+  @Column({ name: 'ss_salary', type: 'float', default: 90000 })
   salary: number;
   @OneToMany(() => CheckInOut, (check_in_out) => check_in_out.summary_salary)
   @JoinTable()
   checkInOut: CheckInOut[];
-
+  @Column({ name: 'ss_paid', default: false })
+  paid: boolean;
   @CreateDateColumn()
   createdAt: Date;
 

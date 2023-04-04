@@ -30,6 +30,8 @@ export class CreateUserDto {
   @IsNotEmpty()
   @Length(3, 64)
   name_employee: string;
+  @IsNotEmpty()
+  fullTile_employee: boolean;
 
   @IsNotEmpty()
   @Length(6, 64)

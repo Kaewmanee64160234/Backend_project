@@ -44,4 +44,5 @@ export class BillDetail {
 
   @DeleteDateColumn()
   deletedAt: Date;
+  bill_detail: Promise<Material>;
 }

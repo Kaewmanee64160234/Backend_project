@@ -16,7 +16,7 @@ export class CheckMaterial {
   @PrimaryGeneratedColumn({ name: 'check_mat_id' })
   id: number;
 
-  @Column({ type: 'datetime', name: 'check_mat_date' })
+  @Column({ name: 'check_mat_date' })
   date: Date;
 
   // @Column({ type: 'datetime', name: 'check_mat_time' })
@@ -28,7 +28,7 @@ export class CheckMaterial {
 
   @OneToMany(
     () => CheckMaterialDetail,
-    (checkmaterialdetail) => checkmaterialdetail.checkmaterials,
+    (checkmaterialdetail) => checkmaterialdetail.checkmaterial,
   )
   @JoinTable()
   checkmaterialdetails: CheckMaterialDetail[];

@@ -20,7 +20,7 @@ export class Bill {
   @Column({ name: 'bill_shop_name', default: '' })
   name: string;
 
-  @Column({ type: 'datetime', name: 'bill_date' })
+  @Column({ name: 'bill_date', nullable: true })
   date: Date;
 
   @Column({ type: 'time', name: 'bill_time' })

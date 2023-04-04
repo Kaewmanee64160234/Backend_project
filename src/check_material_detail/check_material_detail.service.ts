@@ -28,7 +28,7 @@ export class CheckMaterialDetailService {
       relations: ['Check_Material_detail', 'Check_Material'],
       where: {
         checkmaterialdetails: {
-          materials: { id: createCheckMaterialDetailDto.materialId },
+          material: { id: createCheckMaterialDetailDto.materialId },
         },
       },
     });
@@ -37,9 +37,9 @@ export class CheckMaterialDetailService {
     checkmaterialdetails.qty_last = createCheckMaterialDetailDto.qty_last;
     checkmaterialdetails.qty_remain = createCheckMaterialDetailDto.qty_remain;
     checkmaterialdetails.qty_expire = createCheckMaterialDetailDto.qty_expire;
-    checkmaterialdetails.materials = material;
-    checkmaterialdetails.checkmaterials = checkmaterial;
-    checkmaterialdetails.checkmaterials = employees;
+    checkmaterialdetails.material = material;
+    checkmaterialdetails.checkmaterial = checkmaterial;
+    checkmaterialdetails.checkmaterial = employees;
     return this.CheckMaterialsDetailRepository.save(checkmaterialdetails);
   }
 
@@ -71,5 +71,17 @@ export class CheckMaterialDetailService {
       await this.CheckMaterialsDetailRepository.softRemove(Checkmaterialdetail);
     }
     return Checkmaterialdetail;
+  }
+  async findCheckmaterialdetailByMatId(idmat: string) {
+    try {
+      const Checkmaterialdetails =
+        await this.CheckMaterialsDetailRepository.find({
+          where: { material: { id: +idmat } },
+          relations: ['material', 'checkmaterial'],
+        });
+      if (Checkmaterialdetails) {
+        return Checkmaterialdetails;
+      }
+    } catch (e) {}
   }
 }
