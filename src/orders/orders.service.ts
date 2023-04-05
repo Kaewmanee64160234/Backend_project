@@ -2,11 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
-import { Like, Repository } from 'typeorm';
+import { Between, LessThan, Like, Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderItem } from './entities/order-item';
 import { Order } from './entities/order.entity';
+import { startWith } from 'rxjs';
+import { MaxDate, MinDate } from 'class-validator';
 
 @Injectable()
 export class OrdersService {
@@ -61,8 +63,11 @@ export class OrdersService {
     const orderBy = query.orderBy || 'createdDate';
     const order = query.order || 'DESC';
     const currentPage = page;
+    const dateMin = query.dateMin || '';
+    const dateMax = query.dateMax || '';
 
     const [result, total] = await this.ordersRepository.findAndCount({
+      where: { createdDate: Between(dateMin, dateMax) },
       order: { [orderBy]: order },
       relations: ['customer', 'orderItems'],
 

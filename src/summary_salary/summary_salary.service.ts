@@ -44,7 +44,7 @@ export class SummarySalaryService {
 
   async findOne(id: number) {
     const summary_salary = await this.summaryRepository.findOne({
-      relations: ['checkInOut'],
+      relations: ['checkInOut', 'checkInOut.employee'],
       where: { id: id },
     });
 
@@ -58,19 +58,23 @@ export class SummarySalaryService {
   async update(id: number, updateSummarySalaryDto: UpdateSummarySalaryDto) {
     const summary = await this.summaryRepository.findOne({ where: { id: id } });
     if (summary) {
+      const summaryUpdate = {
+        ...summary,
+        ...updateSummarySalaryDto,
+      };
+      return this.summaryRepository.save(summaryUpdate);
+    } else {
       throw new NotFoundException();
     }
-    const summaryUpdate = {
-      ...summary,
-      updateSummarySalaryDto,
-    };
-
-    return this.summaryRepository.save(summaryUpdate);
   }
   async findOneByEmployee(employeeId: number) {
     const summary = await this.summaryRepository.find({
       relations: ['checkInOut', 'checkInOut.employee'],
       where: { checkInOut: { employee: { id: employeeId } } },
+      order: {
+        ss_date: 'DESC',
+        checkInOut: { createdDate: 'DESC', time_in: 'DESC' },
+      },
     });
     return summary;
   }
