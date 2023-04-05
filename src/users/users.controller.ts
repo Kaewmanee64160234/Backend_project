@@ -16,6 +16,9 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/authorize/roles.decorator';
+import { Role } from 'src/types/Role.enum';
+import { RolesGuard } from 'src/authorize/roles.guard';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -33,13 +36,15 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
-
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
@@ -54,6 +59,8 @@ export class UsersController {
   findUserByName(@Param('name') name: string) {
     return this.usersService.findUserByName(name);
   }
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('confirm')
   confirmWithPassword(@Body() createUserDto: CreateUserDto) {
     return this.usersService.confirmWithPassword(createUserDto);

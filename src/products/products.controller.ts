@@ -30,7 +30,8 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -43,6 +44,8 @@ export class ProductsController {
       }),
     }),
   )
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   create(
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() file: Express.Multer.File,
@@ -50,13 +53,14 @@ export class ProductsController {
     createProductDto.image = file.filename;
     return this.productsService.create(createProductDto);
   }
-  // @Roles(Role.Owner)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cat?: string }) {
     return this.productsService.findAll(query);
   }
-
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
@@ -81,7 +85,6 @@ export class ProductsController {
     return this.productsService.findByCategory(+id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id/image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -94,14 +97,16 @@ export class ProductsController {
       }),
     }),
   )
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   updateImage(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.productsService.update(+id, { image: file.filename });
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -114,6 +119,8 @@ export class ProductsController {
       }),
     }),
   )
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -124,12 +131,14 @@ export class ProductsController {
     }
     return await this.productsService.update(+id, updateProductDto);
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('search/name/:name')
   findProductByName(@Param('name') name: string) {
     return this.productsService.findProductByName(name);

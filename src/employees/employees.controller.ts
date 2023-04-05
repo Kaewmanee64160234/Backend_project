@@ -21,6 +21,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/authorize/roles.decorator';
+import { Role } from 'src/types/Role.enum';
+import { RolesGuard } from 'src/authorize/roles.guard';
 
 @Controller('employees')
 export class EmployeesController {
@@ -62,7 +65,8 @@ export class EmployeesController {
     res.sendFile(employee.image, { root: './employee_images' });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id/image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -81,7 +85,8 @@ export class EmployeesController {
   ) {
     return this.employeesService.update(+id, { image: file.filename });
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { emp?: string }) {
     return this.employeesService.findAll(query);
@@ -91,7 +96,8 @@ export class EmployeesController {
   findOne(@Param('id') id: string) {
     return this.employeesService.findOne(+id);
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -104,7 +110,8 @@ export class EmployeesController {
       }),
     }),
   )
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
@@ -115,12 +122,14 @@ export class EmployeesController {
     }
     return await this.employeesService.update(+id, updateEmployeeDto);
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employeesService.remove(+id);
   }
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/employees/login')
   loginEmployee(@Body() body: { name: string; email: string }) {
     return this.employeesService.emplyeeLogin(body.name, body.email);

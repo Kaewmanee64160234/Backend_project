@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
@@ -9,6 +9,10 @@ import { OrderItem } from './entities/order-item';
 import { Order } from './entities/order.entity';
 import { startWith } from 'rxjs';
 import { MaxDate, MinDate } from 'class-validator';
+import { Roles } from 'src/authorize/roles.decorator';
+import { Role } from 'src/types/Role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/authorize/roles.guard';
 
 @Injectable()
 export class OrdersService {
@@ -22,6 +26,8 @@ export class OrdersService {
     @InjectRepository(OrderItem)
     private orderItemsRepository: Repository<OrderItem>,
   ) {}
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(createOrderDto: CreateOrderDto) {
     const customer = await this.customersRepository.findOneBy({
       id: createOrderDto.customerId,
@@ -54,7 +60,8 @@ export class OrdersService {
       relations: ['orderItems'],
     });
   }
-
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll(query) {
     const page = query.page || 1;
     const take = query.take || 10;
@@ -95,11 +102,13 @@ export class OrdersService {
       relations: ['customer', 'orderItems'],
     });
   }
-
+  @Roles(Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   update(id: number, updateOrderDto: UpdateOrderDto) {
     return `This action updates a #${id} order`;
   }
-
+  @Roles(Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async remove(id: number) {
     const order = await this.ordersRepository.findOneBy({ id: id });
     return this.ordersRepository.softRemove(order);
