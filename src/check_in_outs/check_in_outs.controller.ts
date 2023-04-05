@@ -54,20 +54,9 @@ export class CheckInOutsController {
   @Roles(Role.Employee, Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
-  update(@Param('id') id: string): Promise<
-    {
-      id: number;
-      date: Date;
-      time_in: Date;
-      time_out: Date;
-      total_hour: number;
-      employee:Employee;
-      summary_salary: SummarySalary;
-      createdDate: Date;
-      updatedDate: Date;
-      deletedDate: Date;
-    }
-  > {
+
+
+  update(@Param('id') id: string) {
     return this.checkInOutsService.updated(+id);
   }
   @UseGuards(JwtAuthGuard)
