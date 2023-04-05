@@ -47,7 +47,7 @@ export class BillsController {
   update(@Body() updateBillDto: UpdateBillDto) {
     return this.billsService.updateBill(updateBillDto);
   }
-  @Roles(Role.Employee, Role.Owner)
+  @Roles(Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -20,6 +20,8 @@ import { Roles } from 'src/authorize/roles.decorator';
 @Controller('check-in-outs')
 export class CheckInOutsController {
   constructor(private readonly checkInOutsService: CheckInOutsService) {}
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCheckInOutDto: CreateCheckInOutDto) {
     return this.checkInOutsService.create(createCheckInOutDto);
@@ -31,6 +33,8 @@ export class CheckInOutsController {
   //     where: query.cat ? { catagoryId: parseInt(query.cat) } : {},
   //   });
   // }
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cus?: string }) {
     return this.checkInOutsService.findAll({
@@ -38,7 +42,8 @@ export class CheckInOutsController {
       where: query.cus ? { employeeId: parseInt(query.cus) } : {},
     });
   }
-
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.checkInOutsService.findOne(+id);
