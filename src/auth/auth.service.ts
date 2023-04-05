@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const user_ = await this.usersService.findOneByEmail(user.login);
+    const user_ = await this.usersService.findUserByName(user.username);
     const payload = { login: user.login, sub: user.id, role: user_.role };
 
     return {
