@@ -30,8 +30,6 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -44,8 +42,6 @@ export class ProductsController {
       }),
     }),
   )
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   create(
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() file: Express.Multer.File,
@@ -53,8 +49,7 @@ export class ProductsController {
     createProductDto.image = file.filename;
     return this.productsService.create(createProductDto);
   }
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Get()
   findAll(@Query() query: { cat?: string }) {
     return this.productsService.findAll(query);
