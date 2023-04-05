@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
@@ -9,6 +9,10 @@ import { OrderItem } from './entities/order-item';
 import { Order } from './entities/order.entity';
 import { startWith } from 'rxjs';
 import { MaxDate, MinDate } from 'class-validator';
+import { Roles } from 'src/authorize/roles.decorator';
+import { Role } from 'src/types/Role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/authorize/roles.guard';
 
 @Injectable()
 export class OrdersService {
@@ -95,7 +99,6 @@ export class OrdersService {
       relations: ['customer', 'orderItems'],
     });
   }
-
   update(id: number, updateOrderDto: UpdateOrderDto) {
     return `This action updates a #${id} order`;
   }

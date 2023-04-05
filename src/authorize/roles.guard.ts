@@ -2,6 +2,9 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from 'src/types/Role.enum';
 import { ROLES_KEY } from './roles.decorator';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -17,10 +20,25 @@ export class RolesGuard implements CanActivate {
     } else {
       const user = context.switchToHttp().getRequest();
       if (user.user) {
-        const role = user.user.role;
-        return requiredRoles[0] === role.toLowerCase();
-      } else {
+        let role = user.user.role;
         console.log(user.user);
+        console.log(requiredRoles);
+        for (const role_ of requiredRoles) {
+          if (role === 'employee') {
+            role = 'owner';
+            console.log(role);
+            if (role_ === role.toLowerCase()) {
+              return true;
+            }
+          } else {
+            if (role_ === role.toLowerCase()) {
+              return true;
+            }
+          }
+        }
+        return false;
+      } else {
+        // console.log(user.user);
         return true;
       }
     }

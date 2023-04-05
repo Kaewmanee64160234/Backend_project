@@ -13,10 +13,17 @@ import { CheckInOutsService } from './check_in_outs.service';
 import { CreateCheckInOutDto } from './dto/create-check_in_out.dto';
 import { UpdateCheckInOutDto } from './dto/update-check_in_out.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/authorize/roles.guard';
+import { Role } from 'src/types/Role.enum';
+import { Roles } from 'src/authorize/roles.decorator';
+import { Employee } from 'src/employees/entities/employee.entity';
+import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 
 @Controller('check-in-outs')
 export class CheckInOutsController {
   constructor(private readonly checkInOutsService: CheckInOutsService) {}
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCheckInOutDto: CreateCheckInOutDto) {
     return this.checkInOutsService.create(createCheckInOutDto);
@@ -28,6 +35,8 @@ export class CheckInOutsController {
   //     where: query.cat ? { catagoryId: parseInt(query.cat) } : {},
   //   });
   // }
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cus?: string }) {
     return this.checkInOutsService.findAll({
@@ -35,13 +44,15 @@ export class CheckInOutsController {
       where: query.cus ? { employeeId: parseInt(query.cus) } : {},
     });
   }
-
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.checkInOutsService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string) {
     return this.checkInOutsService.updated(+id);
@@ -55,7 +66,8 @@ export class CheckInOutsController {
     return this.checkInOutsService.upDateData(+id, updateCheckInOutDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkInOutsService.remove(+id);
