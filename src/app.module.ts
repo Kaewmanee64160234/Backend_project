@@ -33,6 +33,7 @@ import { BillDetail } from './bill_detail/entities/bill_detail.entity';
 import { CheckMaterialDetailModule } from './check_material_detail/check_material_detail.module';
 import { CheckMaterialDetail } from './check_material_detail/entities/check_material_detail.entity';
 import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -169,6 +170,7 @@ import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
     BillDetailModule,
     SummarySalaryModule,
     CheckMaterialDetailModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
