@@ -38,16 +38,14 @@ export class ProductsService {
     const orderBy = query.orderBy || 'name';
     const order = query.order || 'ASC';
     const currentPage = page;
-    const cat = query.cat || 0;
-    const startDate = query.startDate || '';
-    const endDate = query.endDate || '';
-    console.log(cat);
+    const cat = query.cat || '';
+
     if (cat !== '' && cat !== '') {
       const [result, total] = await this.productsRepository.findAndCount({
         where: {
           name: Like(`%${keyword}%`),
           catagory: { name: cat },
-          createdAt: Between(startDate, endDate),
+          // createdAt: Between(startDate, endDate),
         },
         order: { [orderBy]: order },
         relations: ['catagory'],
