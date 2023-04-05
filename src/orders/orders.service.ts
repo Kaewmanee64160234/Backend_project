@@ -26,8 +26,6 @@ export class OrdersService {
     @InjectRepository(OrderItem)
     private orderItemsRepository: Repository<OrderItem>,
   ) {}
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(createOrderDto: CreateOrderDto) {
     const customer = await this.customersRepository.findOneBy({
       id: createOrderDto.customerId,
@@ -60,8 +58,7 @@ export class OrdersService {
       relations: ['orderItems'],
     });
   }
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   async findAll(query) {
     const page = query.page || 1;
     const take = query.take || 10;
@@ -102,13 +99,10 @@ export class OrdersService {
       relations: ['customer', 'orderItems'],
     });
   }
-  @Roles(Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   update(id: number, updateOrderDto: UpdateOrderDto) {
     return `This action updates a #${id} order`;
   }
-  @Roles(Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   async remove(id: number) {
     const order = await this.ordersRepository.findOneBy({ id: id });
     return this.ordersRepository.softRemove(order);
