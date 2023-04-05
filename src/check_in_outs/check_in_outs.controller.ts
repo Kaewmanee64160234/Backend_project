@@ -16,6 +16,8 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/authorize/roles.guard';
 import { Role } from 'src/types/Role.enum';
 import { Roles } from 'src/authorize/roles.decorator';
+import { Employee } from 'src/employees/entities/employee.entity';
+import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity';
 
 @Controller('check-in-outs')
 export class CheckInOutsController {
@@ -59,12 +61,12 @@ export class CheckInOutsController {
       time_in: Date;
       time_out: Date;
       total_hour: number;
-      employee: import('d:/dcoffee/backend-project/src/employees/entities/employee.entity').Employee;
-      summary_salary: import('d:/dcoffee/backend-project/src/summary_salary/entities/summary_salary.entity').SummarySalary;
+      employee:Employee;
+      summary_salary: SummarySalary;
       createdDate: Date;
       updatedDate: Date;
       deletedDate: Date;
-    } & import('d:/dcoffee/backend-project/src/check_in_outs/entities/check_in_out.entity').CheckInOut
+    }
   > {
     return this.checkInOutsService.updated(+id);
   }

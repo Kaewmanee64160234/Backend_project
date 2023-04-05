@@ -24,9 +24,7 @@ export class BillsController {
   @Post()
   create(
     @Body() createBillDto: CreateBillDto,
-  ): Promise<
-    import('d:/dcoffee/backend-project/src/bills/entities/bill.entity').Bill
-  > {
+  ){
     return this.billsService.create(createBillDto);
   }
   @Roles(Role.Employee, Role.Owner)
