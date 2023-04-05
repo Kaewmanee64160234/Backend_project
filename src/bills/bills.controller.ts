@@ -22,11 +22,7 @@ export class BillsController {
   @Roles(Role.Employee, Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(
-    @Body() createBillDto: CreateBillDto,
-  ): Promise<
-    import('d:/dcoffee/backend-project/src/bills/entities/bill.entity').Bill
-  > {
+  create(@Body() createBillDto: CreateBillDto) {
     return this.billsService.create(createBillDto);
   }
   @Roles(Role.Employee, Role.Owner)
