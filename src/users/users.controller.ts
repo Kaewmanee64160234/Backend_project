@@ -43,8 +43,6 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
