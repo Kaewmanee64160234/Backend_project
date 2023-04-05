@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CheckMaterialDetailService } from './check_material_detail.service';
 import { CreateCheckMaterialDetailDto } from './dto/create-check_material_detail.dto';
@@ -36,8 +37,8 @@ export class CheckMaterialDetailController {
   remove(@Param('id') id: string) {
     return this.checkMaterialDetailService.remove(+id);
   }
-  @Get('/material/:id')
-  findCheckmaterialdetailByMatId(@Param('id') id: string) {
+  @Get('/material')
+  findCheckmaterialdetailByMatId(id: string) {
     return this.checkMaterialDetailService.findCheckmaterialdetailByMatId(id);
   }
 }

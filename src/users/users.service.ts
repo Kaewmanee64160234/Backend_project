@@ -39,6 +39,8 @@ export class UsersService {
     employee.position = createUserDto.position;
     employee.hourly = createUserDto.hourly;
     employee.image = createUserDto.image;
+    employee.salary = createUserDto.salary;
+    employee.fullTime = createUserDto.fullTime;
     const emp = await this.employeesRepository.save(employee);
     user.employee = emp;
     return await this.usersRepository.save(user);
@@ -81,7 +83,8 @@ export class UsersService {
         const hash = await bcrypt.hash(updateUserDto.password, salt);
         updateUserDto.password = hash;
       }
-      const user = await this.usersRepository.findOne({
+      let user = new User();
+      user = await this.usersRepository.findOne({
         where: { id: id },
         relations: ['employee'],
       });
@@ -95,7 +98,9 @@ export class UsersService {
         ...updateUserDto,
       };
 
-      return await this.usersRepository.save(updatedUser);
+      // };
+
+      return await this.usersRepository.save(user);
     } catch (e) {
       throw new NotFoundException();
     }
@@ -135,5 +140,20 @@ export class UsersService {
     } catch (e) {
       console.log(e);
     }
+  }
+  async confirmWithPassword(createUserDto: CreateUserDto) {
+    const user = await this.usersRepository.findOne({
+      where: { login: createUserDto.login },
+    });
+    const isMatch = await bcrypt.compare(createUserDto.password, user.password);
+    if (isMatch) {
+      return {
+        status: true,
+      };
+    } else {
+      throw new NotFoundException('Your password is not matches');
+    }
+    try {
+    } catch (e) {}
   }
 }
