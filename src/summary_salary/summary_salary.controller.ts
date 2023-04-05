@@ -20,7 +20,7 @@ import { RolesGuard } from 'src/authorize/roles.guard';
 @Controller('summary-salary')
 export class SummarySalaryController {
   constructor(private readonly summarySalaryService: SummarySalaryService) {}
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Employee)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createSummarySalaryDto: CreateSummarySalaryDto) {
@@ -31,13 +31,13 @@ export class SummarySalaryController {
   findAll(@Query() query: { cat?: string }) {
     return this.summarySalaryService.findAll(query);
   }
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Employee)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.summarySalaryService.findOne(+id);
   }
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Employee)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
@@ -46,13 +46,13 @@ export class SummarySalaryController {
   ) {
     return this.summarySalaryService.update(+id, updateSummarySalaryDto);
   }
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Employee)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.summarySalaryService.remove(+id);
   }
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Employee)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('employee/:id')
   findOneByEmployee(@Param('id') id: string) {
