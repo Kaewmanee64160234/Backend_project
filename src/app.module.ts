@@ -47,11 +47,11 @@ import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'angsila.informatics.buu.ac.th',
       port: 3306,
-      username: 'allforone',
-      password: 'AllForOne@1234',
-      database: 'dcoffee',
+      username: 'guest06',
+      password: 'FSuGmPPk',
+      database: 'guest06',
       entities: [
         Customer,
         Product,
