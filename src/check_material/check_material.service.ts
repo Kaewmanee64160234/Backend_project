@@ -3,7 +3,7 @@ import { CreateCheckMaterialDto } from './dto/create-check_material.dto';
 import { UpdateCheckMaterialDto } from './dto/update-check_material.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CheckMaterial } from './entities/check_material.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 import { Material } from 'src/materials/entities/material.entity';
@@ -32,7 +32,7 @@ export class CheckMaterialService {
 
       checkMat.employee = employee;
       checkMat.date = new Date(); // TODO: demo for backend
-      checkMat.time = new Date();
+      // checkMat.time = new Date();
       checkMat = await this.checkMaterialsRepository.save(checkMat);
 
       for (const detail of createCheckMaterialDto.checkMaterialDetails) {
@@ -61,7 +61,7 @@ export class CheckMaterialService {
     }
   }
 
-  findAll() {
+  async findAll(query) {
     return this.checkMaterialsRepository.find({
       relations: ['employee', 'checkmaterialdetails'],
     });
@@ -89,4 +89,13 @@ export class CheckMaterialService {
     }
     return Checkmaterial;
   }
+
+  showBillAboutMat = async (id: string) => {
+    const mat = await this.materialRepository.findOne({ where: { id: +id } });
+    const bills = this.CheckMaterialDetailsRepository.find({
+      where: { name: mat.name },
+      relations: ['checkmaterial.checkmaterialdetails'],
+    });
+    return bills;
+  };
 }

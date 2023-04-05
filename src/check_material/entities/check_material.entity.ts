@@ -19,8 +19,8 @@ export class CheckMaterial {
   @Column({ name: 'check_mat_date' })
   date: Date;
 
-  @Column({ name: 'check_mat_time' })
-  time: Date;
+  // @Column({ name: 'check_mat_time' })
+  // time: Date;
 
   @ManyToOne(() => Employee, (employee) => employee.checkmaterials)
   @JoinTable()
