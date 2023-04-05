@@ -90,10 +90,12 @@ export class CheckMaterialService {
     return Checkmaterial;
   }
 
-   showBillAboutMat = async (id:string)=>{
-    const mat = await this.materialRepository.findOne({where:{id:+id}});
-    const bills = this.CheckMaterialDetailsRepository.find({where:{name:mat.name},relations:['checkmaterial.checkmaterialdetails']},)
-    return bills
-
-  }
+  showBillAboutMat = async (id: string) => {
+    const mat = await this.materialRepository.findOne({ where: { id: +id } });
+    const bills = this.CheckMaterialDetailsRepository.find({
+      where: { name: mat.name },
+      relations: ['checkmaterial.checkmaterialdetails'],
+    });
+    return bills;
+  };
 }

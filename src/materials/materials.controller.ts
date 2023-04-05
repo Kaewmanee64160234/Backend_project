@@ -52,7 +52,7 @@ export class MaterialsController {
     return this.materialsService.findMaterialByName(name);
   }
   @Get('cmd/:id')
-  findMaterialsDetailByMaterialId(@Param('id') id: string ) {
+  findMaterialsDetailByMaterialId(@Param('id') id: string) {
     return this.materialsService.findMaterialsDetailByMaterialId(id);
   }
 }

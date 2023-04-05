@@ -34,7 +34,6 @@ export class CheckMaterialController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkMaterialService.remove(+id);
-
   }
   @Get('mat/:id')
   showBillAboutMat(@Param('id') id: string) {

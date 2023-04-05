@@ -38,7 +38,7 @@ export class CheckMaterialDetailController {
     return this.checkMaterialDetailService.remove(+id);
   }
   @Get('/material')
-  findCheckmaterialdetailByMatId( id: string ) {
+  findCheckmaterialdetailByMatId(id: string) {
     return this.checkMaterialDetailService.findCheckmaterialdetailByMatId(id);
   }
 }
