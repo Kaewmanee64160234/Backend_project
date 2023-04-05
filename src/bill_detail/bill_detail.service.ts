@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { CreateBillDetailDto } from './dto/create-bill_detail.dto';
 import { UpdateBillDetailDto } from './dto/update-bill_detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,10 @@ import { BillDetail } from './entities/bill_detail.entity';
 import { Repository } from 'typeorm';
 import { Material } from 'src/materials/entities/material.entity';
 import { Bill } from 'src/bills/entities/bill.entity';
+import { Roles } from 'src/authorize/roles.decorator';
+import { Role } from 'src/types/Role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/authorize/roles.guard';
 
 @Injectable()
 export class BillDetailService {
@@ -17,6 +21,8 @@ export class BillDetailService {
     @InjectRepository(Bill)
     private billsRepository: Repository<Bill>,
   ) {}
+  @Roles(Role.Owner, Role.Employee)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(createBillDetailDto: CreateBillDetailDto) {
     const material = await this.materialsRepository.findOneBy({
       id: createBillDetailDto.materialId,

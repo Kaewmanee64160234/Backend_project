@@ -131,7 +131,7 @@ export class UsersService {
 
   findUserByName(name: string) {
     try {
-      const user = this.usersRepository.find({
+      const user = this.usersRepository.findOne({
         where: { username: name },
         relations: ['employee'],
         order: { username: 'ASC' },

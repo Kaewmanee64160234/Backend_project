@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { DataSource, Like, Repository } from 'typeorm';
+import { Between, DataSource, Like, Repository } from 'typeorm';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
 import { Paginate } from 'src/types/Paginate';
 
@@ -39,10 +39,16 @@ export class ProductsService {
     const order = query.order || 'ASC';
     const currentPage = page;
     const cat = query.cat || 0;
+    const startDate = query.startDate || '';
+    const endDate = query.endDate || '';
     console.log(cat);
     if (cat !== '' && cat !== '') {
       const [result, total] = await this.productsRepository.findAndCount({
-        where: { name: Like(`%${keyword}%`), catagory: { name: cat } },
+        where: {
+          name: Like(`%${keyword}%`),
+          catagory: { name: cat },
+          createdAt: Between(startDate, endDate),
+        },
         order: { [orderBy]: order },
         relations: ['catagory'],
         take: take,
