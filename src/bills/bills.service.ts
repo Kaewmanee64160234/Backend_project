@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 import { Material } from 'src/materials/entities/material.entity';
+import { CreateMaterialDto } from 'src/materials/dto/create-material.dto';
 
 @Injectable()
 export class BillsService {
@@ -39,7 +40,7 @@ export class BillsService {
         where: { name: od.name },
         relations: ['bill_detail'],
       });
-      if (mat.name === od.name) {
+      if (mat) {
         console.log(' found');
         const bill_detail = new BillDetail();
         bill_detail.name = od.name;
@@ -49,7 +50,6 @@ export class BillsService {
         bill_detail.bill = bill; // อ้างกลับ
         bill_detail.material = mat;
         await this.billDetailRepository.save(bill_detail);
-        bill.total = bill.total + bill_detail.total;
       }
     }
     await this.billsRepository.save(bill); // ได้ id
@@ -105,12 +105,6 @@ export class BillsService {
         mat.price_per_unit = od.price;
         await this.materialsRepository.save(mat);
       } else {
-        const billMat = new Material();
-        billMat.name = od.name;
-        billMat.min_quantity = od.amount;
-        billMat.price_per_unit = od.price;
-        billMat.quantity = od.amount;
-        this.materialsRepository.create(billMat);
       }
     }
     return {
@@ -129,4 +123,12 @@ export class BillsService {
     }
     return bill;
   }
+  showBillAll = async (id: string) => {
+    const mat = await this.materialsRepository.findOne({ where: { id: +id } });
+    const bills = this.billDetailRepository.find({
+      where: { name: mat.name },
+      relations: ['bill.bill_detail'],
+    });
+    return bills;
+  };
 }
