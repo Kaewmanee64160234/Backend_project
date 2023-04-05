@@ -37,7 +37,7 @@ export class SummarySalaryController {
   findOne(@Param('id') id: string) {
     return this.summarySalaryService.findOne(+id);
   }
-  @Roles(Role.Owner, Role.Employee)
+  @Roles(Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
@@ -52,7 +52,7 @@ export class SummarySalaryController {
   remove(@Param('id') id: string) {
     return this.summarySalaryService.remove(+id);
   }
-  @Roles(Role.Owner, Role.Employee)
+  @Roles(Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('employee/:id')
   findOneByEmployee(@Param('id') id: string) {
