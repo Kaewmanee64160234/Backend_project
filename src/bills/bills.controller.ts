@@ -49,4 +49,8 @@ export class BillsController {
   remove(@Param('id') id: string) {
     return this.billsService.remove(+id);
   }
+  @Get('show/:id')
+  showBillAboutMat(@Param('id') id: string) {
+    return this.billsService.showBillAll(id);
+  }
 }

@@ -33,8 +33,33 @@ export class ReportsController {
     return this.reportsService.getProduct();
   }
 
+  @Get('/material')
+  getMaterial(
+    @Query()
+    query: {
+      lowPrice?: number;
+      upperPrice?: number;
+      searchText?: string;
+    },
+  ) {
+    console.log(query);
+    if (query.searchText) {
+      return this.reportsService.getMaterialByUnit(query.searchText);
+    }
+    return this.reportsService.getMaterial();
+  }
+  // @Post()
+  // create(@Body() createReportDto: CreateReportDto) {
+  //   return this.reportsService.create(createReportDto);
+  // }
+
   @Get('/products')
   callStored() {
     return this.reportsService.calledStoreGetProduct();
+  }
+
+  @Get('/material/view')
+  callView() {
+    return this.reportsService.calledViewMaterial();
   }
 }
