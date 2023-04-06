@@ -130,123 +130,135 @@ export class ReportsService {
     }
 
     if (
-      Addes.province === 'ChiangRai' ||
-      Addes.province === 'ChiangMai' ||
-      Addes.province === 'Nan' ||
-      Addes.province === 'Phayao' ||
-      Addes.province === 'Phrae' ||
-      Addes.province === 'MaeHongSon' ||
-      Addes.province === 'Lampang' ||
-      Addes.province === 'Lamphun' ||
-      Addes.province === 'Uttaradit'
-    )
+      Addes.province.toLowerCase() === 'ChiangRai'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'ChiangMai'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Nan'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phayao'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phrae'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'MaeHongSon'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Lampang'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Lamphun'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Uttaradit'.toLowerCase()
+    ) {
       Addes.region = 'Northern';
+      console.log('Northern');
+    }
 
     if (
-      Addes.province === 'Bangkok' ||
-      Addes.province === 'KamphaengPhet' ||
-      Addes.province === 'ChaiNat' ||
-      Addes.province === 'NakhonNayok' ||
-      Addes.province === 'NakhonPathom' ||
-      Addes.province === 'NakhonSawan' ||
-      Addes.province === 'Nonthaburi' ||
-      Addes.province === 'PathumThani' ||
-      Addes.province === 'PhraNakhonSiAyutthaya' ||
-      Addes.province === 'Phichit' ||
-      Addes.province === 'Phitsanulok' ||
-      Addes.province === 'Phetchabun' ||
-      Addes.province === 'Lopburi' ||
-      Addes.province === 'SamutPrakan' ||
-      Addes.province === 'SamutSakhon' ||
-      Addes.province === 'SingBuri' ||
-      Addes.province === 'Sukhothai' ||
-      Addes.province === 'SuphanBuri' ||
-      Addes.province === 'Saraburi' ||
-      Addes.province === 'AngThong' ||
-      Addes.province === 'UthaiThani' ||
-      Addes.province === 'SamutPrakan'
-    )
+      Addes.province.toLowerCase() === 'Bangkok'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'KamphaengPhet'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'ChaiNat'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NakhonNayok'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NakhonPathom'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NakhonSawan'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Nonthaburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'PathumThani'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'PhraNakhonSiAyutthaya'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phichit'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phitsanulok'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phetchabun'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Lopburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SamutPrakan'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SamutSakhon'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SingBuri'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Sukhothai'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SuphanBuri'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Saraburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'AngThong'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'UthaiThani'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SamutPrakan'.toLowerCase()
+    ) {
       Addes.region = 'Central';
+      console.log('Central');
+    }
 
     if (
-      Addes.province === 'Kalasin' ||
-      Addes.province === 'KhonKaen' ||
-      Addes.province === 'Chaiyaphum' ||
-      Addes.province === 'NakhonPhanom' ||
-      Addes.province === 'NakhonRatchasima' ||
-      Addes.province === 'BuengKan' ||
-      Addes.province === 'Buriram' ||
-      Addes.province === 'MahaSarakham' ||
-      Addes.province === 'Mukdahan' ||
-      Addes.province === 'Yasothon' ||
-      Addes.province === 'RoiEt' ||
-      Addes.province === 'SakonNakhon' ||
-      Addes.province === 'Surin ' ||
-      Addes.province === 'Sisaket' ||
-      Addes.province === 'NongKhai' ||
-      Addes.province === 'NongBuaLamphu' ||
-      Addes.province === 'UdonThani' ||
-      Addes.province === 'UbonRatchathani' ||
-      Addes.province === 'AmnatCharoen' ||
-      Addes.province === 'Buriram'
-    )
+      Addes.province.toLowerCase() === 'Kalasin'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'KhonKaen'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Chaiyaphum'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NakhonPhanom'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NakhonRatchasima'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'BuengKan'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Buriram'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'MahaSarakham'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Mukdahan'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Yasothon'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Roiet'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SakonNakhon'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Surin'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Sisaket'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NongKhai'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NongBuaLamphu'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'UdonThani'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'UbonRatchathani'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'AmnatCharoen'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Buriram'.toLowerCase()
+    ) {
       Addes.region = 'Northeastern';
+      console.log('Northeastern');
+    }
 
     if (
-      Addes.province === 'Chanthaburi' ||
-      Addes.province === 'Chachoengsao' ||
-      Addes.province === 'จังหวัดชลบุรี' ||
-      Addes.province === 'Trat' ||
-      Addes.province === 'Prachinburi' ||
-      Addes.province === 'Rayong' ||
-      Addes.province === 'SaKaeo'
-    )
+      Addes.province.toLowerCase() === 'Chanthaburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Chachoengsao'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'จังหวัดชลบุรี'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Trat'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Prachinburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Rayong'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SaKaeo'.toLowerCase()
+    ) {
       Addes.region = 'Eastern';
+      console.log('Eastern');
+    }
 
     if (
-      Addes.province === 'Kanchanaburi' ||
-      Addes.province === 'Tak' ||
-      Addes.province === 'Prachuap' ||
-      Addes.province === 'KhiriKhan' ||
-      Addes.province === 'Phetchaburi' ||
-      Addes.province === 'Ratchaburi'
-    )
+      Addes.province.toLowerCase() === 'Kanchanaburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Tak'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Prachuap'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'KhiriKhan'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phetchaburi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Ratchaburi'.toLowerCase()
+    ) {
       Addes.region = 'Western';
+      console.log('Western');
+    }
 
     if (
-      Addes.province === 'Krabi' ||
-      Addes.province === 'Chumphon' ||
-      Addes.province === 'Trang' ||
-      Addes.province === 'NakhonSiThammarat' ||
-      Addes.province === 'Narathiwat' ||
-      Addes.province === 'Pattani' ||
-      Addes.province === 'PhangNga' ||
-      Addes.province === 'Phatthalung' ||
-      Addes.province === 'Phuket' ||
-      Addes.province === 'Ranong' ||
-      Addes.province === 'Satun' ||
-      Addes.province === 'Songkhla ' ||
-      Addes.province === 'SuratThani' ||
-      Addes.province === 'Yala'
-    )
+      Addes.province.toLowerCase() === 'Krabi'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Chumphon'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Trang'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'NakhonSiThammarat'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Narathiwat'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Pattani'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'PhangNga'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phatthalung'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Phuket'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Ranong'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Satun'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Songkhla'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'SuratThani'.toLowerCase() ||
+      Addes.province.toLowerCase() === 'Yala'
+    ) {
       Addes.region = 'Southern';
-    else Addes.region = '';
+      console.log('Southern');
+    }
+    console.log(Addes);
 
-    // const res = await this.dataSource
-    //   .query(`INSERT INTO STORE_DW (STORE_KEY,STORE_NAME,STORE_NAME_SUBDISTRICT,STORE_NAME_DISTRICT,province,STORE_NAME_REGION)
-    // VALUES(   ${storeId} ,
-    //           ${storeName} ,
-    //           ${subDis},
-    //           ${dis},
-    //           ${province},
-    //           ${region})`);
+    const res = await this.dataSource
+      .query(`INSERT INTO STORE_DW (STORE_KEY,STORE_NAME,STORE_NAME_SUBDISTRICT,STORE_NAME_DISTRICT,STORE_NAME_PROVINCE,STORE_NAME_REGION) 
+      VALUES(  
+       ${Addes.storeId},
+              '${Addes.name}' ,
+             ' ${Addes.subDistrict}',
+             ' ${Addes.District}',
+             ' ${Addes.province}',
+             ' ${Addes.region}');`);
 
-    console.log('rode: ', rode);
-    console.log('province: ', province);
-    console.log('dis: ', dis);
-    console.log('subDis: ', subDis);
-    console.log('region: ', region);
-    // return res;
+    // console.log('province: ', province);
+    // console.log('dis: ', dis);
+    // console.log('subDis: ', subDis);
+    // console.log('region: ', region);
+    return res;
   }
 
   async calledViewMaterial() {
