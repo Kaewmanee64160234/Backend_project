@@ -22,9 +22,13 @@ export class BillsController {
   @Roles(Role.Employee, Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
+<<<<<<< HEAD
   create(
     @Body() createBillDto: CreateBillDto,
   ){
+=======
+  create(@Body() createBillDto: CreateBillDto) {
+>>>>>>> d90e55fa5a3a00d6df10bbe6e5a46293f71dee51
     return this.billsService.create(createBillDto);
   }
   @Roles(Role.Employee, Role.Owner)
