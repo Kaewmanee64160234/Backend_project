@@ -12,7 +12,7 @@ export class StoresService {
     private readonly storesRepository: Repository<Store>,
   ) {}
   create(createStoreDto: CreateStoreDto) {
-    console.log(createStoreDto)
+    console.log(createStoreDto);
     return this.storesRepository.save(createStoreDto);
   }
 
