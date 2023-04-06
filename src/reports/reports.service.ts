@@ -24,6 +24,12 @@ export class ReportsService {
     );
   }
 
+  trigger(searchText: any) {
+    return this.dataSource.query(
+      'SELECT * FROM product WHERE product_name LIKE "%' + searchText + '%"',
+    );
+  }
+
   async calledStoreGetProduct() {
     const products = await this.dataSource.query('CALL getProduct()');
     const productList = new Array<Product>();
