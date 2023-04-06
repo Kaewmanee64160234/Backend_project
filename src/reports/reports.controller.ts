@@ -12,6 +12,7 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { query } from 'express';
+import { Store } from 'src/stores/entities/store.entity';
 
 @Controller('reports')
 export class ReportsController {
@@ -59,8 +60,8 @@ export class ReportsController {
   }
 
   @Get('/reg')
-  testRegX() {
-    return this.reportsService.testRegXData();
+  testRegX(@Body() store: Store) {
+    return this.reportsService.testRegXData(store);
   }
 
   @Get('/material/view')
