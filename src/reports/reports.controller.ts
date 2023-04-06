@@ -12,7 +12,11 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { query } from 'express';
+<<<<<<< HEAD
 import { Customer } from 'src/customers/entities/customer.entity';
+=======
+import { Store } from 'src/stores/entities/store.entity';
+>>>>>>> b26a25cd7df7234e2fbd10305af6e061a4f996be
 
 @Controller('reports')
 export class ReportsController {
@@ -60,8 +64,8 @@ export class ReportsController {
   }
 
   @Get('/reg')
-  testRegX() {
-    return this.reportsService.testRegXData();
+  testRegX(@Body() store: Store) {
+    return this.reportsService.testRegXData(store);
   }
 
   @Get('/material/view')
