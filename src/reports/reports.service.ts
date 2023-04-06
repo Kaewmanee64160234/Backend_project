@@ -93,129 +93,144 @@ export class ReportsService {
     const dis = dis_.exec(address);
     const subDis = subDis_.exec(address);
     const province = province_.exec(address);
-    let region = '';
-    const storeId = store.id;
-    const storeName = store.name;
+    const region = '';
     const Addes = {
-      rode: '',
+      road: '',
       province: '',
       region: '',
       subDistrict: '',
+      District: '',
+      storeId: store.id,
+      name: store.name,
     };
-    if (rode === null || !rode[1] || rode[1] === null) {
-      rode[1] = '';
+    if (rode === null) {
+      Addes.road = '';
     }
-    if (province === null || !province[1] || province[1] === null) {
-      province[1] = '';
+    if (province === null) {
+      Addes.province = '';
     }
-    if (province === null || !dis[1] || province[1] === null) {
-      dis[1] = '';
+    if (dis === null) {
+      Addes.District = '';
     }
-    if (!subDis[1] || subDis[1] === null || subDis === null) {
-      subDis[1] = '';
+    if (subDis === null) {
+      Addes.subDistrict = '';
     }
-    if (
-      province[1] === 'ChiangRai' ||
-      province[1] === 'ChiangMai' ||
-      province[1] === 'Nan' ||
-      province[1] === 'Phayao' ||
-      province[1] === 'Phrae' ||
-      province[1] === 'MaeHongSon' ||
-      province[1] === 'Lampang' ||
-      province[1] === 'Lamphun' ||
-      province[1] === 'Uttaradit'
-    )
-      region = 'Northern';
+    //*
+    if (rode !== null) {
+      Addes.road = rode[1];
+    }
+    if (province !== null) {
+      Addes.province = province[1];
+    }
+    if (dis !== null) {
+      Addes.District = dis[1];
+    }
+    if (subDis !== null) {
+      Addes.subDistrict = subDis[1];
+    }
 
     if (
-      province[1] === 'Bangkok' ||
-      province[1] === 'KamphaengPhet' ||
-      province[1] === 'ChaiNat' ||
-      province[1] === 'NakhonNayok' ||
-      province[1] === 'NakhonPathom' ||
-      province[1] === 'NakhonSawan' ||
-      province[1] === 'Nonthaburi' ||
-      province[1] === 'PathumThani' ||
-      province[1] === 'PhraNakhonSiAyutthaya' ||
-      province[1] === 'Phichit' ||
-      province[1] === 'Phitsanulok' ||
-      province[1] === 'Phetchabun' ||
-      province[1] === 'Lopburi' ||
-      province[1] === 'SamutPrakan' ||
-      province[1] === 'SamutSakhon' ||
-      province[1] === 'SingBuri' ||
-      province[1] === 'Sukhothai' ||
-      province[1] === 'SuphanBuri' ||
-      province[1] === 'Saraburi' ||
-      province[1] === 'AngThong' ||
-      province[1] === 'UthaiThani' ||
-      province[1] === 'SamutPrakan'
+      Addes.province === 'ChiangRai' ||
+      Addes.province === 'ChiangMai' ||
+      Addes.province === 'Nan' ||
+      Addes.province === 'Phayao' ||
+      Addes.province === 'Phrae' ||
+      Addes.province === 'MaeHongSon' ||
+      Addes.province === 'Lampang' ||
+      Addes.province === 'Lamphun' ||
+      Addes.province === 'Uttaradit'
     )
-      region = 'Central';
+      Addes.region = 'Northern';
 
     if (
-      province[1] === 'Kalasin' ||
-      province[1] === 'KhonKaen' ||
-      province[1] === 'Chaiyaphum' ||
-      province[1] === 'NakhonPhanom' ||
-      province[1] === 'NakhonRatchasima' ||
-      province[1] === 'BuengKan' ||
-      province[1] === 'Buriram' ||
-      province[1] === 'MahaSarakham' ||
-      province[1] === 'Mukdahan' ||
-      province[1] === 'Yasothon' ||
-      province[1] === 'RoiEt' ||
-      province[1] === 'SakonNakhon' ||
-      province[1] === 'Surin ' ||
-      province[1] === 'Sisaket' ||
-      province[1] === 'NongKhai' ||
-      province[1] === 'NongBuaLamphu' ||
-      province[1] === 'UdonThani' ||
-      province[1] === 'UbonRatchathani' ||
-      province[1] === 'AmnatCharoen' ||
-      province[1] === 'Buriram'
+      Addes.province === 'Bangkok' ||
+      Addes.province === 'KamphaengPhet' ||
+      Addes.province === 'ChaiNat' ||
+      Addes.province === 'NakhonNayok' ||
+      Addes.province === 'NakhonPathom' ||
+      Addes.province === 'NakhonSawan' ||
+      Addes.province === 'Nonthaburi' ||
+      Addes.province === 'PathumThani' ||
+      Addes.province === 'PhraNakhonSiAyutthaya' ||
+      Addes.province === 'Phichit' ||
+      Addes.province === 'Phitsanulok' ||
+      Addes.province === 'Phetchabun' ||
+      Addes.province === 'Lopburi' ||
+      Addes.province === 'SamutPrakan' ||
+      Addes.province === 'SamutSakhon' ||
+      Addes.province === 'SingBuri' ||
+      Addes.province === 'Sukhothai' ||
+      Addes.province === 'SuphanBuri' ||
+      Addes.province === 'Saraburi' ||
+      Addes.province === 'AngThong' ||
+      Addes.province === 'UthaiThani' ||
+      Addes.province === 'SamutPrakan'
     )
-      region = 'Northeastern';
+      Addes.region = 'Central';
 
     if (
-      province[1] === 'Chanthaburi' ||
-      province[1] === 'Chachoengsao' ||
-      province[1] === 'จังหวัดชลบุรี' ||
-      province[1] === 'Trat' ||
-      province[1] === 'Prachinburi' ||
-      province[1] === 'Rayong' ||
-      province[1] === 'SaKaeo'
+      Addes.province === 'Kalasin' ||
+      Addes.province === 'KhonKaen' ||
+      Addes.province === 'Chaiyaphum' ||
+      Addes.province === 'NakhonPhanom' ||
+      Addes.province === 'NakhonRatchasima' ||
+      Addes.province === 'BuengKan' ||
+      Addes.province === 'Buriram' ||
+      Addes.province === 'MahaSarakham' ||
+      Addes.province === 'Mukdahan' ||
+      Addes.province === 'Yasothon' ||
+      Addes.province === 'RoiEt' ||
+      Addes.province === 'SakonNakhon' ||
+      Addes.province === 'Surin ' ||
+      Addes.province === 'Sisaket' ||
+      Addes.province === 'NongKhai' ||
+      Addes.province === 'NongBuaLamphu' ||
+      Addes.province === 'UdonThani' ||
+      Addes.province === 'UbonRatchathani' ||
+      Addes.province === 'AmnatCharoen' ||
+      Addes.province === 'Buriram'
     )
-      region = 'Eastern';
+      Addes.region = 'Northeastern';
 
     if (
-      province[1] === 'Kanchanaburi' ||
-      province[1] === 'Tak' ||
-      province[1] === 'Prachuap' ||
-      province[1] === 'KhiriKhan' ||
-      province[1] === 'Phetchaburi' ||
-      province[1] === 'Ratchaburi'
+      Addes.province === 'Chanthaburi' ||
+      Addes.province === 'Chachoengsao' ||
+      Addes.province === 'จังหวัดชลบุรี' ||
+      Addes.province === 'Trat' ||
+      Addes.province === 'Prachinburi' ||
+      Addes.province === 'Rayong' ||
+      Addes.province === 'SaKaeo'
     )
-      region = 'Western';
+      Addes.region = 'Eastern';
 
     if (
-      province[1] === 'Krabi' ||
-      province[1] === 'Chumphon' ||
-      province[1] === 'Trang' ||
-      province[1] === 'NakhonSiThammarat' ||
-      province[1] === 'Narathiwat' ||
-      province[1] === 'Pattani' ||
-      province[1] === 'PhangNga' ||
-      province[1] === 'Phatthalung' ||
-      province[1] === 'Phuket' ||
-      province[1] === 'Ranong' ||
-      province[1] === 'Satun' ||
-      province[1] === 'Songkhla ' ||
-      province[1] === 'SuratThani' ||
-      province[1] === 'Yala'
+      Addes.province === 'Kanchanaburi' ||
+      Addes.province === 'Tak' ||
+      Addes.province === 'Prachuap' ||
+      Addes.province === 'KhiriKhan' ||
+      Addes.province === 'Phetchaburi' ||
+      Addes.province === 'Ratchaburi'
     )
-      region = 'Southern';
-    else region = '';
+      Addes.region = 'Western';
+
+    if (
+      Addes.province === 'Krabi' ||
+      Addes.province === 'Chumphon' ||
+      Addes.province === 'Trang' ||
+      Addes.province === 'NakhonSiThammarat' ||
+      Addes.province === 'Narathiwat' ||
+      Addes.province === 'Pattani' ||
+      Addes.province === 'PhangNga' ||
+      Addes.province === 'Phatthalung' ||
+      Addes.province === 'Phuket' ||
+      Addes.province === 'Ranong' ||
+      Addes.province === 'Satun' ||
+      Addes.province === 'Songkhla ' ||
+      Addes.province === 'SuratThani' ||
+      Addes.province === 'Yala'
+    )
+      Addes.region = 'Southern';
+    else Addes.region = '';
 
     // const res = await this.dataSource
     //   .query(`INSERT INTO STORE_DW (STORE_KEY,STORE_NAME,STORE_NAME_SUBDISTRICT,STORE_NAME_DISTRICT,province,STORE_NAME_REGION)
