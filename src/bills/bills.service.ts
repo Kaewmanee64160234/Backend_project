@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 import { Material } from 'src/materials/entities/material.entity';
+import { CreateMaterialDto } from 'src/materials/dto/create-material.dto';
 
 @Injectable()
 export class BillsService {
@@ -39,15 +40,17 @@ export class BillsService {
         where: { name: od.name },
         relations: ['bill_detail'],
       });
-      const bill_detail = new BillDetail();
-      bill_detail.name = od.name;
-      bill_detail.price = od.price;
-      bill_detail.amount = od.amount;
-      bill_detail.total = bill_detail.price * bill_detail.amount;
-      bill_detail.bill = bill; // อ้างกลับ
-      bill_detail.material = mat;
-      await this.billDetailRepository.save(bill_detail);
-      bill.total = bill.total + bill_detail.total;
+      if (mat) {
+        console.log(' found');
+        const bill_detail = new BillDetail();
+        bill_detail.name = od.name;
+        bill_detail.price = od.price;
+        bill_detail.amount = od.amount;
+        bill_detail.total = bill_detail.price * bill_detail.amount;
+        bill_detail.bill = bill; // อ้างกลับ
+        bill_detail.material = mat;
+        await this.billDetailRepository.save(bill_detail);
+      }
     }
     await this.billsRepository.save(bill); // ได้ id
     return await this.billsRepository.findOne({
@@ -84,6 +87,7 @@ export class BillsService {
     // const updatedBill = { ...bill, ...updateBillDto };
     // return this.billsRepository.save(updatedBill);
     // console.log(updateBillDto);
+    let mat = new Material();
     for (const od of updateBillDto.bill_detail) {
       const material = await this.materialsRepository.findOne({
         where: { name: od.name },
@@ -91,24 +95,21 @@ export class BillsService {
       });
       console.log(material);
       if (material) {
-        material.quantity =
+        mat = material;
+        mat.quantity =
           parseInt(od.amount + '') + parseInt(material.quantity + '');
         console.log(material.quantity);
-        material.min_quantity =
+        mat.min_quantity =
           parseInt(od.amount + '') + parseInt(material.min_quantity + '');
         console.log(material.min_quantity);
-        material.price_per_unit = od.price;
-        await this.materialsRepository.save(material);
+        mat.price_per_unit = od.price;
+        await this.materialsRepository.save(mat);
       } else {
-        const billMat = new Material();
-        billMat.name = od.name;
-        billMat.min_quantity = od.amount;
-        billMat.price_per_unit = od.price;
-        billMat.quantity = od.amount;
-        this.materialsRepository.create(billMat);
       }
-      return material;
     }
+    return {
+      status: 'Finish',
+    };
   }
 
   async remove(id: number) {
@@ -122,4 +123,12 @@ export class BillsService {
     }
     return bill;
   }
+  showBillAll = async (id: string) => {
+    const mat = await this.materialsRepository.findOne({ where: { id: +id } });
+    const bills = this.billDetailRepository.find({
+      where: { name: mat.name },
+      relations: ['bill.bill_detail'],
+    });
+    return bills;
+  };
 }

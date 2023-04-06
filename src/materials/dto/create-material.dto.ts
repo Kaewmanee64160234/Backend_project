@@ -6,14 +6,15 @@ export class CreateMaterialDto {
   @IsString()
   @Length(2, 100)
   name: string;
+
   @IsNotEmpty()
   @IsNumber()
-  @Min(5)
+  @Min(0)
   min_quantity: number;
 
   @IsNotEmpty()
   @IsNumber()
-  @Min(5)
+  @Min(0)
   quantity: number;
 
   @IsNotEmpty()
@@ -22,7 +23,4 @@ export class CreateMaterialDto {
   @IsNotEmpty()
   @Min(0)
   price_per_unit: number;
-
-  @IsNotEmpty()
-  bill_detail: BillDetail[];
 }
