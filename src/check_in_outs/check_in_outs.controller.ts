@@ -54,8 +54,6 @@ export class CheckInOutsController {
   @Roles(Role.Employee, Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
-
-
   update(@Param('id') id: string) {
     return this.checkInOutsService.updated(+id);
   }
