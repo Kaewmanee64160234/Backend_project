@@ -79,7 +79,7 @@ export class ReportsService {
     return productList;
   }
 
-  testRegXData() {
+  async testRegXData() {
     const address =
       '17/4 Village No.5 Bamroongrat Road, Pibulsongkram Sub-district, Muang District, Bangkok Province, 10400';
     const road_ = /(\b[A-Z][a-z]+)\sRoad\b/;
@@ -92,6 +92,17 @@ export class ReportsService {
     const dis = dis_.exec(address);
     const subDis = subDis_.exec(address);
     const province = province_.exec(address);
+    const region = '';
+    const storeId = 0;
+    const storeName = '';
+    const res = await this.dataSource
+      .query(`INSERT INTO STORE_DW (STORE_KEY,STORE_NAME,STORE_NAME_SUBDISTRICT,STORE_NAME_DISTRICT,STORE_NAME_PROVINCE,STORE_NAME_REGION)
+    VALUES(   ${storeId} , 
+              ${storeName} , 
+              ${subDis},
+              ${dis},
+              ${province},
+              ${region})`);
     if (!rode[1]) {
       rode[1] = '';
     }

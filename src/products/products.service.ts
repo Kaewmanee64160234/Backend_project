@@ -20,14 +20,19 @@ export class ProductsService {
     const catagory = await this.catagoriesRepository.findOne({
       where: { id: createProductDto.catagoryId },
     });
-    const newProduct = new Product();
-    newProduct.name = createProductDto.name;
-    newProduct.type = createProductDto.type;
-    newProduct.size = createProductDto.size;
-    newProduct.price = createProductDto.price;
-    newProduct.image = createProductDto.image;
-    newProduct.catagory = catagory;
-    return this.productsRepository.save(createProductDto);
+    const res = await this.dataSource
+      .query(`INSERT INTO product  (product_name, product_type, product_size, product_price, image, catagoryID)
+    VALUES
+    ('${createProductDto.name}', '${createProductDto.type}', '${createProductDto.size}', ${createProductDto.price}, '${createProductDto.image}', ${catagory.id});`);
+    return res;
+    // const newProduct = new Product();
+    // newProduct.name = createProductDto.name;
+    // newProduct.type = createProductDto.type;
+    // newProduct.size = createProductDto.size;
+    // newProduct.price = createProductDto.price;
+    // newProduct.image = createProductDto.image;
+    // newProduct.catagory = catagory;
+    // return this.productsRepository.save(createProductDto);
   }
 
   async findAll(query): Promise<Paginate> {
