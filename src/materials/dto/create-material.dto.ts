@@ -8,14 +8,19 @@ export class CreateMaterialDto {
   name: string;
 
   @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
   min_quantity: number;
 
   @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
   quantity: number;
 
   @IsNotEmpty()
   unit: string;
 
   @IsNotEmpty()
+  @Min(0)
   price_per_unit: number;
 }

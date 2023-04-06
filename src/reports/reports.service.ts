@@ -3,9 +3,11 @@ import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class ReportsService {
+  categoryRepository: any;
   constructor(@InjectDataSource() private dataSource: DataSource) {}
 
   getProduct() {
@@ -17,7 +19,6 @@ export class ReportsService {
       'SELECT * FROM product WHERE product_name LIKE "%' + searchText + '%"',
     );
   }
-
   create(createReportDto: CreateReportDto) {
     return 'This action adds a new report';
   }

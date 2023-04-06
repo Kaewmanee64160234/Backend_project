@@ -20,7 +20,7 @@ import { RolesGuard } from 'src/authorize/roles.guard';
 @Controller('materials')
 export class MaterialsController {
   constructor(private readonly materialsService: MaterialsService) {}
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Roles(Role.Employee, Role.Owner)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()

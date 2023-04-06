@@ -32,6 +32,7 @@ export class ReportsController {
     }
     return this.reportsService.getProduct();
   }
+
   // @Post()
   // create(@Body() createReportDto: CreateReportDto) {
   //   return this.reportsService.create(createReportDto);
