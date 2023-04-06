@@ -34,6 +34,7 @@ import { CheckMaterialDetailModule } from './check_material_detail/check_materia
 import { CheckMaterialDetail } from './check_material_detail/entities/check_material_detail.entity';
 import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
 import { ReportsModule } from './reports/reports.module';
+import { Report } from './reports/entities/report.entity';
 
 @Module({
   imports: [
@@ -98,7 +99,33 @@ import { ReportsModule } from './reports/reports.module';
     //   ],
     //   synchronize: true,
     // }),
-
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'playground.informatics.buu.ac.th',
+    //   port: 3306,
+    //   username: 'user3',
+    //   password: 'PlXfT6DkefF2fDTy6uvwfQ==',
+    //   database: 'user3',
+    //   entities: [
+    //     Customer,
+    //     Product,
+    //     Catagory,
+    //     Material,
+    //     Store,
+    //     Employee,
+    //     User,
+    //     Bill,
+    //     Order,
+    //     OrderItem,
+    //     CheckInOut,
+    //     CheckMaterial,
+    //     BillDetail,
+    //     CheckMaterialDetail,
+    //     SummarySalary,
+    //     Report,
+    //   ],
+    //   synchronize: true,
+    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'angsila.informatics.buu.ac.th',
@@ -122,6 +149,7 @@ import { ReportsModule } from './reports/reports.module';
         BillDetail,
         CheckMaterialDetail,
         SummarySalary,
+        Report,
       ],
       synchronize: true,
     }),

@@ -32,28 +32,39 @@ export class ReportsController {
     }
     return this.reportsService.getProduct();
   }
+
+  @Get('/material')
+  getMaterial(
+    @Query()
+    query: {
+      lowPrice?: number;
+      upperPrice?: number;
+      searchText?: string;
+    },
+  ) {
+    console.log(query);
+    if (query.searchText) {
+      return this.reportsService.getMaterialByUnit(query.searchText);
+    }
+    return this.reportsService.getMaterial();
+  }
   // @Post()
   // create(@Body() createReportDto: CreateReportDto) {
   //   return this.reportsService.create(createReportDto);
   // }
 
-  // @Get()
-  // findAll() {
-  //   return this.reportsService.findAll();
-  // }
+  @Get('/products')
+  callStored() {
+    return this.reportsService.calledStoreGetProduct();
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.reportsService.findOne(+id);
-  // }
+  @Get('/reg')
+  testRegX() {
+    return this.reportsService.testRegXData();
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateReportDto: UpdateReportDto) {
-  //   return this.reportsService.update(+id, updateReportDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.reportsService.remove(+id);
-  // }
+  @Get('/material/view')
+  callView() {
+    return this.reportsService.calledViewMaterial();
+  }
 }
