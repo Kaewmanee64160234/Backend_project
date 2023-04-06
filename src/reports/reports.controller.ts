@@ -37,4 +37,8 @@ export class ReportsController {
   callStored() {
     return this.reportsService.calledStoreGetProduct();
   }
+  @Get('/reg')
+  testRegX() {
+    return this.reportsService.testRegXData();
+  }
 }

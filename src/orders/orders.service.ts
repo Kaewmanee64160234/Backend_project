@@ -67,11 +67,11 @@ export class OrdersService {
     const orderBy = query.orderBy || 'createdDate';
     const order = query.order || 'DESC';
     const currentPage = page;
-    // const dateMin = query.dateMin || '';
-    // const dateMax = query.dateMax || '';
+    const dateMin = query.dateMin || '';
+    const dateMax = query.dateMax || '';
 
     const [result, total] = await this.ordersRepository.findAndCount({
-      // where: { createdDate: Between(dateMin, dateMax) },
+      where: { createdDate: Between(dateMin, dateMax) },
       order: { [orderBy]: order },
       relations: ['customer', 'orderItems'],
 
