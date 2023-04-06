@@ -7,6 +7,7 @@ import { Customer } from './entities/customer.entity';
 
 @Injectable()
 export class CustomersService {
+  reportsService: any;
   constructor(
     @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Customer)

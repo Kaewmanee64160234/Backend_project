@@ -6,6 +6,7 @@ import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
 import { Material } from 'src/materials/entities/material.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Injectable()
 export class ReportsService {
@@ -131,5 +132,23 @@ export class ReportsService {
       materialList.push(material);
     }
     return materialList;
+  }
+
+  async regCustomer(customer: Customer) {
+    const name = customer.name;
+    console.log(customer);
+    const date = customer.createdDate;
+    const nameRegex = /^[A-Z][a-z]+\s[A-Z][a-z]+$/;
+    const dateRegex = /\d{4}-\d{2}-\d{2}/;
+    const nameCus = nameRegex.exec(name);
+    const dateCus = dateRegex.exec(date + '');
+    if (!nameCus[1]) {
+      nameCus[1] = '';
+    }
+    if (!dateCus[1]) {
+      dateCus[1] = '';
+    }
+    console.log('Name: ', nameCus);
+    console.log('Date: ', dateCus);
   }
 }

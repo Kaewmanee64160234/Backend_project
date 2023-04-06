@@ -12,6 +12,7 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { query } from 'express';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Controller('reports')
 export class ReportsController {
@@ -66,5 +67,10 @@ export class ReportsController {
   @Get('/material/view')
   callView() {
     return this.reportsService.calledViewMaterial();
+  }
+
+  @Get('/regCustomer')
+  regCus(@Param('customer') customer: Customer) {
+    return this.reportsService.regCustomer(customer);
   }
 }
