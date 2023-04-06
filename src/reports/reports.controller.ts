@@ -33,7 +33,7 @@ export class ReportsController {
     return this.reportsService.getProduct();
   }
 
-  @Get('/product/:id')
+  @Get('/products')
   callStored() {
     return this.reportsService.calledStoreGetProduct();
   }
