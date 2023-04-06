@@ -67,24 +67,42 @@ export class OrdersService {
     const orderBy = query.orderBy || 'createdDate';
     const order = query.order || 'DESC';
     const currentPage = page;
-    // const dateMin = query.dateMin || '';
-    // const dateMax = query.dateMax || '';
+    const dateMin = query.dateMin || '';
+    const dateMax = query.dateMax || '';
 
-    const [result, total] = await this.ordersRepository.findAndCount({
-      // where: { createdDate: Between(dateMin, dateMax) },
-      order: { [orderBy]: order },
-      relations: ['customer', 'orderItems'],
+    if (dateMin === '' && dateMax === '') {
+      const [result, total] = await this.ordersRepository.findAndCount({
+        // where: { createdDate: Between(dateMin, dateMax) },
+        order: { [orderBy]: order },
+        relations: ['customer', 'orderItems'],
 
-      take: take,
-      skip: skip,
-    });
-    const lastPage = Math.ceil(total / take);
-    return {
-      data: result,
-      count: total,
-      currentPage: currentPage,
-      lastPage: lastPage,
-    };
+        take: take,
+        skip: skip,
+      });
+      const lastPage = Math.ceil(total / take);
+      return {
+        data: result,
+        count: total,
+        currentPage: currentPage,
+        lastPage: lastPage,
+      };
+    } else {
+      const [result, total] = await this.ordersRepository.findAndCount({
+        // where: { createdDate: Between(dateMin, dateMax) },
+        order: { [orderBy]: order },
+        relations: ['customer', 'orderItems'],
+
+        take: take,
+        skip: skip,
+      });
+      const lastPage = Math.ceil(total / take);
+      return {
+        data: result,
+        count: total,
+        currentPage: currentPage,
+        lastPage: lastPage,
+      };
+    }
   }
   findAllAsc() {
     return this.ordersRepository.find({

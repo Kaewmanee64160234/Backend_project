@@ -58,6 +58,11 @@ export class ReportsController {
     return this.reportsService.calledStoreGetProduct();
   }
 
+  @Get('/reg')
+  testRegX() {
+    return this.reportsService.testRegXData();
+  }
+
   @Get('/material/view')
   callView() {
     return this.reportsService.calledViewMaterial();

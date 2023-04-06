@@ -78,6 +78,38 @@ export class ReportsService {
     }
     return productList;
   }
+
+  testRegXData() {
+    const address =
+      '17/4 Village No.5 Bamroongrat Road, Pibulsongkram Sub-district, Muang District, Bangkok Province, 10400';
+    const road_ = /(\b[A-Z][a-z]+)\sRoad\b/;
+    const dis_ = /(\b[A-Z][a-z]+)\sDistrict\b/;
+    const subDis_ =
+      /(\b[A-Z][a-z]+)\sSub-district\b/ || /(\b[A-Z][a-z]+)\sSubdistrict\b/;
+    const province_ = /(\b[A-Z][a-z]+)\sProvince\b/;
+
+    const rode = road_.exec(address);
+    const dis = dis_.exec(address);
+    const subDis = subDis_.exec(address);
+    const province = province_.exec(address);
+    if (!rode[1]) {
+      rode[1] = '';
+    }
+    if (!province[1]) {
+      province[1] = '';
+    }
+    if (!dis[1]) {
+      dis[1] = '';
+    }
+    if (!subDis[1]) {
+      subDis[1] = '';
+    }
+    console.log('rode: ', rode[1]);
+    console.log('province: ', province[1]);
+    console.log('dis: ', dis[1]);
+    console.log('subDis: ', subDis[1]);
+  }
+
   async calledViewMaterial() {
     const material = await this.dataSource.query(
       'SELECT * FROM getMaterial_Box',
