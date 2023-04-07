@@ -260,6 +260,11 @@ export class ReportsService {
     // console.log('region: ', region);
     return res;
   }
+  async getPayMentMethod(id: string, method: string) {
+    const data = await this.dataSource.query(
+      `INSERT INTO PAYMENT_METHOD_DW VALUES (${id},'${method}')`,
+    );
+  }
 
   async calledViewMaterial() {
     const material = await this.dataSource.query(
