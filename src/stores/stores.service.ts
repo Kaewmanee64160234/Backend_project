@@ -13,6 +13,7 @@ export class StoresService {
     private readonly storesRepository: Repository<Store>,
     private readonly reportRepository: ReportsService,
   ) {}
+
   async create(createStoreDto: CreateStoreDto) {
     const store = await this.storesRepository.save(createStoreDto);
     await this.reportRepository.testRegXData(store);

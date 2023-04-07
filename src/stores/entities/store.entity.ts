@@ -16,7 +16,7 @@ export class Store {
   @Column({ length: 68 })
   name: string;
 
-  @Column({ length: 128 })
+  @Column()
   address: string;
 
   @Column({ length: 13 })

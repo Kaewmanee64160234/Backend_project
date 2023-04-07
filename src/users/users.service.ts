@@ -93,14 +93,13 @@ export class UsersService {
       } else {
         updateUserDto.role = Role.Employee;
       }
+      updateUserDto.password = user.password;
       const updatedUser = {
         ...user,
         ...updateUserDto,
       };
 
-      // };
-
-      return await this.usersRepository.save(user);
+      return await this.usersRepository.save(updatedUser);
     } catch (e) {
       throw new NotFoundException();
     }
@@ -153,7 +152,5 @@ export class UsersService {
     } else {
       throw new NotFoundException('Your password is not matches');
     }
-    try {
-    } catch (e) {}
   }
 }

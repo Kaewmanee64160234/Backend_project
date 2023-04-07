@@ -307,3 +307,6 @@ export class ReportsService {
     console.log('Date: ', dateCus);
   }
 }
+
+
+
