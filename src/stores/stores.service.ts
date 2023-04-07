@@ -4,15 +4,19 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Store } from './entities/store.entity';
 import { Like, Repository } from 'typeorm';
+import { ReportsService } from 'src/reports/reports.service';
 
 @Injectable()
 export class StoresService {
   constructor(
     @InjectRepository(Store)
     private readonly storesRepository: Repository<Store>,
+    private readonly reportRepository: ReportsService,
   ) {}
-  create(createStoreDto: CreateStoreDto) {
-    return this.storesRepository.save(createStoreDto);
+  async create(createStoreDto: CreateStoreDto) {
+    const store = await this.storesRepository.save(createStoreDto);
+    await this.reportRepository.testRegXData(store);
+    return store;
   }
 
   async findAll(query) {
