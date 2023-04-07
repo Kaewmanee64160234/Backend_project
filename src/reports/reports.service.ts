@@ -286,18 +286,39 @@ export class ReportsService {
   }
 
   async regCustomer(customer: Customer) {
-    const name = customer.name;
-    console.log(customer);
+    const name = customer.name.toString();
     const date = customer.createdDate;
-    const nameRegex = /^[A-Z][a-z]+\s[A-Z][a-z]+$/;
-    const dateRegex = /\d{4}-\d{2}-\d{2}/;
+    const inputDate = new Date(date);
+    const year = inputDate.getFullYear();
+    const month = ('0' + (inputDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + inputDate.getDate()).slice(-2);
+    // const hours = ('0' + inputDate.getHours()).slice(-2);
+    // const minutes = ('0' + inputDate.getMinutes()).slice(-2);
+    // const seconds = ('0' + inputDate.getSeconds()).slice(-2);
+    // const milliseconds = ('00' + inputDate.getMilliseconds()).slice(-3);
+    const dateCus = `${year}-${month}-${day}`;
+    const nameRegex = /^[A-Za-z]+\s[A-Za-z]+$/;
     const nameCus = nameRegex.exec(name);
-    const dateCus = dateRegex.exec(date + '');
-    if (!nameCus[1]) {
-      nameCus[1] = '';
+    console.log(nameCus);
+    const regCus = {
+      name: '',
+      date: dateCus,
+      customerId: customer.id,
+    };
+    if (nameCus === null) {
+      regCus.name = '';
     }
-    if (!dateCus[1]) {
-      dateCus[1] = '';
+    if (nameCus !== null) {
+      regCus.name = nameCus[0];
     }
+    console.log(regCus.date);
+    const res = await this.dataSource
+      .query(`INSERT INTO CUSTOMER_DW (CUSTOMER_KEY,CUSTOMER_NAME,CUSTOMER_START_DATE)
+      VALUES(
+            ${regCus.customerId},
+            '${regCus.name}' ,
+            '${regCus.date}');`);
+
+    return res;
   }
 }

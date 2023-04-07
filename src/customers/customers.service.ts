@@ -4,6 +4,7 @@ import { DataSource, Like, Repository } from 'typeorm';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { Customer } from './entities/customer.entity';
+import { ReportsService } from 'src/reports/reports.service';
 
 @Injectable()
 export class CustomersService {
@@ -12,10 +13,12 @@ export class CustomersService {
     @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Customer)
     private readonly customersRepositiry: Repository<Customer>,
+    private readonly reportRepository: ReportsService,
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto) {
     const user = await this.customersRepositiry.save(createCustomerDto);
+    await this.reportRepository.regCustomer(user);
     return user;
   }
 
