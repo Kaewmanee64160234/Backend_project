@@ -51,14 +51,15 @@ export class OrdersService {
       orderItem.name = orderItem.product.name;
       orderItem.price = orderItem.product.price;
       orderItem.total = orderItem.price * orderItem.amount;
-      orderItem.order = order; // อ้างกลับ
+      orderItem.order = order;
       orderItem.createdDate = new Date();
       await this.orderItemsRepository.save(orderItem);
       order.total = order.total + orderItem.total;
       console.log(orderItem.createdDate);
     }
     const or_ = await this.ordersRepository.save(order); // ได้ id
-    // await this.reportsService.getPayMentMethod(or_.id + '', or_.payment);
+    await this.reportsService.getPayMentMethod(or_.id + '', or_.payment);
+    await this.reportsService.insertDataToTimeDW(or_.createdDate);
     return await this.ordersRepository.findOne({
       where: { id: order.id },
       relations: ['orderItems'],
