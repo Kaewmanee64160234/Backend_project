@@ -69,7 +69,6 @@ export class ReportsController {
   callView() {
     return this.reportsService.calledViewMaterial();
   }
-
   @Get('/regCustomer')
   regCus(@Body() customer: Customer) {
     return this.reportsService.regCustomer(customer);
