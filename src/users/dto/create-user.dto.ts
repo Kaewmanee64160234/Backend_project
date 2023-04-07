@@ -40,9 +40,9 @@ export class CreateUserDto {
   name_employee: string;
   @IsNotEmpty()
   @Length(6, 64)
-  @Matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  )
+  // @Matches(
+  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  // )
   password: string;
 
   @IsNotEmpty()
