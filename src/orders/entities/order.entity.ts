@@ -13,8 +13,7 @@ import { OrderItem } from './order-item';
 import { Store } from 'src/stores/entities/store.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
 
-@Entity()
-// @Entity({ name: 'order_' })
+@Entity({ name: 'order_' })
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
