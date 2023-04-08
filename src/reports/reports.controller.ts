@@ -12,8 +12,9 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { query } from 'express';
-import { Customer } from 'src/customers/entities/customer.entity';
 import { Store } from 'src/stores/entities/store.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
+
 @Controller('reports')
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
@@ -49,7 +50,6 @@ export class ReportsController {
     }
     return this.reportsService.getMaterial();
   }
-
   // @Post()
   // create(@Body() createReportDto: CreateReportDto) {
   //   return this.reportsService.create(createReportDto);
