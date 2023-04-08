@@ -35,9 +35,11 @@ import { CheckMaterialDetail } from './check_material_detail/entities/check_mate
 import { SummarySalary } from './summary_salary/entities/summary_salary.entity';
 import { ReportsModule } from './reports/reports.module';
 import { Report } from './reports/entities/report.entity';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ProductsModule,
     CatagoriesModule,
     CustomersModule,

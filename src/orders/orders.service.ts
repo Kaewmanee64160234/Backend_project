@@ -14,6 +14,7 @@ import { Role } from 'src/types/Role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/authorize/roles.guard';
 import { format } from 'date-fns';
+import { ReportsService } from 'src/reports/reports.service';
 @Injectable()
 export class OrdersService {
   constructor(
@@ -25,21 +26,21 @@ export class OrdersService {
     private productsRepository: Repository<Product>,
     @InjectRepository(OrderItem)
     private orderItemsRepository: Repository<OrderItem>,
+    private reportsService: ReportsService,
   ) {}
-  BetweenDates = (from: Date | string, to: Date | string) =>
-    Between(
-      format(
-        typeof from === 'string' ? new Date(from) : from,
-        'YYYY-MM-DD HH:MM:SS',
-      ),
-      format(typeof to === 'string' ? new Date(to) : to, 'YYYY-MM-DD HH:MM:SS'),
-    );
+
   async create(createOrderDto: CreateOrderDto) {
     const customer = await this.customersRepository.findOneBy({
       id: createOrderDto.customerId,
     });
     const order: Order = new Order();
-    order.customer = customer;
+    const cus = new Customer();
+    if (!customer) {
+      cus.name = 'anonymous';
+      order.customer = cus;
+    } else {
+      order.customer = customer;
+    }
     order.discount = createOrderDto.discount;
     order.recieved = createOrderDto.recieved;
     order.change = createOrderDto.recieved - createOrderDto.total;
@@ -56,14 +57,17 @@ export class OrdersService {
       orderItem.name = orderItem.product.name;
       orderItem.price = orderItem.product.price;
       orderItem.total = orderItem.price * orderItem.amount;
-      orderItem.order = order; // อ้างกลับ
+      orderItem.order = order;
       await this.orderItemsRepository.save(orderItem);
       order.total = order.total + orderItem.total;
+      console.log(orderItem.createdDate);
     }
-    await this.ordersRepository.save(order); // ได้ id
+    const or_ = await this.ordersRepository.save(order); // ได้ id
+    // await this.reportsService.getPayMentMethod(or_.id + '', or_.payment);
+    // await this.reportsService.insertDataToTimeDW(or_.createdDate);
     return await this.ordersRepository.findOne({
       where: { id: order.id },
-      relations: ['orderItems'],
+      relations: ['orderItems', 'customer'],
     });
   }
 
