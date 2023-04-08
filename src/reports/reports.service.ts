@@ -6,6 +6,7 @@ import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
 import { Material } from 'src/materials/entities/material.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 import { Store } from 'src/stores/entities/store.entity';
 
 @Injectable()
@@ -284,21 +285,40 @@ export class ReportsService {
     return materialList;
   }
 
-  regCustomer() {
-    const name = 'Manita Intharachot';
-    const date = '2023-04-02T01:26:10.910Z';
-    const nameRegex = /^[A-Z][a-z]+\s[A-Z][a-z]+$/;
-    const dateRegex =
-      /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/;
+  async regCustomer(customer: Customer) {
+    const name = customer.name.toString();
+    const date = customer.createdDate;
+    const inputDate = new Date(date);
+    const year = inputDate.getFullYear();
+    const month = ('0' + (inputDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + inputDate.getDate()).slice(-2);
+    // const hours = ('0' + inputDate.getHours()).slice(-2);
+    // const minutes = ('0' + inputDate.getMinutes()).slice(-2);
+    // const seconds = ('0' + inputDate.getSeconds()).slice(-2);
+    // const milliseconds = ('00' + inputDate.getMilliseconds()).slice(-3);
+    const dateCus = `${year}-${month}-${day}`;
+    const nameRegex = /^[A-Za-z]+\s[A-Za-z]+$/;
     const nameCus = nameRegex.exec(name);
-    const dateCus = dateRegex.exec(date);
-    // if (!nameCus[1]) {
-    //   nameCus[1] = '';
-    // }
-    // if (!dateCus[1]) {
-    //   dateCus[1] = '';
-    // }
-    console.log('Name: ', nameCus);
-    console.log('Date: ', dateCus);
+    console.log(nameCus);
+    const regCus = {
+      name: '',
+      date: dateCus,
+      customerId: customer.id,
+    };
+    if (nameCus === null) {
+      regCus.name = '';
+    }
+    if (nameCus !== null) {
+      regCus.name = nameCus[0];
+    }
+    console.log(regCus.date);
+    const res = await this.dataSource
+      .query(`INSERT INTO CUSTOMER_DW (CUSTOMER_KEY,CUSTOMER_NAME,CUSTOMER_START_DATE)
+      VALUES(
+            ${regCus.customerId},
+            '${regCus.name}' ,
+            '${regCus.date}');`);
+
+    return res;
   }
 }

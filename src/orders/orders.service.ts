@@ -8,12 +8,12 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderItem } from './entities/order-item';
 import { Order } from './entities/order.entity';
 import { startWith } from 'rxjs';
-import { MaxDate, MinDate } from 'class-validator';
+import { MaxDate, MinDate, minDate } from 'class-validator';
 import { Roles } from 'src/authorize/roles.decorator';
 import { Role } from 'src/types/Role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/authorize/roles.guard';
-
+import { format } from 'date-fns';
 @Injectable()
 export class OrdersService {
   constructor(
@@ -26,6 +26,14 @@ export class OrdersService {
     @InjectRepository(OrderItem)
     private orderItemsRepository: Repository<OrderItem>,
   ) {}
+  BetweenDates = (from: Date | string, to: Date | string) =>
+    Between(
+      format(
+        typeof from === 'string' ? new Date(from) : from,
+        'YYYY-MM-DD HH:MM:SS',
+      ),
+      format(typeof to === 'string' ? new Date(to) : to, 'YYYY-MM-DD HH:MM:SS'),
+    );
   async create(createOrderDto: CreateOrderDto) {
     const customer = await this.customersRepository.findOneBy({
       id: createOrderDto.customerId,
@@ -88,13 +96,16 @@ export class OrdersService {
       };
     } else {
       const [result, total] = await this.ordersRepository.findAndCount({
-        // where: { createdDate: Between(dateMin, dateMax) },
+        where: {
+          createdDate: Between(dateMin, dateMax),
+        },
         order: { [orderBy]: order },
         relations: ['customer', 'orderItems'],
 
         take: take,
         skip: skip,
       });
+      console.log(result);
       const lastPage = Math.ceil(total / take);
       return {
         data: result,
