@@ -12,12 +12,9 @@ import {
 import { OrderItem } from './order-item';
 import { Store } from 'src/stores/entities/store.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
-<<<<<<< HEAD
-// @Entity({ name: 'order_' })
+
 @Entity()
-=======
-@Entity({ name: 'order_' })
->>>>>>> 9c7b52e5a56b0279b943b561c20d5be175c6297a
+// @Entity({ name: 'order_' })
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
