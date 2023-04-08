@@ -277,25 +277,25 @@ export class ReportsService {
     const seconds = ('0' + inputDate.getSeconds()).slice(-2);
     const milliseconds = ('00' + inputDate.getMilliseconds()).slice(-3);
     const outputDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-    console.log(`INSERT INTO TIME_DW (TIME_ORIGINAL, TIME_DATE, TIME_MONTH, TIME_QUARTER, TIME_YEAR, TIME_DAY_OF_WEEK) 
-    VALUES (
-          CAST('${outputDate}' AS DATETIME),
-          DAYOFMONTH(CAST('${outputDate}' AS DATETIME)) ,
-          MONTH(CAST('${outputDate}' AS DATETIME)) ,
-          QUARTER(CAST('${outputDate}' AS DATETIME)) ,
-          YEAR(CAST('${outputDate}' AS DATETIME)) ,
-          DATE_FORMAT(CAST('${outputDate}' AS DATETIME), "%a") 
-        )
-       `);
+    // console.log(`INSERT INTO TIME_DW (TIME_ORIGINAL, TIME_DATE, TIME_MONTH, TIME_QUARTER, TIME_YEAR, TIME_DAY_OF_WEEK)
+    // VALUES (
+    //       CAST('${outputDate}' AS DATETIME),
+    //       DAYOFMONTH(CAST('${outputDate}' AS DATETIME)) ,
+    //       MONTH(CAST('${outputDate}' AS DATETIME)) ,
+    //       QUARTER(CAST('${outputDate}' AS DATETIME)) ,
+    //       YEAR(CAST('${outputDate}' AS DATETIME)) ,
+    //       DATE_FORMAT(CAST('${outputDate}' AS DATETIME), "%a")
+    //     )
+    //    `);
     const time = await this.dataSource
-      .query(`INSERT INTO TIME_DW (TIME_ORIGINAL, TIME_DATE, TIME_MONTH, TIME_QUARTER, TIME_YEAR, TIME_DAY_OF_WEEK) 
+      .query(`INSERT INTO TIME_DW (TIME_ORIGINAL, TIME_DATE, TIME_MONTH, TIME_QUARTER, TIME_YEAR, TIME_DAY_OF_WEEK)
       VALUES (
             CAST('${outputDate}' AS DATETIME),
             DAYOFMONTH(CAST('${outputDate}' AS DATETIME)) ,
             MONTH(CAST('${outputDate}' AS DATETIME)) ,
             QUARTER(CAST('${outputDate}' AS DATETIME)) ,
             YEAR(CAST('${outputDate}' AS DATETIME)) ,
-            DATE_FORMAT(CAST('${outputDate}' AS DATETIME), "%a") 
+            DATE_FORMAT(CAST('${outputDate}' AS DATETIME), "%a")
           )
        `);
     return time;
