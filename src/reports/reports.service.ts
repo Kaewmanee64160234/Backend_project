@@ -336,20 +336,20 @@ export class ReportsService {
     // const seconds = ('0' + inputDate.getSeconds()).slice(-2);
     // const milliseconds = ('00' + inputDate.getMilliseconds()).slice(-3);
     const dateCus = `${year}-${month}-${day}`;
-    const nameRegex = /^[A-Za-z]+\s[A-Za-z]+$/;
-    const nameCus = nameRegex.exec(name);
-    console.log(nameCus);
+    // const nameRegex = /^[A-Za-z]+\s[A-Za-z]+$/;
+    // const nameCus = nameRegex.exec(name);
+    console.log(name);
     const regCus = {
       name: '',
       date: dateCus,
       customerId: customer.id,
     };
-    if (nameCus === null) {
+    if (name === null) {
       regCus.name = '';
     }
-    if (nameCus !== null) {
-      regCus.name = nameCus[0];
-    }
+    // if (name !== null) {
+    //   regCus.name = name[0];
+    // }
     console.log(regCus.date);
     const res = await this.dataSource
       .query(`INSERT INTO CUSTOMER_DW (CUSTOMER_KEY,CUSTOMER_NAME,CUSTOMER_START_DATE)
@@ -360,49 +360,46 @@ export class ReportsService {
 
     return res;
   }
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async tryToRun() {
-    console.log('update');
-    return await this.dataSource.query(`INSERT INTO FACT_TABLE (
-      TIME_KEY,
-      PAYMENT_ID,
-      PRODUCT_KEY,
-      CUSTOMER_KEY,
-      STORE_KEY,
-      TOTAL_OF_SELL,
-      AMOUNT_OF_SELL,
-      DISCOUNT_OF_SELL
-  )
-  
-  SELECT
-    
-      TIME_DW.TIME_ID,
-      PAYMENT_METHOD_DW.PAYMENT_ID,
-      PRODUCT_DW.PRODUCT_KEY,
-      CUSTOMER_DW.CUSTOMER_KEY,
-      STORE_DW.STORE_KEY,
-      
-      SUM(order_item.total),
-      SUM(order_item.amount),
-      SUM(order_.discount)
-  FROM
-      order_item
-  INNER JOIN order_ ON order_item.orderId = order_.id
-  INNER JOIN TIME_DW ON CAST(order_.createdDate AS DATETIME) = TIME_DW.TIME_ORIGINAL 
-  INNER JOIN STORE_DW ON order_.storeId = STORE_DW.STORE_KEY
-  INNER JOIN CUSTOMER_DW ON order_.customerId = CUSTOMER_DW.CUSTOMER_KEY
-  INNER JOIN PRODUCT_DW ON order_item.productId = PRODUCT_DW.PRODUCT_KEY
-  INNER JOIN PAYMENT_METHOD_DW ON order_.payment = PAYMENT_METHOD_DW.PAYMENT_TYPE
-  GROUP BY
-      TIME_DW.TIME_ID,
-      PAYMENT_METHOD_DW.PAYMENT_ID,
-      PRODUCT_DW.PRODUCT_KEY,
-      CUSTOMER_DW.CUSTOMER_KEY,
-      STORE_DW.STORE_KEY,
-      order_.employeeId,
-      order_.createdDate,
-      order_item.productId;
-`);
+    // console.log('update');
+    //     return await this.dataSource.query(`INSERT INTO FACT_TABLE (
+    //       TIME_KEY,
+    //       PAYMENT_ID,
+    //       PRODUCT_KEY,
+    //       CUSTOMER_KEY,
+    //       STORE_KEY,
+    //       TOTAL_OF_SELL,
+    //       AMOUNT_OF_SELL,
+    //       DISCOUNT_OF_SELL
+    //   )
+    //   SELECT
+    //       TIME_DW.TIME_ID,
+    //       PAYMENT_METHOD_DW.PAYMENT_ID,
+    //       PRODUCT_DW.PRODUCT_KEY,
+    //       CUSTOMER_DW.CUSTOMER_KEY,
+    //       STORE_DW.STORE_KEY,
+    //       SUM(order_item.total),
+    //       SUM(order_item.amount),
+    //       SUM(order_.discount)
+    //   FROM
+    //       order_item
+    //   INNER JOIN order_ ON order_item.orderId = order_.id
+    //   INNER JOIN TIME_DW ON CAST(order_.createdDate AS DATETIME) = TIME_DW.TIME_ORIGINAL
+    //   INNER JOIN STORE_DW ON order_.storeId = STORE_DW.STORE_KEY
+    //   INNER JOIN CUSTOMER_DW ON order_.customerId = CUSTOMER_DW.CUSTOMER_KEY
+    //   INNER JOIN PRODUCT_DW ON order_item.productId = PRODUCT_DW.PRODUCT_KEY
+    //   INNER JOIN PAYMENT_METHOD_DW ON order_.payment = PAYMENT_METHOD_DW.PAYMENT_TYPE
+    //   GROUP BY
+    //       TIME_DW.TIME_ID,
+    //       PAYMENT_METHOD_DW.PAYMENT_ID,
+    //       PRODUCT_DW.PRODUCT_KEY,
+    //       CUSTOMER_DW.CUSTOMER_KEY,
+    //       STORE_DW.STORE_KEY,
+    //       order_.employeeId,
+    //       order_.createdDate,
+    //       order_item.productId;
+    // `);
     // console.log('Hello');
   }
 }

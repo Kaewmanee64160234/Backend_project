@@ -34,7 +34,13 @@ export class OrdersService {
       id: createOrderDto.customerId,
     });
     const order: Order = new Order();
-    order.customer = customer;
+    const cus = new Customer();
+    if (!customer) {
+      cus.name = 'anonymous';
+      order.customer = cus;
+    } else {
+      order.customer = customer;
+    }
     order.discount = createOrderDto.discount;
     order.recieved = createOrderDto.recieved;
     order.change = createOrderDto.recieved - createOrderDto.total;
@@ -52,7 +58,6 @@ export class OrdersService {
       orderItem.price = orderItem.product.price;
       orderItem.total = orderItem.price * orderItem.amount;
       orderItem.order = order;
-      orderItem.createdDate = new Date();
       await this.orderItemsRepository.save(orderItem);
       order.total = order.total + orderItem.total;
       console.log(orderItem.createdDate);
