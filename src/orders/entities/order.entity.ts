@@ -12,7 +12,13 @@ import {
 import { OrderItem } from './order-item';
 import { Store } from 'src/stores/entities/store.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
+<<<<<<< HEAD
 @Entity({ name: 'order_' })
+=======
+
+@Entity()
+// @Entity({ name: 'order_' })
+>>>>>>> d867a1545b9b3971863d43e7977b6f1827ac3d54
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;

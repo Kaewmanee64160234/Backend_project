@@ -6,8 +6,9 @@ import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
 import { Material } from 'src/materials/entities/material.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 import { Store } from 'src/stores/entities/store.entity';
-
+import { Cron, CronExpression } from '@nestjs/schedule';
 @Injectable()
 export class ReportsService {
   constructor(
@@ -260,6 +261,45 @@ export class ReportsService {
     // console.log('region: ', region);
     return res;
   }
+  async getPayMentMethod(id: string, method: string) {
+    const data = await this.dataSource.query(
+      `INSERT INTO PAYMENT_METHOD_DW VALUES (${id},'${method}')`,
+    );
+  }
+
+  async insertDataToTimeDW(date: Date) {
+    const inputDate = new Date(date);
+    const year = inputDate.getFullYear();
+    const month = ('0' + (inputDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + inputDate.getDate()).slice(-2);
+    const hours = ('0' + inputDate.getHours()).slice(-2);
+    const minutes = ('0' + inputDate.getMinutes()).slice(-2);
+    const seconds = ('0' + inputDate.getSeconds()).slice(-2);
+    const milliseconds = ('00' + inputDate.getMilliseconds()).slice(-3);
+    const outputDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+    console.log(`INSERT INTO TIME_DW (TIME_ORIGINAL, TIME_DATE, TIME_MONTH, TIME_QUARTER, TIME_YEAR, TIME_DAY_OF_WEEK) 
+    VALUES (
+          CAST('${outputDate}' AS DATETIME),
+          DAYOFMONTH(CAST('${outputDate}' AS DATETIME)) ,
+          MONTH(CAST('${outputDate}' AS DATETIME)) ,
+          QUARTER(CAST('${outputDate}' AS DATETIME)) ,
+          YEAR(CAST('${outputDate}' AS DATETIME)) ,
+          DATE_FORMAT(CAST('${outputDate}' AS DATETIME), "%a") 
+        )
+       `);
+    const time = await this.dataSource
+      .query(`INSERT INTO TIME_DW (TIME_ORIGINAL, TIME_DATE, TIME_MONTH, TIME_QUARTER, TIME_YEAR, TIME_DAY_OF_WEEK) 
+      VALUES (
+            CAST('${outputDate}' AS DATETIME),
+            DAYOFMONTH(CAST('${outputDate}' AS DATETIME)) ,
+            MONTH(CAST('${outputDate}' AS DATETIME)) ,
+            QUARTER(CAST('${outputDate}' AS DATETIME)) ,
+            YEAR(CAST('${outputDate}' AS DATETIME)) ,
+            DATE_FORMAT(CAST('${outputDate}' AS DATETIME), "%a") 
+          )
+       `);
+    return time;
+  }
 
   async calledViewMaterial() {
     const material = await this.dataSource.query(
@@ -284,21 +324,124 @@ export class ReportsService {
     return materialList;
   }
 
-  regCustomer() {
-    const name = 'Manita Intharachot';
-    const date = '2023-04-02T01:26:10.910Z';
-    const nameRegex = /^[A-Z][a-z]+\s[A-Z][a-z]+$/;
-    const dateRegex =
-      /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/;
+  async regCustomer(customer: Customer) {
+    const name = customer.name.toString();
+    const date = customer.createdDate;
+    const inputDate = new Date(date);
+    const year = inputDate.getFullYear();
+    const month = ('0' + (inputDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + inputDate.getDate()).slice(-2);
+    // const hours = ('0' + inputDate.getHours()).slice(-2);
+    // const minutes = ('0' + inputDate.getMinutes()).slice(-2);
+    // const seconds = ('0' + inputDate.getSeconds()).slice(-2);
+    // const milliseconds = ('00' + inputDate.getMilliseconds()).slice(-3);
+    const dateCus = `${year}-${month}-${day}`;
+    const nameRegex = /^[A-Za-z]+\s[A-Za-z]+$/;
     const nameCus = nameRegex.exec(name);
-    const dateCus = dateRegex.exec(date);
-    // if (!nameCus[1]) {
-    //   nameCus[1] = '';
-    // }
-    // if (!dateCus[1]) {
-    //   dateCus[1] = '';
-    // }
-    console.log('Name: ', nameCus);
-    console.log('Date: ', dateCus);
+    console.log(name);
+    const regCus = {
+      name: '',
+      date: dateCus,
+      customerId: customer.id,
+    };
+    if (name === null) {
+      regCus.name = '';
+    }
+    if (name !== null) {
+      regCus.name = nameCus[0];
+    }
+    console.log(regCus.date);
+    const res = await this.dataSource
+      .query(`INSERT INTO CUSTOMER_DW (CUSTOMER_KEY,CUSTOMER_NAME,CUSTOMER_START_DATE)
+      VALUES(
+            ${regCus.customerId},
+            '${regCus.name}' ,
+            '${regCus.date}');`);
+
+    return res;
+  }
+  // @Cron(CronExpression.EVERY_10_SECONDS)
+  // async tryToRun() {
+  // console.log('update');
+  //     return await this.dataSource.query(`INSERT INTO FACT_TABLE (
+  //       TIME_KEY,
+  //       PAYMENT_ID,
+  //       PRODUCT_KEY,
+  //       CUSTOMER_KEY,
+  //       STORE_KEY,
+  //       TOTAL_OF_SELL,
+  //       AMOUNT_OF_SELL,
+  //       DISCOUNT_OF_SELL
+  //   )
+  //   SELECT
+  //       TIME_DW.TIME_ID,
+  //       PAYMENT_METHOD_DW.PAYMENT_ID,
+  //       PRODUCT_DW.PRODUCT_KEY,
+  //       CUSTOMER_DW.CUSTOMER_KEY,
+  //       STORE_DW.STORE_KEY,
+  //       SUM(order_item.total),
+  //       SUM(order_item.amount),
+  //       SUM(order_.discount)
+  //   FROM
+  //       order_item
+  //   INNER JOIN order_ ON order_item.orderId = order_.id
+  //   INNER JOIN TIME_DW ON CAST(order_.createdDate AS DATETIME) = TIME_DW.TIME_ORIGINAL
+  //   INNER JOIN STORE_DW ON order_.storeId = STORE_DW.STORE_KEY
+  //   INNER JOIN CUSTOMER_DW ON order_.customerId = CUSTOMER_DW.CUSTOMER_KEY
+  //   INNER JOIN PRODUCT_DW ON order_item.productId = PRODUCT_DW.PRODUCT_KEY
+  //   INNER JOIN PAYMENT_METHOD_DW ON order_.payment = PAYMENT_METHOD_DW.PAYMENT_TYPE
+  //   GROUP BY
+  //       TIME_DW.TIME_ID,
+  //       PAYMENT_METHOD_DW.PAYMENT_ID,
+  //       PRODUCT_DW.PRODUCT_KEY,
+  //       CUSTOMER_DW.CUSTOMER_KEY,
+  //       STORE_DW.STORE_KEY,
+  //       order_.employeeId,
+  //       order_.createdDate,
+  //       order_item.productId;
+  // `);
+  // console.log('Hello');
+  // }
+  async insertDataToTimeMonth() {
+    // const inputDate = new Date(date);
+    // const year = inputDate.getFullYear();
+    // const month = ('0' + (inputDate.getMonth() + 1)).slice(-2);
+    // const day = ('0' + inputDate.getDate()).slice(-2);
+    // const outputDate = `${year}-${month}-${day}`;
+    console.log(`INSERT INTO TIME_MONTH(YEAR, QUARTER, MONTH)
+    SELECT
+        TIME_DW.TIME_YEAR,
+        TIME_DW.TIME_QUARTER,
+        TIME_DW.TIME_MONTH
+    FROM
+        TIME_DW
+    GROUP BY
+        TIME_DW.TIME_YEAR,
+        TIME_DW.TIME_QUARTER,
+        TIME_DW.TIME_MONTH;
+    
+        )
+     `);
+  }
+  async insertDataToAggerate() {
+    console.log(`INSERT INTO AGGERATE(MONTH_KEY, PAYMENT_ID, PRODUCT_KEY,CUSTOMER_KEY,STORE_KEY,TOTAL_OF_SELL,AMOUNT_OF_SELL,DISCOUNT_OF_SELL)
+    SELECT
+        TIME_MONTH.MONTH_KEY,
+        FACT_TABLE.PAYMENT_ID,
+        FACT_TABLE.PRODUCT_KEY,
+        FACT_TABLE.CUSTOMER_KEY,
+        FACT_TABLE.STORE_KEY,
+        SUM(FACT_TABLE.TOTAL_OF_SELL),
+        SUM(FACT_TABLE.AMOUNT_OF_SELL),
+        SUM(FACT_TABLE.DISCOUNT_OF_SELL)
+    FROM
+        TIME_MONTH INNER JOIN FACT_TABLE ON TIME_MONTH.MONTH_KEY = FACT_TABLE.TIME_KEY
+    GROUP BY
+        TIME_MONTH.MONTH_KEY,
+        FACT_TABLE.PAYMENT_ID,
+        FACT_TABLE.PRODUCT_KEY,
+        FACT_TABLE.CUSTOMER_KEY,
+        FACT_TABLE.STORE_KEY;
+        `);
   }
 }

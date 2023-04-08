@@ -99,27 +99,26 @@ export class CheckMaterialService {
     });
     return bills;
   };
-  async findCheckMaterialByID(id: string) {
-    try {
-      const checkmaterial_ = await this.dataSource.query(
-        'SELECT * FROM check_material WHERE check_mat_id LIKE ?',
-        [`%${id}%`],
-      );
-      const checkmaterials = new Array<CheckMaterial>();
-      for (let i = 0; i < checkmaterial_.length; i++) {
-        const checkmaterial = new CheckMaterial();
-        checkmaterial.id = checkmaterial_[i].checkmaterial_id;
-        checkmaterial.employee = checkmaterial_[i].checkmaterial_employee;
-        checkmaterial.date = checkmaterial_[i].checkmaterail_date;
-        checkmaterial.createdAt = checkmaterial_[i].created_date;
-        checkmaterial.deletedAt = checkmaterial_[i].deleted_date;
-        checkmaterial.checkmaterialdetails =
-          checkmaterial_[i].checkmaterail_checmaterialDetail;
-        checkmaterials.push(checkmaterial);
-      }
-      return checkmaterials;
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // async findCheckMaterialByID(id: string) {
+  //   try {
+  //     const checkmaterial_ = await this.dataSource.query(
+  //       'SELECT * FROM check_material WHERE check_mat_id LIKE ?',
+  //       [`%${id}%`],
+  //     );
+  //     const checkmaterials = new Array<CheckMaterial>();
+  //     for (let i = 0; i < checkmaterial_.length; i++) {
+  //       const checkmaterial = new CheckMaterial();
+  //       checkmaterial.id = checkmaterial_[i].checkmaterial_id;
+  //       checkmaterial.employee = checkmaterial_[i].checkmaterial_employee;
+  //       checkmaterial.date = checkmaterial_[i].checkmaterail_date;
+  //       checkmaterial.createdAt = checkmaterial_[i].created_date;
+  //       checkmaterial.deletedAt = checkmaterial_[i].deleted_date;
+  //       checkmaterial.checkmaterialdetails = checkmaterial_[i].checkmaterail_checmaterialDetail;
+  //       checkmaterials.push(checkmaterial);
+  //     }
+  //     return checkmaterials;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 }
