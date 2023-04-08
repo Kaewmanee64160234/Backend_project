@@ -20,8 +20,8 @@ export class CheckInOutsService {
   async create(createCheckInOutDto: CreateCheckInOutDto) {
     try {
       const check_in_out = new CheckInOut();
-      check_in_out.date = new Date();
-      check_in_out.time_in = new Date();
+      check_in_out.date = new Date(createCheckInOutDto.date);
+      check_in_out.time_in = new Date(createCheckInOutDto.time_in);
       check_in_out.employee = await this.employeeRepositiry.findOne({
         where: { id: createCheckInOutDto.employeeId },
       });
@@ -44,7 +44,7 @@ export class CheckInOutsService {
       // if ไม่เจอsummary
       if (!summary_salary) {
         const summary_salary_ = new SummarySalary();
-        summary_salary_.ss_date = new Date();
+        summary_salary_.ss_date = new Date(createCheckInOutDto.time_in);
         const sum_ = await this.summary_salaryRepositiry.save(summary_salary_);
         check_in_out.summary_salary = sum_;
         await this.check_in_outsRepositiry.save(check_in_out);
@@ -74,7 +74,7 @@ export class CheckInOutsService {
     }
   }
 
-  async updated(id: number) {
+  async updated(id: number, updateCheckInOutDto: UpdateCheckInOutDto) {
     console.log(id);
     const check_in_out = await this.check_in_outsRepositiry.findOne({
       relations: ['summary_salary', 'employee'],
@@ -85,7 +85,7 @@ export class CheckInOutsService {
     // return check_in_out;
     if (check_in_out) {
       if (check_in_out.time_out === null) {
-        check_in_out.time_out = new Date();
+        check_in_out.time_out = new Date(updateCheckInOutDto.time_out);
         check_in_out.total_hour =
           Math.abs(
             check_in_out.time_in.getTime() - check_in_out.time_out.getTime(),
