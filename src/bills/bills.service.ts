@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBillDto } from './dto/create-bill.dto';
 import { UpdateBillDto } from './dto/update-Bill.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Bill } from './entities/bill.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 import { Material } from 'src/materials/entities/material.entity';
@@ -12,6 +12,7 @@ import { CreateMaterialDto } from 'src/materials/dto/create-material.dto';
 @Injectable()
 export class BillsService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(Bill)
     private billsRepository: Repository<Bill>,
     @InjectRepository(Employee)
