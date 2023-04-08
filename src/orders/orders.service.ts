@@ -63,11 +63,11 @@ export class OrdersService {
       console.log(orderItem.createdDate);
     }
     const or_ = await this.ordersRepository.save(order); // ได้ id
-    await this.reportsService.getPayMentMethod(or_.id + '', or_.payment);
-    await this.reportsService.insertDataToTimeDW(or_.createdDate);
+    // await this.reportsService.getPayMentMethod(or_.id + '', or_.payment);
+    // await this.reportsService.insertDataToTimeDW(or_.createdDate);
     return await this.ordersRepository.findOne({
       where: { id: order.id },
-      relations: ['orderItems'],
+      relations: ['orderItems', 'customer'],
     });
   }
 
