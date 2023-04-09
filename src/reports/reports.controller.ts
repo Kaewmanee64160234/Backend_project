@@ -69,12 +69,11 @@ export class ReportsController {
   callView() {
     return this.reportsService.calledViewMaterial();
   }
-<<<<<<< HEAD
-=======
+
 
   @Get('/regCustomer')
   regCus(@Body() customer: Customer) {
     return this.reportsService.regCustomer(customer);
   }
->>>>>>> d867a1545b9b3971863d43e7977b6f1827ac3d54
+
 }
