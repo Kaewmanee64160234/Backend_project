@@ -50,4 +50,8 @@ export class CheckMaterialController {
   showBillAboutMat(@Param('id') id: string) {
     return this.checkMaterialService.showBillAboutMat(id);
   }
+  // @Get('search/:id')
+  // findCheckMaterialByID(@Param('id') id: string) {
+  //   return this.checkMaterialService.findCheckMaterialByID(id);
+  // }
 }
