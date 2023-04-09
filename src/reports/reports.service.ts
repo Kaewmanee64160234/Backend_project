@@ -444,4 +444,35 @@ export class ReportsService {
         FACT_TABLE.STORE_KEY;
         `);
   }
+  async selectFactTable() {
+    const res = await this.dataSource.query(` SELECT
+            TIME_DW.TIME_ID,
+            PAYMENT_METHOD_DW.PAYMENT_ID,
+            PRODUCT_DW.PRODUCT_KEY,
+            CUSTOMER_DW.CUSTOMER_KEY,
+            STORE_DW.STORE_KEY,
+            SUM(order_item.total),
+            SUM(order_item.amount),
+            SUM(order_.discount)
+         FROM
+             order_item
+         INNER JOIN order_ ON order_item.orderId = order_.id
+         INNER JOIN TIME_DW ON CAST(order_.createdDate AS DATETIME) = TIME_DW.TIME_ORIGINAL
+         INNER JOIN STORE_DW ON order_.storeId = STORE_DW.STORE_KEY
+         INNER JOIN CUSTOMER_DW ON order_.customerId = CUSTOMER_DW.CUSTOMER_KEY
+         INNER JOIN PRODUCT_DW ON order_item.productId = PRODUCT_DW.PRODUCT_KEY
+         INNER JOIN PAYMENT_METHOD_DW ON order_.payment = PAYMENT_METHOD_DW.PAYMENT_TYPE
+         GROUP BY
+             TIME_DW.TIME_ID,
+             PAYMENT_METHOD_DW.PAYMENT_ID,
+             PRODUCT_DW.PRODUCT_KEY,
+             CUSTOMER_DW.CUSTOMER_KEY,
+             STORE_DW.STORE_KEY,
+             order_.employeeId,
+             order_.createdDate,
+             order_item.productId;
+      `);
+
+    return res;
+  }
 }

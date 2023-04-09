@@ -74,4 +74,8 @@ export class ReportsController {
   regCus(@Body() customer: Customer) {
     return this.reportsService.regCustomer(customer);
   }
+  @Get('/selectFact')
+  sFact() {
+    return this.reportsService.selectFactTable();
+  }
 }
