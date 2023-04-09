@@ -81,6 +81,9 @@ export class ProductsService {
       };
     }
   }
+  getAllProduct() {
+    return this.productsRepository.find();
+  }
 
   findByCategory(id: number) {
     return this.productsRepository.find({ where: { catagoryId: id } });

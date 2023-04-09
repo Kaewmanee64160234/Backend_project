@@ -103,24 +103,30 @@ export class CustomersService {
   }
   async findCustomerByTel(tel: string) {
     try {
-      const customers = await this.dataSource.query(
-        'SELECT * FROM customer WHERE customer_tel LIKE ?',
-        [`%${tel}%`],
-      );
-      const customerList = new Array<Customer>();
-      for (let i = 0; i < customers.length; i++) {
-        const customer = new Customer();
-        customer.id = customers[i].customer_id;
-        customer.name = customers[i].customer_name;
-        customer.tel = customers[i].customer_tel;
-        customer.point = customers[i].customer_point;
-        customer.image = customers[i].image;
-        customer.createdDate = customers[i].created_date;
-        customer.updatedDate = customers[i].updated_date;
-        customer.deletedDate = customers[i].deleted_date;
-        customerList.push(customer);
+      const customer = await this.customersRepositiry.findOneBy({ tel: tel });
+      if (customer) {
+        return customer;
+      } else {
+        throw new NotFoundException();
       }
-      return customerList;
+      // const customers = await this.dataSource.query(
+      //   'SELECT * FROM customer WHERE customer_tel LIKE ?',
+      //   [`%${tel}%`],
+      // );
+      // const customerList = new Array<Customer>();
+      // for (let i = 0; i < customers.length; i++) {
+      //   const customer = new Customer();
+      //   customer.id = customers[i].customer_id;
+      //   customer.name = customers[i].customer_name;
+      //   customer.tel = customers[i].customer_tel;
+      //   customer.point = customers[i].customer_point;
+      //   customer.image = customers[i].image;
+      //   customer.createdDate = customers[i].created_date;
+      //   customer.updatedDate = customers[i].updated_date;
+      //   customer.deletedDate = customers[i].deleted_date;
+      //   customerList.push(customer);
+      // }
+      // return customerList;
     } catch (errr) {
       console.log(errr);
     }
