@@ -363,43 +363,45 @@ export class ReportsService {
   // @Cron(CronExpression.EVERY_10_SECONDS)
   async tryToRun() {
     console.log('update');
-    return await this.dataSource.query(`INSERT INTO FACT_TABLE (
-      TIME_KEY,
-      PAYMENT_ID,
-      PRODUCT_KEY,
-      CUSTOMER_KEY,
-      STORE_KEY,
-      TOTAL_OF_SELL,
-      AMOUNT_OF_SELL,
-      DISCOUNT_OF_SELL
-  )
-  SELECT
-      TIME_DW.TIME_ID,
-      PAYMENT_METHOD_DW.PAYMENT_ID,
-      PRODUCT_DW.PRODUCT_KEY,
-      CUSTOMER_DW.CUSTOMER_KEY,
-      STORE_DW.STORE_KEY,
-      SUM(order_item.total),
-      SUM(order_item.amount),
-      SUM(order_.discount)
-  FROM
-      order_item
-  INNER JOIN order_ ON order_item.orderId = order_.id
-  INNER JOIN TIME_DW ON CAST(order_.createdDate AS DATETIME) = TIME_DW.TIME_ORIGINAL
-  INNER JOIN STORE_DW ON order_.storeId = STORE_DW.STORE_KEY
-  INNER JOIN CUSTOMER_DW ON order_.customerId = CUSTOMER_DW.CUSTOMER_KEY
-  INNER JOIN PRODUCT_DW ON order_item.productId = PRODUCT_DW.PRODUCT_KEY
-  INNER JOIN PAYMENT_METHOD_DW ON order_.payment = PAYMENT_METHOD_DW.PAYMENT_TYPE
-  GROUP BY
-      TIME_DW.TIME_ID,
-      PAYMENT_METHOD_DW.PAYMENT_ID,
-      PRODUCT_DW.PRODUCT_KEY,
-      CUSTOMER_DW.CUSTOMER_KEY,
-      STORE_DW.STORE_KEY,
-      order_.employeeId,
-      order_.createdDate,
-      order_item.productId;
-  `);
+    // DELETE FROM table_name;
+    // return await this.dataSource.query(`DELETE FROM FACT_TABLE`);
+    //   return await this.dataSource.query(`INSERT INTO FACT_TABLE (
+    //     TIME_KEY,
+    //     PAYMENT_ID,
+    //     PRODUCT_KEY,
+    //     CUSTOMER_KEY,
+    //     STORE_KEY,
+    //     TOTAL_OF_SELL,
+    //     AMOUNT_OF_SELL,
+    //     DISCOUNT_OF_SELL
+    // )
+    // SELECT
+    //     TIME_DW.TIME_ID,
+    //     PAYMENT_METHOD_DW.PAYMENT_ID,
+    //     PRODUCT_DW.PRODUCT_KEY,
+    //     CUSTOMER_DW.CUSTOMER_KEY,
+    //     STORE_DW.STORE_KEY,
+    //     SUM(order_item.total),
+    //     SUM(order_item.amount),
+    //     SUM(order_.discount)
+    // FROM
+    //     order_item
+    // INNER JOIN order_ ON order_item.orderId = order_.id
+    // INNER JOIN TIME_DW ON CAST(order_.createdDate AS DATETIME) = TIME_DW.TIME_ORIGINAL
+    // INNER JOIN STORE_DW ON order_.storeId = STORE_DW.STORE_KEY
+    // INNER JOIN CUSTOMER_DW ON order_.customerId = CUSTOMER_DW.CUSTOMER_KEY
+    // INNER JOIN PRODUCT_DW ON order_item.productId = PRODUCT_DW.PRODUCT_KEY
+    // INNER JOIN PAYMENT_METHOD_DW ON order_.payment = PAYMENT_METHOD_DW.PAYMENT_TYPE
+    // GROUP BY
+    //     TIME_DW.TIME_ID,
+    //     PAYMENT_METHOD_DW.PAYMENT_ID,
+    //     PRODUCT_DW.PRODUCT_KEY,
+    //     CUSTOMER_DW.CUSTOMER_KEY,
+    //     STORE_DW.STORE_KEY,
+    //     order_.employeeId,
+    //     order_.createdDate,
+    //     order_item.productId;
+    // `);
   }
   async insertDataToTimeMonth() {
     // const inputDate = new Date(date);
@@ -424,24 +426,24 @@ export class ReportsService {
   }
   // @Cron(CronExpression.EVERY_10_SECONDS)
   async insertDataToAggerate() {
-    console.log(`INSERT INTO AGGERATE(MONTH_KEY, PAYMENT_ID, PRODUCT_KEY,CUSTOMER_KEY,STORE_KEY,TOTAL_OF_SELL,AMOUNT_OF_SELL,DISCOUNT_OF_SELL)
-    SELECT
-        TIME_MONTH.MONTH_KEY,
-        FACT_TABLE.PAYMENT_ID,
-        FACT_TABLE.PRODUCT_KEY,
-        FACT_TABLE.CUSTOMER_KEY,
-        FACT_TABLE.STORE_KEY,
-        SUM(FACT_TABLE.TOTAL_OF_SELL),
-        SUM(FACT_TABLE.AMOUNT_OF_SELL),
-        SUM(FACT_TABLE.DISCOUNT_OF_SELL)
-    FROM
-        TIME_MONTH INNER JOIN FACT_TABLE ON TIME_MONTH.MONTH_KEY = FACT_TABLE.TIME_KEY
-    GROUP BY
-        TIME_MONTH.MONTH_KEY,
-        FACT_TABLE.PAYMENT_ID,
-        FACT_TABLE.PRODUCT_KEY,
-        FACT_TABLE.CUSTOMER_KEY,
-        FACT_TABLE.STORE_KEY;
-        `);
+    // console.log(`INSERT INTO AGGERATE(MONTH_KEY, PAYMENT_ID, PRODUCT_KEY,CUSTOMER_KEY,STORE_KEY,TOTAL_OF_SELL,AMOUNT_OF_SELL,DISCOUNT_OF_SELL)
+    // SELECT
+    //     TIME_MONTH.MONTH_KEY,
+    //     FACT_TABLE.PAYMENT_ID,
+    //     FACT_TABLE.PRODUCT_KEY,
+    //     FACT_TABLE.CUSTOMER_KEY,
+    //     FACT_TABLE.STORE_KEY,
+    //     SUM(FACT_TABLE.TOTAL_OF_SELL),
+    //     SUM(FACT_TABLE.AMOUNT_OF_SELL),
+    //     SUM(FACT_TABLE.DISCOUNT_OF_SELL)
+    // FROM
+    //     TIME_MONTH INNER JOIN FACT_TABLE ON TIME_MONTH.MONTH_KEY = FACT_TABLE.TIME_KEY
+    // GROUP BY
+    //     TIME_MONTH.MONTH_KEY,
+    //     FACT_TABLE.PAYMENT_ID,
+    //     FACT_TABLE.PRODUCT_KEY,
+    //     FACT_TABLE.CUSTOMER_KEY,
+    //     FACT_TABLE.STORE_KEY;
+    //     `);
   }
 }

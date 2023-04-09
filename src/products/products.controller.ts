@@ -79,10 +79,6 @@ export class ProductsController {
   findByCategory(@Param('id') id: string) {
     return this.productsService.findByCategory(+id);
   }
-  @Get('/all')
-  getAllProduct() {
-    return this.productsService.getAllProduct();
-  }
 
   @Patch(':id/image')
   @UseInterceptors(
