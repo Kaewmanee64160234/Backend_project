@@ -23,7 +23,6 @@ class CreatedOrderItemDto {
   updatedDate?: Date;
   @IsNotEmpty()
   deletedDate?: Date;
-
   image?: string;
 }
 export class CreateOrderDto {
@@ -41,4 +40,6 @@ export class CreateOrderDto {
   payment: string;
   @IsNotEmpty()
   orderItems: CreatedOrderItemDto[];
+  storeId?: string;
+  createdDate: Date;
 }

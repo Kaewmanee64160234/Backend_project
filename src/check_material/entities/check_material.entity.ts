@@ -19,6 +19,7 @@ export class CheckMaterial {
   @Column({ name: 'check_mat_date' })
   date: Date;
 
+  // @Column({ type: 'datetime', name: 'check_mat_time' })
   // @Column({ name: 'check_mat_time' })
   // time: Date;
 
