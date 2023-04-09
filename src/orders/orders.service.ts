@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/authorize/roles.guard';
 import { format } from 'date-fns';
 import { ReportsService } from 'src/reports/reports.service';
+import { Store } from 'src/stores/entities/store.entity';
 @Injectable()
 export class OrdersService {
   constructor(
@@ -27,13 +28,23 @@ export class OrdersService {
     @InjectRepository(OrderItem)
     private orderItemsRepository: Repository<OrderItem>,
     private reportsService: ReportsService,
+    @InjectRepository(Store)
+    private storeRepository: Repository<Store>,
   ) {}
 
   async create(createOrderDto: CreateOrderDto) {
+    const order: Order = new Order();
+
     const customer = await this.customersRepository.findOneBy({
       id: createOrderDto.customerId,
     });
-    const order: Order = new Order();
+    const ss = await this.storeRepository.findOne({
+      where: { id: +createOrderDto.storeId },
+    });
+    console.log(ss);
+    if (ss) {
+      order.store = ss;
+    }
     const cus = new Customer();
     if (!customer) {
       cus.name = 'anonymous';
@@ -41,6 +52,7 @@ export class OrdersService {
     } else {
       order.customer = customer;
     }
+
     order.discount = createOrderDto.discount;
     order.recieved = createOrderDto.recieved;
     order.change = createOrderDto.recieved - createOrderDto.total;
