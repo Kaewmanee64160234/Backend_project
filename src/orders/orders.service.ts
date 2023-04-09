@@ -58,6 +58,7 @@ export class OrdersService {
     order.change = createOrderDto.recieved - createOrderDto.total;
     order.payment = createOrderDto.payment;
     order.total = 0;
+    order.createdDate = new Date(createOrderDto.createdDate);
     await this.ordersRepository.save(order); // ได้ id
 
     for (const od of createOrderDto.orderItems) {

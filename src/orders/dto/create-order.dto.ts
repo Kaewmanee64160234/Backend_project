@@ -41,4 +41,5 @@ export class CreateOrderDto {
   @IsNotEmpty()
   orderItems: CreatedOrderItemDto[];
   storeId?: string;
+  createdDate: Date;
 }
