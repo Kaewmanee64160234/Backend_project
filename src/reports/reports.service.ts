@@ -348,8 +348,9 @@ export class ReportsService {
       regCus.name = '';
     }
     if (name !== null) {
-      regCus.name = nameCus[0];
+      // regCus.name = nameCus[1];
     }
+    regCus.name = '';
     console.log(regCus.date);
     const res = await this.dataSource
       .query(`INSERT INTO CUSTOMER_DW (CUSTOMER_KEY,CUSTOMER_NAME,CUSTOMER_START_DATE)

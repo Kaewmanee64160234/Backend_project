@@ -33,6 +33,7 @@ export class CheckInOutsService {
         },
         order: { ss_date: 'DESC' },
       });
+      console.log(summary_salaries);
 
       const summary_salary = summary_salaries.find(
         (ss) =>
