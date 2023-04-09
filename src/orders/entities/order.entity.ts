@@ -12,10 +12,6 @@ import {
 import { OrderItem } from './order-item';
 import { Store } from 'src/stores/entities/store.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
-<<<<<<< HEAD
-=======
-
->>>>>>> 43a53bccbc4600dfa2ab0fc7fd003d32b9bf6005
 @Entity({ name: 'order_' })
 export class Order {
   @PrimaryGeneratedColumn()
