@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCheckMaterialDto } from './dto/create-check_material.dto';
 import { UpdateCheckMaterialDto } from './dto/update-check_material.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { CheckMaterial } from './entities/check_material.entity';
-import { Like, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { CheckMaterialDetail } from 'src/check_material_detail/entities/check_material_detail.entity';
 import { Material } from 'src/materials/entities/material.entity';
@@ -11,6 +11,7 @@ import { Material } from 'src/materials/entities/material.entity';
 @Injectable()
 export class CheckMaterialService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @InjectRepository(CheckMaterial)
     private checkMaterialsRepository: Repository<CheckMaterial>,
     @InjectRepository(CheckMaterialDetail)
@@ -98,4 +99,26 @@ export class CheckMaterialService {
     });
     return bills;
   };
+  // async findCheckMaterialByID(id: string) {
+  //   try {
+  //     const checkmaterial_ = await this.dataSource.query(
+  //       'SELECT * FROM check_material WHERE check_mat_id LIKE ?',
+  //       [`%${id}%`],
+  //     );
+  //     const checkmaterials = new Array<CheckMaterial>();
+  //     for (let i = 0; i < checkmaterial_.length; i++) {
+  //       const checkmaterial = new CheckMaterial();
+  //       checkmaterial.id = checkmaterial_[i].checkmaterial_id;
+  //       checkmaterial.employee = checkmaterial_[i].checkmaterial_employee;
+  //       checkmaterial.date = checkmaterial_[i].checkmaterail_date;
+  //       checkmaterial.createdAt = checkmaterial_[i].created_date;
+  //       checkmaterial.deletedAt = checkmaterial_[i].deleted_date;
+  //       checkmaterial.checkmaterialdetails = checkmaterial_[i].checkmaterail_checmaterialDetail;
+  //       checkmaterials.push(checkmaterial);
+  //     }
+  //     return checkmaterials;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 }
