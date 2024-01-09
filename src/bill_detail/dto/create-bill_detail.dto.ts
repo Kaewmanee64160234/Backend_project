@@ -29,5 +29,5 @@ export class CreateBillDetailDto {
   @IsNotEmpty()
   productId: number;
 
-  toppings: number[];
+  toppings: Topping[];
 }

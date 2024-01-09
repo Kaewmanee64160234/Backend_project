@@ -53,10 +53,7 @@ export class BillDetailService {
       where: { id: createBillDetailDto.productId },
     });
     bill_detail.product = product;
-    for (const toppingId of createBillDetailDto.toppings) {
-      const topping = await this.toppingRepository.findOne({
-        where: { id: toppingId },
-      });
+    for (const topping of createBillDetailDto.toppings) {
       bill_detail.toppings.push(topping);
     }
 

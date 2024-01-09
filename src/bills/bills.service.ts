@@ -47,9 +47,14 @@ export class BillsService {
         bill_detail.name = od.name;
         bill_detail.price = od.price;
         bill_detail.amount = od.amount;
-        bill_detail.total = bill_detail.price * bill_detail.amount;
         bill_detail.bill = bill; // อ้างกลับ
         bill_detail.material = mat;
+        bill_detail.toppings = od.toppings;
+        bill_detail.total = bill_detail.price * bill_detail.amount;
+        for (const topp of bill_detail.toppings) {
+          bill_detail.total += topp.price;
+        }
+
         await this.billDetailRepository.save(bill_detail);
       }
     }
