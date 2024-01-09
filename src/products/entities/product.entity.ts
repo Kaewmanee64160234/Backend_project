@@ -9,11 +9,14 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Topping } from 'src/toppings/entities/topping.entity';
+import { BillDetail } from 'src/bill_detail/entities/bill_detail.entity';
 
 @Entity()
 export class Product {
-  [x: string]: any;
   @PrimaryGeneratedColumn({ name: 'product_id' })
   id: number;
 
@@ -37,6 +40,9 @@ export class Product {
 
   @Column()
   catagoryId: number;
+
+  @OneToMany(() => BillDetail, (billDetail) => billDetail.product)
+  billDetails: BillDetail[];
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];

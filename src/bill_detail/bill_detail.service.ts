@@ -10,16 +10,21 @@ import { Roles } from 'src/authorize/roles.decorator';
 import { Role } from 'src/types/Role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/authorize/roles.guard';
+import { Product } from 'src/products/entities/product.entity';
+import { Topping } from 'src/toppings/entities/topping.entity';
 
 @Injectable()
 export class BillDetailService {
   constructor(
+    @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(BillDetail)
     private billDetailRepository: Repository<BillDetail>,
     @InjectRepository(Material)
     private materialsRepository: Repository<Material>,
     @InjectRepository(Bill)
     private billsRepository: Repository<Bill>,
+
+    @InjectRepository(Topping) private toppingRepository: Repository<Topping>,
   ) {}
   @Roles(Role.Owner, Role.Employee)
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -33,7 +38,7 @@ export class BillDetailService {
     const employee = await this.billsRepository.findOne({
       relations: ['bill_detail', 'bill_detail.bill', 'bill_detail.material'],
       where: {
-        bill_detail: { bill: { id: createBillDetailDto.billId } },
+        billDetails: { bill: { id: createBillDetailDto.billId } },
       },
     });
     const bill_detail: BillDetail = new BillDetail();
@@ -44,6 +49,17 @@ export class BillDetailService {
     bill_detail.material = material;
     bill_detail.bill = bill;
     bill_detail.bill = employee;
+    const product = await this.productRepository.findOne({
+      where: { id: createBillDetailDto.productId },
+    });
+    bill_detail.product = product;
+    for (const toppingId of createBillDetailDto.toppings) {
+      const topping = await this.toppingRepository.findOne({
+        where: { id: toppingId },
+      });
+      bill_detail.toppings.push(topping);
+    }
+
     return this.billDetailRepository.save(bill_detail);
   }
 
@@ -69,8 +85,28 @@ export class BillDetailService {
     if (!bill_detail) {
       throw new NotFoundException();
     }
-    const updatedBill_detail = { ...bill_detail, ...updateBillDetailDto };
-    return this.billDetailRepository.save(updatedBill_detail);
+    const selectedToppings = await this.toppingRepository.findByIds(
+      updateBillDetailDto.toppings,
+    );
+    const products = await this.productRepository.findOne({
+      where: { id: updateBillDetailDto.productId },
+    });
+    const mate = await this.materialsRepository.findOne({
+      where: { id: updateBillDetailDto.materialId },
+    });
+    // Update the billDetail entity with the new data
+    this.billDetailRepository.merge(bill_detail, {
+      name: updateBillDetailDto.name,
+      amount: updateBillDetailDto.amount,
+      price: updateBillDetailDto.price,
+      total: updateBillDetailDto.total,
+      material: mate,
+      product: products, // assuming product is part of the DTO
+      toppings: selectedToppings, // assuming toppings is an array of Topping entities
+    });
+
+    // Save the updated billDetail entity
+    return this.billDetailRepository.save(bill_detail);
   }
 
   async remove(id: number) {

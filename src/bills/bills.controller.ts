@@ -20,31 +20,31 @@ import { Roles } from 'src/authorize/roles.decorator';
 export class BillsController {
   constructor(private readonly billsService: BillsService) {}
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createBillDto: CreateBillDto) {
     return this.billsService.create(createBillDto);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.billsService.findAll();
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.billsService.findOne(+id);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('updated')
   update(@Body() updateBillDto: UpdateBillDto) {
     return this.billsService.updateBill(updateBillDto);
   }
   @Roles(Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.billsService.remove(+id);

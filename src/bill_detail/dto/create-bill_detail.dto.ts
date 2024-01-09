@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString, Length, Min } from 'class-validator';
+import { Topping } from 'src/toppings/entities/topping.entity';
 
 export class CreateBillDetailDto {
   @IsNotEmpty()
@@ -25,4 +26,8 @@ export class CreateBillDetailDto {
   @IsNotEmpty()
   billId: number;
   length: any;
+  @IsNotEmpty()
+  productId: number;
+
+  toppings: number[];
 }

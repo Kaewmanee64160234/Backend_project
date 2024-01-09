@@ -39,9 +39,8 @@ export class Bill {
   @JoinColumn()
   employee: Employee;
 
-  @OneToMany(() => BillDetail, (bill_detail) => bill_detail.bill)
-  @JoinColumn()
-  bill_detail: BillDetail[];
+  @OneToMany(() => BillDetail, (billDetail) => billDetail.bill)
+  billDetails: BillDetail[];
 
   @CreateDateColumn()
   createdAt: Date;

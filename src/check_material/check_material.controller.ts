@@ -21,31 +21,31 @@ import { RolesGuard } from 'src/authorize/roles.guard';
 export class CheckMaterialController {
   constructor(private readonly checkMaterialService: CheckMaterialService) {}
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCheckMaterialDto: CreateCheckMaterialDto) {
     return this.checkMaterialService.create(createCheckMaterialDto);
   }
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cat?: string }) {
     return this.checkMaterialService.findAll(query);
   }
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.checkMaterialService.findOne(+id);
   }
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkMaterialService.remove(+id);
   }
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('mat/:id')
   showBillAboutMat(@Param('id') id: string) {
     return this.checkMaterialService.showBillAboutMat(id);

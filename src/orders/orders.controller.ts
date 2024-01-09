@@ -23,13 +23,13 @@ export class OrdersController {
 
   @Post()
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
   @Get()
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   findAll(@Query() query: { emp?: string }) {
     return this.ordersService.findAll(query);
   }
@@ -45,14 +45,14 @@ export class OrdersController {
 
   @Patch(':id')
   @Roles(Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.ordersService.update(+id, updateOrderDto);
   }
 
   @Delete(':id')
   @Roles(Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   remove(@Param('id') id: string) {
     return this.ordersService.remove(+id);
   }

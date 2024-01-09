@@ -28,7 +28,7 @@ import { RolesGuard } from 'src/authorize/roles.guard';
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -66,7 +66,7 @@ export class EmployeesController {
   }
 
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id/image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -86,7 +86,7 @@ export class EmployeesController {
     return this.employeesService.update(+id, { image: file.filename });
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { emp?: string }) {
     return this.employeesService.findAll(query);
@@ -97,7 +97,7 @@ export class EmployeesController {
     return this.employeesService.findOne(+id);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -111,7 +111,7 @@ export class EmployeesController {
     }),
   )
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
@@ -123,13 +123,13 @@ export class EmployeesController {
     return await this.employeesService.update(+id, updateEmployeeDto);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employeesService.remove(+id);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/employees/login')
   loginEmployee(@Body() body: { name: string; email: string }) {
     return this.employeesService.emplyeeLogin(body.name, body.email);

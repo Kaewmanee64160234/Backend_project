@@ -18,7 +18,7 @@ export class CustomersService {
 
   async create(createCustomerDto: CreateCustomerDto) {
     const user = await this.customersRepositiry.save(createCustomerDto);
-    await this.reportRepository.regCustomer(user);
+    // await this.reportRepository.regCustomer(user);
     return user;
   }
 

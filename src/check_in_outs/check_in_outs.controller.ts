@@ -23,7 +23,7 @@ import { SummarySalary } from 'src/summary_salary/entities/summary_salary.entity
 export class CheckInOutsController {
   constructor(private readonly checkInOutsService: CheckInOutsService) {}
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCheckInOutDto: CreateCheckInOutDto) {
     return this.checkInOutsService.create(createCheckInOutDto);
@@ -36,7 +36,7 @@ export class CheckInOutsController {
   //   });
   // }
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query() query: { cus?: string }) {
     return this.checkInOutsService.findAll({
@@ -45,14 +45,14 @@ export class CheckInOutsController {
     });
   }
   @Roles(Role.Owner, Role.Employee)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.checkInOutsService.findOne(+id);
   }
 
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -70,7 +70,7 @@ export class CheckInOutsController {
   }
 
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.checkInOutsService.remove(+id);

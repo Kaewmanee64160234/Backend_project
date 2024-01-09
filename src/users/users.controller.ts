@@ -37,7 +37,7 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
@@ -58,7 +58,7 @@ export class UsersController {
     return this.usersService.findUserByName(name);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('confirm')
   confirmWithPassword(@Body() createUserDto: CreateUserDto) {
     return this.usersService.confirmWithPassword(createUserDto);

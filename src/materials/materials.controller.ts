@@ -22,7 +22,7 @@ export class MaterialsController {
   constructor(private readonly materialsService: MaterialsService) {}
   @UseGuards(JwtAuthGuard)
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createMaterialDto: CreateMaterialDto) {
     return this.materialsService.create(createMaterialDto);
@@ -38,7 +38,7 @@ export class MaterialsController {
     return this.materialsService.findOne(+id);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -47,14 +47,14 @@ export class MaterialsController {
     return this.materialsService.update(+id, updateMaterialDto);
   }
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.materialsService.remove(+id);
   }
 
   @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('search/name/:name')
   findMaterialByName(@Param('name') name: string) {
     return this.materialsService.findMaterialByName(name);
