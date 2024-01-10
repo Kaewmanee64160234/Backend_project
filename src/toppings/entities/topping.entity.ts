@@ -21,8 +21,8 @@ export class Topping {
   @Column({ type: 'float' })
   price: number;
 
-  @ManyToOne(() => Catagory, (catagory) => catagory.id)
-  category: Catagory;
+  @ManyToOne(() => Catagory, (catagory) => catagory.products)
+  catagory: Catagory;
 
   @ManyToMany(() => BillDetail, (billDetail) => billDetail.toppings)
   billDetails: BillDetail[];

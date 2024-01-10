@@ -5,6 +5,7 @@ import { DataSource, Like, Repository } from 'typeorm';
 import { Topping } from './entities/topping.entity';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Catagory } from 'src/catagories/entities/catagory.entity';
+import { Paginate } from 'src/types/Paginate';
 
 @Injectable()
 export class ToppingsService {
@@ -24,7 +25,7 @@ export class ToppingsService {
       const category_ = await this.catagoriesRepository.findOne({
         where: { id: createToppingDto.catagoryId },
       });
-      newTopping.category = category_;
+      newTopping.catagory = category_;
 
       return await this.toppingsRepository.save(newTopping);
     } catch (e) {
@@ -32,11 +33,29 @@ export class ToppingsService {
     }
   }
 
-  async findAll(query): Promise<Topping[]> {
+  async findAll(query): Promise<Paginate> {
+    const page = query.page || 1;
+    const take = query.take || 10;
+    const skip = (page - 1) * take;
     const keyword = query.keyword || '';
-    return this.toppingsRepository.find({
+    const orderBy = query.orderBy || 'name';
+    const order = query.order || 'ASC';
+    const currentPage = page;
+
+    const [result, total] = await this.toppingsRepository.findAndCount({
       where: { name: Like(`%${keyword}%`) },
+      order: { [orderBy]: order },
+      relations: ['catagory'], // Correct relation name is 'category'
+      take: take,
+      skip: skip,
     });
+    const lastPage = Math.ceil(total / take);
+    return {
+      data: result,
+      count: total,
+      currentPage: currentPage,
+      lastPage: lastPage,
+    };
   }
 
   async findOne(id: number) {
@@ -66,7 +85,7 @@ export class ToppingsService {
   //get topping by category id
   async getToppingByCatId(id: number) {
     return await this.toppingsRepository.find({
-      where: { category: { id: id } },
+      where: { catagory: { id: id } },
     });
   }
 }

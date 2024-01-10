@@ -1,4 +1,5 @@
 import { Product } from 'src/products/entities/product.entity';
+import { Topping } from 'src/toppings/entities/topping.entity';
 import {
   Column,
   Entity,
@@ -19,6 +20,8 @@ export class Catagory {
 
   @OneToMany(() => Product, (product) => product.catagory)
   products: Product[];
+  @OneToMany(() => Topping, (topping) => topping.catagory)
+  catagory: Topping[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -6,9 +6,12 @@ import { BillDetail } from './entities/bill_detail.entity';
 import { Bill } from 'src/bills/entities/bill.entity';
 import { Material } from 'src/materials/entities/material.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { Topping } from 'src/toppings/entities/topping.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BillDetail, Bill, Material, Product])],
+  imports: [
+    TypeOrmModule.forFeature([BillDetail, Bill, Material, Product, Topping]),
+  ],
   controllers: [BillDetailController],
   providers: [BillDetailService],
 })

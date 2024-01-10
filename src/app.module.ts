@@ -38,7 +38,7 @@ import { Report } from './reports/entities/report.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ToppingsModule } from './toppings/toppings.module';
 import { Topping } from './toppings/entities/topping.entity';
-import { ToppingsProductsModule } from './toppings-products/toppings-products.module';
+// import { ToppingsProductsModule } from './toppings-products/toppings-products.module';
 
 @Module({
   imports: [
@@ -229,7 +229,7 @@ import { ToppingsProductsModule } from './toppings-products/toppings-products.mo
     CheckMaterialDetailModule,
     ReportsModule,
     ToppingsModule,
-    ToppingsProductsModule,
+    // ToppingsProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
