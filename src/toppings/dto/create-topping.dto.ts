@@ -1,4 +1,5 @@
 import { IsNotEmpty, Length } from 'class-validator';
+import { Catagory } from 'src/catagories/entities/catagory.entity';
 
 export class CreateToppingDto {
   id: number;
@@ -10,5 +11,5 @@ export class CreateToppingDto {
   price: number;
 
   @IsNotEmpty()
-  catagoryId: number;
+  category: Catagory;
 }

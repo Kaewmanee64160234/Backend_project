@@ -39,4 +39,9 @@ export class ToppingsController {
   remove(@Param('id') id: string) {
     return this.toppingsService.remove(+id);
   }
+  //getToppingByCatId
+  @Get('/cat/:id')
+  getToppingByCatId(@Param('id') id: string) {
+    return this.toppingsService.getToppingByCatId(+id);
+  }
 }

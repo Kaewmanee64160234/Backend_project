@@ -23,7 +23,7 @@ export class ToppingsService {
       newTopping.price = createToppingDto.price;
       // newTopping.image = createToppingDto.image;
       const category_ = await this.catagoriesRepository.findOne({
-        where: { id: createToppingDto.catagoryId },
+        where: { id: createToppingDto.category.id },
       });
       newTopping.catagory = category_;
 
