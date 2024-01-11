@@ -43,9 +43,6 @@ export class BillDetail {
 
   @ManyToOne(() => Product, (product) => product.billDetails)
   product: Product;
-  @ManyToMany(() => Topping, (topping) => topping.billDetails)
-  @JoinTable()
-  toppings: Topping[];
 
   @CreateDateColumn()
   createdAt: Date;

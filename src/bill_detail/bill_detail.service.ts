@@ -53,9 +53,6 @@ export class BillDetailService {
       where: { id: createBillDetailDto.productId },
     });
     bill_detail.product = product;
-    for (const topping of createBillDetailDto.toppings) {
-      bill_detail.toppings.push(topping);
-    }
 
     return this.billDetailRepository.save(bill_detail);
   }
@@ -82,9 +79,7 @@ export class BillDetailService {
     if (!bill_detail) {
       throw new NotFoundException();
     }
-    const selectedToppings = await this.toppingRepository.findByIds(
-      updateBillDetailDto.toppings,
-    );
+
     const products = await this.productRepository.findOne({
       where: { id: updateBillDetailDto.productId },
     });
@@ -99,7 +94,6 @@ export class BillDetailService {
       total: updateBillDetailDto.total,
       material: mate,
       product: products, // assuming product is part of the DTO
-      toppings: selectedToppings, // assuming toppings is an array of Topping entities
     });
 
     // Save the updated billDetail entity

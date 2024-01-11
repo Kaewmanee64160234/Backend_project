@@ -7,8 +7,11 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Order } from './order.entity';
+import { Topping } from 'src/toppings/entities/topping.entity';
 @Entity()
 export class OrderItem {
   @PrimaryGeneratedColumn()
@@ -32,7 +35,9 @@ export class OrderItem {
   order: Order;
   @ManyToOne(() => Product, (product) => product.orderItems)
   product: Product; // Product Id
-
+  @ManyToMany(() => Topping, (topping) => topping.orderItems)
+  @JoinTable()
+  toppings: Topping[];
   @CreateDateColumn()
   createdDate: Date;
 

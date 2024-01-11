@@ -1,6 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 import { Product } from 'src/products/entities/product.entity';
 import { Order } from '../entities/order.entity';
+import { Topping } from 'src/toppings/entities/topping.entity';
 
 class CreatedOrderItemDto {
   @IsNotEmpty()
@@ -24,6 +25,7 @@ class CreatedOrderItemDto {
   @IsNotEmpty()
   deletedDate?: Date;
   image?: string;
+  toppings: Topping[];
 }
 export class CreateOrderDto {
   @IsNotEmpty()

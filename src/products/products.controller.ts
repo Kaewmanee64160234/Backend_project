@@ -54,8 +54,7 @@ export class ProductsController {
   findAll(@Query() query: { cat?: string }) {
     return this.productsService.findAll(query);
   }
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
@@ -92,16 +91,13 @@ export class ProductsController {
       }),
     }),
   )
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   updateImage(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.productsService.update(+id, { image: file.filename });
   }
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -114,8 +110,6 @@ export class ProductsController {
       }),
     }),
   )
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -126,14 +120,12 @@ export class ProductsController {
     }
     return await this.productsService.update(+id, updateProductDto);
   }
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
   }
-  @Roles(Role.Employee, Role.Owner)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Get('search/name/:name')
   findProductByName(@Param('name') name: string) {
     return this.productsService.findProductByName(name);
