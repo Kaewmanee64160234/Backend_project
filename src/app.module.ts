@@ -39,8 +39,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ToppingsModule } from './toppings/toppings.module';
 import { Topping } from './toppings/entities/topping.entity';
 // import { ToppingsProductsModule } from './toppings-products/toppings-products.module';
-import { CheckMaterialsModule } from './check-materials/check-materials.module';
-import { CheckMaterialsDetailsModule } from './check-materials-details/check-materials-details.module';
 
 @Module({
   imports: [
@@ -231,8 +229,6 @@ import { CheckMaterialsDetailsModule } from './check-materials-details/check-mat
     CheckMaterialDetailModule,
     ReportsModule,
     ToppingsModule,
-    CheckMaterialsModule,
-    CheckMaterialsDetailsModule,
     // ToppingsProductsModule,
   ],
   controllers: [AppController],
