@@ -25,6 +25,11 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
+  @Get()
+  findAll(@Query() query: { cus?: string }) {
+    console.log('Get!!!');
+    return this.customersService.findAll(query);
+  }
   // @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(
@@ -42,9 +47,6 @@ export class CustomersController {
     @Body() createCustomerDto: CreateCustomerDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (file) {
-      createCustomerDto.image = file.filename;
-    }
     return await this.customersService.create(createCustomerDto);
   }
 
@@ -55,11 +57,11 @@ export class CustomersController {
   ) {
     res.sendFile(ImageFileName, { root: './customer_images' });
   }
-  @Get(':id/image')
-  async getImage(@Param('id') id: string, @Res() res: Response) {
-    const product = await this.customersService.findOne(+id);
-    res.sendFile(product.image, { root: './customer_images' });
-  }
+  // @Get(':id/image')
+  // async getImage(@Param('id') id: string, @Res() res: Response) {
+  //   const product = await this.customersService.findOne(+id);
+  //   res.sendFile(product.image, { root: './customer_images' });
+  // }
   // @UseGuards(JwtAuthGuard)
   @Patch(':id/image')
   @UseInterceptors(
@@ -73,18 +75,13 @@ export class CustomersController {
       }),
     }),
   )
-  updateImage(
-    @Param('id') id: string,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    return this.customersService.update(+id, { image: file.filename });
-  }
+  // updateImage(
+  //   @Param('id') id: string,
+  //   @UploadedFile() file: Express.Multer.File,
+  // ) {
+  //   return this.customersService.update(+id, { image: file.filename });
+  // }
   // @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll(@Query() query: { cus?: string }) {
-    return this.customersService.findAll(query);
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.customersService.findOne(+id);
@@ -108,9 +105,9 @@ export class CustomersController {
     @Body() updateCustomerDto: UpdateCustomerDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (file) {
-      updateCustomerDto.image = file.filename;
-    }
+    // if (file) {
+    //   updateCustomerDto.image = file.filename;
+    // }
     return await this.customersService.update(+id, updateCustomerDto);
   }
   // @UseGuards(JwtAuthGuard)

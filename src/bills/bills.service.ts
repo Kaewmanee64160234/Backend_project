@@ -63,7 +63,7 @@ export class BillsService {
 
   findAll() {
     return this.billsRepository.find({
-      relations: ['employee', 'bill_detail', 'bill_detail.material'],
+      // relations: ['employee', 'bill_detail', 'bill_detail.material'],
     });
   }
 
@@ -104,7 +104,7 @@ export class BillsService {
         mat.min_quantity =
           parseInt(od.amount + '') + parseInt(material.min_quantity + '');
         console.log(material.min_quantity);
-        mat.price_per_unit = od.price;
+        mat.pricePerUnit = od.price;
         await this.materialsRepository.save(mat);
       } else {
       }

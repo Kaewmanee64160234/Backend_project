@@ -28,7 +28,7 @@ export class Material {
   unit: string;
 
   @Column({ type: 'float', name: 'mat_price_per_unit' })
-  price_per_unit: number;
+  pricePerUnit: number;
 
   @OneToMany(() => BillDetail, (bill_detail) => bill_detail.material)
   bill_detail: BillDetail[];

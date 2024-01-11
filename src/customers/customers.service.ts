@@ -30,20 +30,34 @@ export class CustomersService {
     const orderBy = query.orderBy || 'tel';
     const order = query.order || 'ASC';
     const currentPage = page;
-
-    const [result, total] = await this.customersRepositiry.findAndCount({
-      where: { tel: Like(`%${keyword}%`) },
-      order: { [orderBy]: order },
-      take: take,
-      skip: skip,
-    });
-    const lastPage = Math.ceil(total / take);
-    return {
-      data: result,
-      count: total,
-      currentPage: currentPage,
-      lastPage: lastPage,
-    };
+    if (keyword !== '') {
+      const [result, total] = await this.customersRepositiry.findAndCount({
+        where: { tel: Like(`%${keyword}%`) },
+        order: { [orderBy]: order },
+        take: take,
+        skip: skip,
+      });
+      const lastPage = Math.ceil(total / take);
+      return {
+        data: result,
+        count: total,
+        currentPage: currentPage,
+        lastPage: lastPage,
+      };
+    } else {
+      const [result, total] = await this.customersRepositiry.findAndCount({
+        order: { [orderBy]: order },
+        take: take,
+        skip: skip,
+      });
+      const lastPage = Math.ceil(total / take);
+      return {
+        data: result,
+        count: total,
+        currentPage: currentPage,
+        lastPage: lastPage,
+      };
+    }
   }
 
   async findOne(id: number) {

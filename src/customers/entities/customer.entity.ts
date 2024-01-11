@@ -18,8 +18,8 @@ export class Customer {
   tel: string;
   @Column({ name: 'customer_point' })
   point: number;
-  @Column({ length: '255', default: 'no_image.jpg' })
-  image: string;
+  // @Column({ length: '255', default: 'no_image.jpg' })
+  // image: string;
   @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
   @CreateDateColumn({ name: 'customer_start_date' })
