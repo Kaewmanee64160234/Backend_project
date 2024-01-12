@@ -21,19 +21,63 @@ export class CheckMaterialService {
     @InjectRepository(Material)
     private materialRepository: Repository<Material>,
   ) {}
+  // async create(createCheckMaterialDto: CreateCheckMaterialDto) {
+  //   console.log(createCheckMaterialDto);
+  //   const employee = await this.employeesRepository.findOne({
+  //     where: { id: createCheckMaterialDto.employeeId },
+  //     relations: ['checkmaterials'],
+  //   });
+  //   console.log(employee);
+  //   if (employee) {
+  //     let checkMat: CheckMaterial = new CheckMaterial();
+  //     const matDetail = new CheckMaterialDetail();
+
+  //     checkMat.employee = employee;
+  //     checkMat.date = new Date(); // TODO: demo for backend
+  //     // checkMat.time = new Date();
+  //     checkMat = await this.checkMaterialsRepository.save(checkMat);
+
+  //     for (const detail of createCheckMaterialDto.checkMaterialDetails) {
+  //       const mat = await this.materialRepository.findOne({
+  //         where: { name: detail.name },
+  //         relations: ['checkmaterialdetails'],
+  //       });
+  //       if (mat) {
+  //         console.log(' found');
+  //         matDetail.name = mat.name;
+  //         matDetail.material = mat;
+  //         matDetail.qty_last = detail.qty_last;
+  //         matDetail.qty_remain = detail.qty_remain;
+  //         if (matDetail.qty_remain <= 0) {
+  //           matDetail.qty_remain = 0;
+  //         }
+  //         matDetail.createdAt = new Date();
+  //         matDetail.checkmaterial = checkMat;
+  //         mat.quantity = detail.qty_last;
+  //         console.log('------------------');
+  //         await this.CheckMaterialDetailsRepository.save(matDetail);
+  //         console.log(matDetail);
+
+  //         console.log('------------------');
+  //       }
+  //     }
+  //     checkMat = await this.checkMaterialsRepository.save(checkMat);
+  //     return checkMat;
+  //   }
+  // }
+
   async create(createCheckMaterialDto: CreateCheckMaterialDto) {
+    console.log(createCheckMaterialDto);
     const employee = await this.employeesRepository.findOne({
       where: { id: createCheckMaterialDto.employeeId },
       relations: ['checkmaterials'],
     });
     console.log(employee);
-    if (employee) {
-      let checkMat: CheckMaterial = new CheckMaterial();
-      let matDetail = new CheckMaterialDetail();
 
+    if (employee) {
+      let checkMat = new CheckMaterial();
       checkMat.employee = employee;
-      checkMat.date = new Date(); // TODO: demo for backend
-      // checkMat.time = new Date();
+      checkMat.date = new Date(); // Set the date
       checkMat = await this.checkMaterialsRepository.save(checkMat);
 
       for (const detail of createCheckMaterialDto.checkMaterialDetails) {
@@ -41,23 +85,32 @@ export class CheckMaterialService {
           where: { name: detail.name },
           relations: ['checkmaterialdetails'],
         });
+
         if (mat) {
           console.log(' found');
+
+          // Create a new instance of CheckMaterialDetail for each iteration
+          const matDetail = new CheckMaterialDetail();
           matDetail.name = mat.name;
           matDetail.material = mat;
           matDetail.qty_last = detail.qty_last;
-          matDetail.qty_remain = detail.qty_remain;
-          if (matDetail.qty_remain <= 0) {
-            matDetail.qty_remain = 0;
-          }
+          matDetail.qty_remain = detail.qty_remain > 0 ? detail.qty_remain : 0;
           matDetail.createdAt = new Date();
           matDetail.checkmaterial = checkMat;
-          mat.quantity = detail.qty_last;
-          matDetail = await this.CheckMaterialDetailsRepository.save(matDetail);
+
+          await this.CheckMaterialDetailsRepository.save(matDetail);
+          console.log(matDetail);
+
+          mat.quantity = matDetail.qty_remain;
+          console.log('mat.quantity: ' + mat.quantity);
+          console.log('------------------');
+          const save_mat = await this.materialRepository.save(mat);
+          console.log(save_mat);
+          console.log('------------------');
         }
       }
-      checkMat = await this.checkMaterialsRepository.save(checkMat);
-      return checkMat;
+
+      return await this.checkMaterialsRepository.save(checkMat);
     }
   }
 
