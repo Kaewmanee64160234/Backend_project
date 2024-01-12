@@ -23,9 +23,6 @@ export class CheckMaterialDetail {
   @Column({ name: 'cmd_qty_remain' })
   qty_remain: number;
 
-  @Column({ name: 'cmd_qty_expire' })
-  qty_expire: number;
-
   @CreateDateColumn({ name: 'cmd_start_date' })
   createdAt: Date;
 

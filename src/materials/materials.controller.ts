@@ -32,6 +32,10 @@ export class MaterialsController {
   findAll(@Query() query: { emp?: string }) {
     return this.materialsService.findAll(query);
   }
+  @Get('all')
+  findAllMaterial() {
+    return this.materialsService.findAllMaterial();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

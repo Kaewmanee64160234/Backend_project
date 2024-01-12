@@ -45,9 +45,8 @@ export class CheckMaterialService {
           console.log(' found');
           matDetail.name = mat.name;
           matDetail.material = mat;
-          matDetail.qty_expire = detail.qty_expire;
           matDetail.qty_last = detail.qty_last;
-          matDetail.qty_remain = detail.qty_last - detail.qty_expire;
+          matDetail.qty_remain = detail.qty_remain;
           if (matDetail.qty_remain <= 0) {
             matDetail.qty_remain = 0;
           }

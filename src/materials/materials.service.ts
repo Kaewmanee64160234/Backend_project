@@ -18,6 +18,15 @@ export class MaterialsService {
   create(createMaterialDto: CreateMaterialDto) {
     return this.materialsRepository.save(createMaterialDto);
   }
+  // get all metrial
+  async findAllMaterial() {
+    try {
+      const materials = await this.materialsRepository.find();
+      return materials;
+    } catch (e) {
+      throw new NotFoundException(e);
+    }
+  }
 
   async findAll(query) {
     const page = query.page || 1;
@@ -89,7 +98,7 @@ export class MaterialsService {
       mat.name = materials[i].mat_name;
       mat.min_quantity = materials[i].min_quantity;
       mat.quantity = materials[i].mat_quantity;
-      mat.price_per_unit = materials[i].mat_price_per_unit;
+      mat.pricePerUnit = materials[i].mat_price_per_unit;
       mat.createdAt = materials[i].mat_start_date;
       mat.updatedAt = materials[i].mat_end_date;
       mat.deletedAt = materials[i].mat_deleted_at;

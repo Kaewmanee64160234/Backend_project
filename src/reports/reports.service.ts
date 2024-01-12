@@ -315,7 +315,7 @@ export class ReportsService {
       material.name = material_.mat_name;
       material.min_quantity = material_.mat_min_quantity;
       material.quantity = material_.mat_quantity;
-      material.price_per_unit = material_.mat_price_per_unit;
+      material.pricePerUnit = material_.mat_price_per_unit;
       material.unit = material_.mat_unit;
       material.createdAt = material_.mat_start_date;
       material.updatedAt = material_.mat_update_date;

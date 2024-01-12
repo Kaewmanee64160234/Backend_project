@@ -36,7 +36,7 @@ export class CheckMaterialDetailService {
     checkmaterialdetails.name = createCheckMaterialDetailDto.name;
     checkmaterialdetails.qty_last = createCheckMaterialDetailDto.qty_last;
     checkmaterialdetails.qty_remain = createCheckMaterialDetailDto.qty_remain;
-    checkmaterialdetails.qty_expire = createCheckMaterialDetailDto.qty_expire;
+    // checkmaterialdetails.qty_expire = createCheckMaterialDetailDto.qty_expire;
     checkmaterialdetails.material = material;
     checkmaterialdetails.checkmaterial = checkmaterial;
     checkmaterialdetails.checkmaterial = employees;
