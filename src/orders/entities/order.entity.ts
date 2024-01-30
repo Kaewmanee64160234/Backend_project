@@ -10,9 +10,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { OrderItem } from './order-item';
-import { Store } from 'src/stores/entities/store.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
-@Entity({ name: 'order_' })
+@Entity({ name: 'receipt' })
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
@@ -34,9 +33,6 @@ export class Order {
 
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer; // Customer Id
-
-  @ManyToOne(() => Store, (store) => store.orders)
-  store: Store;
 
   @ManyToOne(() => Employee, (employee) => employee.orders)
   employee: Employee;

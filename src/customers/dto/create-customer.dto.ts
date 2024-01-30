@@ -16,5 +16,4 @@ export class CreateCustomerDto {
   tel: string;
   @IsNotEmpty()
   point: number;
-  // image: string;
 }

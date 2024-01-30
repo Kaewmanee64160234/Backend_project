@@ -20,7 +20,5 @@ export class CreateMaterialDto {
   @IsNotEmpty()
   unit: string;
 
-  @IsNotEmpty()
-  @Min(0)
-  price_per_unit: number;
+  image = 'no_image.jpg';
 }

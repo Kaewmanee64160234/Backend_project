@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 import { Order } from './order.entity';
 import { Topping } from 'src/toppings/entities/topping.entity';
-@Entity()
+@Entity({ name: 'receipt_items' })
 export class OrderItem {
   @PrimaryGeneratedColumn()
   id: number;

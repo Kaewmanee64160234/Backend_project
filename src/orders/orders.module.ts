@@ -7,19 +7,11 @@ import { OrderItem } from './entities/order-item';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { ReportsModule } from 'src/reports/reports.module';
-import { Store } from 'src/stores/entities/store.entity';
 import { Topping } from 'src/toppings/entities/topping.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Order,
-      OrderItem,
-      Customer,
-      Product,
-      Store,
-      Topping,
-    ]),
+    TypeOrmModule.forFeature([Order, OrderItem, Customer, Product, Topping]),
     ReportsModule,
   ],
   controllers: [OrdersController],

@@ -98,7 +98,7 @@ export class MaterialsService {
       mat.name = materials[i].mat_name;
       mat.min_quantity = materials[i].min_quantity;
       mat.quantity = materials[i].mat_quantity;
-      mat.pricePerUnit = materials[i].mat_price_per_unit;
+
       mat.createdAt = materials[i].mat_start_date;
       mat.updatedAt = materials[i].mat_end_date;
       mat.deletedAt = materials[i].mat_deleted_at;

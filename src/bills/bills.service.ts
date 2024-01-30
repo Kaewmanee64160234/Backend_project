@@ -104,7 +104,7 @@ export class BillsService {
         mat.min_quantity =
           parseInt(od.amount + '') + parseInt(material.min_quantity + '');
         console.log(material.min_quantity);
-        mat.pricePerUnit = od.price;
+
         await this.materialsRepository.save(mat);
       } else {
       }

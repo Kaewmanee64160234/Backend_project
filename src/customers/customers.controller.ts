@@ -31,50 +31,50 @@ export class CustomersController {
     return this.customersService.findAll(query);
   }
   // @UseGuards(JwtAuthGuard)
-  @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './customer_images',
-        filename: (req, file, cb) => {
-          const name = uuidv4();
-          return cb(null, name + extname(file.originalname));
-        },
-      }),
-    }),
-  )
+  // @Post()
+  // @UseInterceptors(
+  //   FileInterceptor('file', {
+  //     storage: diskStorage({
+  //       destination: './customer_images',
+  //       filename: (req, file, cb) => {
+  //         const name = uuidv4();
+  //         return cb(null, name + extname(file.originalname));
+  //       },
+  //     }),
+  //   }),
+  // )
   async create(
     @Body() createCustomerDto: CreateCustomerDto,
-    @UploadedFile() file: Express.Multer.File,
+    // @UploadedFile() file: Express.Multer.File,
   ) {
     return await this.customersService.create(createCustomerDto);
   }
 
-  @Get('image/:image_file')
-  async getImageByFileName(
-    @Param('image_file') ImageFileName: string,
-    @Res() res: Response,
-  ) {
-    res.sendFile(ImageFileName, { root: './customer_images' });
-  }
-  // @Get(':id/image')
-  // async getImage(@Param('id') id: string, @Res() res: Response) {
-  //   const product = await this.customersService.findOne(+id);
-  //   res.sendFile(product.image, { root: './customer_images' });
+  // @Get('image/:image_file')
+  // async getImageByFileName(
+  //   @Param('image_file') ImageFileName: string,
+  //   @Res() res: Response,
+  // ) {
+  //   res.sendFile(ImageFileName, { root: './customer_images' });
   // }
-  // @UseGuards(JwtAuthGuard)
-  @Patch(':id/image')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './customer_images',
-        filename: (req, file, cb) => {
-          const name = uuidv4();
-          return cb(null, name + extname(file.originalname));
-        },
-      }),
-    }),
-  )
+  // // @Get(':id/image')
+  // // async getImage(@Param('id') id: string, @Res() res: Response) {
+  // //   const product = await this.customersService.findOne(+id);
+  // //   res.sendFile(product.image, { root: './customer_images' });
+  // // }
+  // // @UseGuards(JwtAuthGuard)
+  // @Patch(':id/image')
+  // @UseInterceptors(
+  //   FileInterceptor('file', {
+  //     storage: diskStorage({
+  //       destination: './customer_images',
+  //       filename: (req, file, cb) => {
+  //         const name = uuidv4();
+  //         return cb(null, name + extname(file.originalname));
+  //       },
+  //     }),
+  //   }),
+  // )
   // updateImage(
   //   @Param('id') id: string,
   //   @UploadedFile() file: Express.Multer.File,

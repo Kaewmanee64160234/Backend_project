@@ -12,7 +12,6 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { query } from 'express';
-import { Store } from 'src/stores/entities/store.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
 
 @Controller('reports')
@@ -60,18 +59,18 @@ export class ReportsController {
     return this.reportsService.calledStoreGetProduct();
   }
 
-  @Get('/reg')
-  testRegX(@Body() store: Store) {
-    return this.reportsService.testRegXData(store);
-  }
+  // @Get('/reg')
+  // testRegX(@Body() store: Store) {
+  //   return this.reportsService.testRegXData(store);
+  // }
 
-  @Get('/material/view')
-  callView() {
-    return this.reportsService.calledViewMaterial();
-  }
+  // @Get('/material/view')
+  // callView() {
+  //   return this.reportsService.calledViewMaterial();
+  // }
 
-  @Get('/regCustomer')
-  regCus(@Body() customer: Customer) {
-    return this.reportsService.regCustomer(customer);
-  }
+  // @Get('/regCustomer')
+  // regCus(@Body() customer: Customer) {
+  //   return this.reportsService.regCustomer(customer);
+  // }
 }

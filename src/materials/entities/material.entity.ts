@@ -26,9 +26,11 @@ export class Material {
 
   @Column({ name: 'mat_unit' })
   unit: string;
-
-  @Column({ type: 'float', name: 'mat_price_per_unit' })
-  pricePerUnit: number;
+  @Column({
+    length: '128',
+    default: 'no_image.jpg',
+  })
+  image: string;
 
   @OneToMany(() => BillDetail, (bill_detail) => bill_detail.material)
   bill_detail: BillDetail[];
