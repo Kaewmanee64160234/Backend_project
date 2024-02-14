@@ -28,9 +28,8 @@ import { Response, Request } from 'express';
 export class MaterialsController {
   constructor(private readonly materialsService: MaterialsService) {}
   // @UseGuards(JwtAuthGuard)
-  // @Roles(Role.Employee, Role.Owner)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  @Post()
+  @Roles(Role.Employee, Role.Owner)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -43,7 +42,11 @@ export class MaterialsController {
       }),
     }),
   )
-  create(@Body() createMaterialDto: CreateMaterialDto) {
+  create(
+    @Body() createMaterialDto: CreateMaterialDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    createMaterialDto.image = file.filename;
     return this.materialsService.create(createMaterialDto);
   }
 
@@ -68,7 +71,7 @@ export class MaterialsController {
     return this.materialsService.findOne(+id);
   }
   @Roles(Role.Employee, Role.Owner)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -83,19 +86,25 @@ export class MaterialsController {
   )
   update(
     @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+
     @Body() updateMaterialDto: UpdateMaterialDto,
   ) {
+    if (file) {
+      updateMaterialDto.image = file.filename;
+    }
+
     return this.materialsService.update(+id, updateMaterialDto);
   }
   @Roles(Role.Employee, Role.Owner)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.materialsService.remove(+id);
   }
 
   @Roles(Role.Employee, Role.Owner)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('search/name/:name')
   findMaterialByName(@Param('name') name: string) {
     return this.materialsService.findMaterialByName(name);
@@ -109,7 +118,7 @@ export class MaterialsController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './product_images',
+        destination: './material_images',
         filename: (req, file, cb) => {
           const name = uuid4();
           return cb(null, name + extname(file.originalname));

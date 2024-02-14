@@ -34,7 +34,6 @@ export class BillDetail {
   total: number;
 
   @ManyToOne(() => Bill, (bill) => bill.billDetails)
-  @JoinColumn()
   bill: Bill;
 
   @ManyToOne(() => Material, (material) => material.bill_detail)

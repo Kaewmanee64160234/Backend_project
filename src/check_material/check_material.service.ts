@@ -67,6 +67,7 @@ export class CheckMaterialService {
   // }
 
   async create(createCheckMaterialDto: CreateCheckMaterialDto) {
+    console.log('--------create------------');
     console.log(createCheckMaterialDto);
     const employee = await this.employeesRepository.findOne({
       where: { id: createCheckMaterialDto.employeeId },

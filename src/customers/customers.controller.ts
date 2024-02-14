@@ -30,7 +30,7 @@ export class CustomersController {
     console.log('Get!!!');
     return this.customersService.findAll(query);
   }
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   // @Post()
   // @UseInterceptors(
   //   FileInterceptor('file', {
@@ -62,7 +62,7 @@ export class CustomersController {
   // //   const product = await this.customersService.findOne(+id);
   // //   res.sendFile(product.image, { root: './customer_images' });
   // // }
-  // // @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   // @Patch(':id/image')
   // @UseInterceptors(
   //   FileInterceptor('file', {
@@ -81,12 +81,12 @@ export class CustomersController {
   // ) {
   //   return this.customersService.update(+id, { image: file.filename });
   // }
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.customersService.findOne(+id);
   }
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -99,7 +99,7 @@ export class CustomersController {
       }),
     }),
   )
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() updateCustomerDto: UpdateCustomerDto,
@@ -110,7 +110,7 @@ export class CustomersController {
     // }
     return await this.customersService.update(+id, updateCustomerDto);
   }
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.customersService.remove(+id);

@@ -23,6 +23,7 @@ export class BillsService {
     private materialsRepository: Repository<Material>,
   ) {}
   async create(createBillDto: CreateBillDto) {
+    // console.log(createBillDto);
     const employee = await this.employeesRepositiry.findOneBy({
       id: createBillDto.employeeId,
     });
@@ -34,15 +35,16 @@ export class BillsService {
     bill.total = createBillDto.buy - createBillDto.change;
     bill.buy = createBillDto.buy;
     bill.change = createBillDto.change;
-    await this.billsRepository.save(bill); //id employee
-
+    // const bill_ = await this.billsRepository.save(bill); //id employee
     for (const od of createBillDto.bill_detail) {
+      console.log(od);
       const mat = await this.materialsRepository.findOne({
         where: { name: od.name },
-        relations: ['bill_detail'],
+        // relations: ['billDetails'],
       });
+      console.log(mat);
       if (mat) {
-        console.log(' found');
+        console.log('found');
         const bill_detail = new BillDetail();
         bill_detail.name = od.name;
         bill_detail.price = od.price;
@@ -50,27 +52,26 @@ export class BillsService {
         bill_detail.bill = bill; // อ้างกลับ
         bill_detail.material = mat;
         bill_detail.total = bill_detail.price * bill_detail.amount;
-
         await this.billDetailRepository.save(bill_detail);
       }
     }
     await this.billsRepository.save(bill); // ได้ id
     return await this.billsRepository.findOne({
       where: { id: bill.id },
-      relations: ['bill_detail'],
+      // relations: ['billDetails'], // Use the correct relation name
     });
   }
 
   findAll() {
     return this.billsRepository.find({
-      // relations: ['employee', 'bill_detail', 'bill_detail.material'],
+      relations: ['employee', 'billDetails', 'billDetails.material'],
     });
   }
 
   async findOne(id: number) {
     const bill = this.billsRepository.findOne({
       where: { id: id },
-      relations: ['employee', 'bill_detail', 'bill_detail.material'],
+      relations: ['employee', 'billDetails', 'billDetails.material'],
     });
     if (!bill) {
       throw new NotFoundException();
